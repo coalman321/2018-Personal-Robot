@@ -15,9 +15,45 @@ import java.util.*;
 
 public class LoggingSystem {
 
+    public class LocalNum {
+
+        double stored;
+
+        public LocalNum(){
+            stored = 0.0;
+        }
+
+        public void set(double toSet){
+            stored = toSet;
+        }
+
+        private double get(){
+            return stored;
+        }
+    }
+
+    public class LocalString {
+
+        String stored;
+
+        public LocalString(){
+            stored = "";
+        }
+
+        public void set(String toSet){
+            stored = toSet;
+        }
+
+        private String get(){
+            return stored;
+        }
+    }
+
     private File base;
     private PrintWriter printWriter;
-    private List<String> smartDashKeys;
+    private List<String > smartDashKeys;
+    private List<LocalNum> localNums;
+    private List<LocalString> localStrings;
     private String toWrite;
     private Notifier loggerThread;
     private boolean initSuccess;
@@ -26,6 +62,8 @@ public class LoggingSystem {
     public LoggingSystem(){
         initSuccess = false;
         smartDashKeys = new ArrayList<>();
+        localNums = new ArrayList<>();
+        localStrings = new ArrayList<>();
         loggerThread = new Notifier(runnable);
         try {
             base = getMount();
@@ -37,8 +75,16 @@ public class LoggingSystem {
         }
     }
 
-    public void addWatchKey(String key){
+    public void addSmartKey(String key){
         smartDashKeys.add(key);
+    }
+
+    public void addLocalNum(LocalNum inst){
+
+    }
+
+    public void addLocalString(LocalString inst){
+
     }
 
     public void enablePrint(boolean enable){
@@ -59,6 +105,12 @@ public class LoggingSystem {
             toWrite = "" + Timer.getFPGATimestamp() + "\t";
             for (String key : smartDashKeys) {
                 toWrite += "" + SmartDashboard.getNumber(key, 0.0) + "\t";
+            }
+            for (LocalNum num : localNums){
+                toWrite += "" + num.get() + "\t";
+            }
+            for (LocalString str : localStrings){
+                toWrite += "" + str.get() + "\t";
             }
             toWrite += "\r\n";
             //System.out.println(toWrite);

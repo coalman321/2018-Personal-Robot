@@ -80,11 +80,11 @@ public class LoggingSystem {
     }
 
     public void addLocalNum(LocalNum inst){
-
+        localNums.add(inst);
     }
 
     public void addLocalString(LocalString inst){
-
+        localStrings.add(inst);
     }
 
     public void enablePrint(boolean enable){
@@ -119,6 +119,32 @@ public class LoggingSystem {
         }
     }
 
+    private File getMount() {
+        File mountPoint;
+        // find the mount point
+        File testPoint = new File(Constants.DRIVE_PATH_1 + "/logging");
+        if (testPoint.isDirectory()) { //robotDriveV4 exists on sda
+            mountPoint = testPoint;
+        } else {
+            testPoint = new File(Constants.DRIVE_PATH_2 + "/logging");
+            if (testPoint.isDirectory()) {//robotDriveV4 exists on sdb
+                mountPoint = testPoint;
+            } else {
+                mountPoint = null;
+            }
+        }
+        if (mountPoint != null){
+            SimpleDateFormat outputFormatter = new SimpleDateFormat("yyyyMMdd_HHmmss_SSS");
+            outputFormatter.setTimeZone(TimeZone.getTimeZone("US/Eastern"));
+            String newDateString = outputFormatter.format(new Date());
+            // build the new filename
+            String fileName = newDateString + "_LOG.tsv";
+            // build the full file path name
+            return new File(mountPoint.getAbsolutePath() + File.separator + fileName);
+        }
+        return null;
+    }
+
     public static void WriteBuildInfoToDashboard() {
         try {
             //get the path of the currently executing jar file
@@ -144,32 +170,6 @@ public class LoggingSystem {
             //e.printStackTrace();
         }
 
-    }
-
-    private File getMount() {
-        File mountPoint;
-        // find the mount point
-        File testPoint = new File(Constants.DRIVE_PATH_1 + "/logging");
-        if (testPoint.isDirectory()) { //robotDriveV4 exists on sda
-            mountPoint = testPoint;
-        } else {
-            testPoint = new File(Constants.DRIVE_PATH_2 + "/logging");
-            if (testPoint.isDirectory()) {//robotDriveV4 exists on sdb
-                mountPoint = testPoint;
-            } else {
-                mountPoint = null;
-            }
-        }
-        if (mountPoint != null){
-            SimpleDateFormat outputFormatter = new SimpleDateFormat("yyyyMMdd_HHmmss_SSS");
-            outputFormatter.setTimeZone(TimeZone.getTimeZone("US/Eastern"));
-            String newDateString = outputFormatter.format(new Date());
-            // build the new filename
-            String fileName = newDateString + "_LOG.tsv";
-            // build the full file path name
-            return new File(mountPoint.getAbsolutePath() + File.separator + fileName);
-        }
-        return null;
     }
 
 }

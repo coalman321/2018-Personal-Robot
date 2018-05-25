@@ -4,9 +4,9 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import edu.wpi.first.wpilibj.drive.MecanumDrive;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
-public class MixedDrive extends MecanumDrive{
+public class MixedDrive extends DifferentialDrive{
 
     private WPI_TalonSRX kFrontLeft;
     private WPI_TalonSRX kFrontRight;
@@ -15,7 +15,7 @@ public class MixedDrive extends MecanumDrive{
     private int PID_IDX;
     
     public enum DriveSelector{
-        FRONT_LEFT, FRONT_RIGHT, REAR_LEFT, REAR_RIGHT
+        FRONT_LEFT, FRONT_RIGHT
     }
 
     /**
@@ -27,7 +27,7 @@ public class MixedDrive extends MecanumDrive{
      * @param pidIDSlot pid id# use with multiple PIDS
      */
     public MixedDrive(WPI_TalonSRX frontLeft, WPI_TalonSRX rearLeft, WPI_TalonSRX frontRight, WPI_TalonSRX rearRight, int pidIDSlot){
-        super(frontLeft, rearLeft, frontRight, rearRight);
+        super(frontLeft, frontRight);
         PID_IDX = pidIDSlot;
         kFrontLeft = frontLeft;
         kFrontRight = frontRight;
@@ -87,28 +87,6 @@ public class MixedDrive extends MecanumDrive{
                 kFrontRight.config_kD(0, kD, 0);
                 kFrontRight.config_IntegralZone(0, 0, 0);
                 return;
-            case REAR_LEFT:
-                kRearLeft.set(ControlMode.Velocity, 0);
-                kRearLeft.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
-                kRearLeft.setSensorPhase(true);
-                kRearLeft.selectProfileSlot(0, PID_IDX);
-                kRearLeft.config_kF(0, kF, 0);
-                kRearLeft.config_kP(0, kP, 0);
-                kRearLeft.config_kI(0, kI, 0);
-                kRearLeft.config_kD(0, kD, 0);
-                kRearLeft.config_IntegralZone(0, 0, 0);
-                return;
-            case REAR_RIGHT:
-                kRearRight.set(ControlMode.Velocity, 0);
-                kRearRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
-                kRearRight.setSensorPhase(true);
-                kRearRight.selectProfileSlot(0, PID_IDX);
-                kRearRight.config_kF(0, kF, 0);
-                kRearRight.config_kP(0, kP, 0);
-                kRearRight.config_kI(0, kI, 0);
-                kRearRight.config_kD(0, kD, 0);
-                kRearRight.config_IntegralZone(0, 0, 0);
-                return;
         }
     }
 
@@ -135,6 +113,7 @@ public class MixedDrive extends MecanumDrive{
         kFrontRight.setNeutralMode(brakeFR? NeutralMode.Brake : NeutralMode.Coast);
         kRearRight.setNeutralMode(brakeRR? NeutralMode.Brake : NeutralMode.Coast);
     }
+    
 
     /**
      * uses preconfigured velocity control mode and follower mode on rear talons

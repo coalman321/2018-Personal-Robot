@@ -113,7 +113,7 @@ public class MixedDrive extends DifferentialDrive{
         kFrontRight.setNeutralMode(brakeFR? NeutralMode.Brake : NeutralMode.Coast);
         kRearRight.setNeutralMode(brakeRR? NeutralMode.Brake : NeutralMode.Coast);
     }
-    
+
 
     /**
      * uses preconfigured velocity control mode and follower mode on rear talons

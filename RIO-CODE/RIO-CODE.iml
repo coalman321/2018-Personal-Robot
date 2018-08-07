@@ -44,5 +44,6 @@
         <jarDirectory url="file://$USER_HOME$/wpilib/user/java/lib" recursive="true" type="SOURCES" />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="wpilibj-java-2018.424242.4.1-20180528083343-1014-gd1587ed" level="project" />
   </component>
 </module>

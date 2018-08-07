@@ -15,7 +15,7 @@
       <file leaf-file-name="Constants.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team7303/robot/Constants.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1428">
+            <state relative-caret-position="1054">
               <caret line="84" column="5" selection-start-line="84" selection-start-column="5" selection-end-line="84" selection-end-column="5" />
               <folding>
                 <element signature="e#2315#2316#0" expanded="true" />
@@ -48,7 +48,7 @@
       <file leaf-file-name="MixedDrive.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team7303/shared/MixedDrive.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1301">
+            <state relative-caret-position="1853">
               <caret line="115" selection-start-line="115" selection-end-line="115" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -60,16 +60,10 @@
       <file leaf-file-name="RobotDriveV4.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team7303/subsystems/RobotDriveV4/RobotDriveV4.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3298">
-              <caret line="283" column="116" lean-forward="true" selection-start-line="283" selection-start-column="116" selection-end-line="283" selection-end-column="116" />
+            <state relative-caret-position="876">
+              <caret line="283" column="116" selection-start-line="283" selection-start-column="116" selection-end-line="283" selection-end-column="116" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#1744#1745#0" expanded="true" />
-                <element signature="e#1826#1827#0" expanded="true" />
-                <element signature="e#3190#3191#0" expanded="true" />
-                <element signature="e#3237#3238#0" expanded="true" />
-                <element signature="e#5168#5169#0" expanded="true" />
-                <element signature="e#5231#5232#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -78,7 +72,7 @@
       <file leaf-file-name="RobotMap.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team7303/robot/RobotMap.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="374">
+            <state relative-caret-position="357">
               <caret line="27" column="42" selection-start-line="27" selection-start-column="42" selection-end-line="27" selection-end-column="42" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -90,14 +84,8 @@
       <file leaf-file-name="OI.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team7303/robot/OI.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="374">
+            <state relative-caret-position="306">
               <caret line="27" selection-start-line="27" selection-end-line="27" />
-              <folding>
-                <element signature="e#810#811#0" expanded="true" />
-                <element signature="e#854#855#0" expanded="true" />
-                <element signature="e#899#900#0" expanded="true" />
-                <element signature="e#932#933#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -105,7 +93,7 @@
       <file leaf-file-name="PoseEstimator.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team7303/subsystems/RobotDriveV4/PoseEstimator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="451">
+            <state relative-caret-position="595">
               <caret line="43" column="78" selection-start-line="43" selection-start-column="78" selection-end-line="43" selection-end-column="78" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -117,7 +105,7 @@
       <file leaf-file-name="DifferentialDrive.java" pinned="false" current-in-tab="false">
         <entry file="jar://$USER_HOME$/wpilib/java/current/lib/WPILib-sources.jar!/edu/wpi/first/wpilibj/drive/DifferentialDrive.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="702">
+            <state relative-caret-position="2261">
               <caret line="144" selection-start-line="144" selection-end-line="190" selection-end-column="26" />
             </state>
           </provider>
@@ -126,12 +114,12 @@
       <file leaf-file-name="LoggingSystem.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team7303/shared/LoggingSystem.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="434">
+            <state relative-caret-position="1020">
               <caret line="89" column="38" selection-start-line="89" selection-start-column="38" selection-end-line="89" selection-end-column="38" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#2030#2031#0" expanded="true" />
-                <element signature="e#2054#2055#0" expanded="true" />
+                <element signature="e#2065#2066#0" expanded="true" />
                 <element signature="e#2116#2117#0" expanded="true" />
                 <element signature="e#2154#2155#0" expanded="true" />
               </folding>
@@ -176,8 +164,8 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="81" />
-    <option name="y" value="85" />
+    <option name="x" value="154" />
+    <option name="y" value="-10" />
     <option name="width" value="1730" />
     <option name="height" value="980" />
   </component>
@@ -186,9 +174,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
-      <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -252,35 +237,20 @@
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
               <item name="WPILib Libraries" type="70bed36:NamedLibraryElementNode" />
             </path>
-            <path>
-              <item name="RIO-CODE" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="WPILib Libraries" type="70bed36:NamedLibraryElementNode" />
-              <item name="WPILib.jar" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="RIO-CODE" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="WPILib Libraries" type="70bed36:NamedLibraryElementNode" />
-              <item name="WPILib.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="wpilibj" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="RIO-CODE" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="WPILib Libraries" type="70bed36:NamedLibraryElementNode" />
-              <item name="WPILib.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="wpilibj" type="462c0819:PsiDirectoryNode" />
-              <item name="drive" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
+      <pane id="AndroidView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$USER_HOME$/releases/maven/development/edu/wpi/first/wpilibj/wpilibj-java/2018.424242.4.1-20180528083343-1014-gd1587ed/wpilibj-java-2018.424242.4.1-20180528083343-1014-gd1587ed.jar!/" />
+    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -351,8 +321,9 @@
       <window_info anchor="bottom" id="Terminal" order="11" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="3" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18176973" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18550107" />
       <window_info anchor="bottom" x="233" y="404" width="1048" height="111" id="FRC" order="12" type="WINDOWED" weight="0.28694713" />
+      <window_info anchor="right" id="Gradle" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.24973147" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info id="UI Designer" order="4" />
@@ -360,8 +331,8 @@
       <window_info anchor="right" id="Theme Preview" order="7" />
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info active="true" anchor="bottom" id="Messages" order="9" visible="true" weight="0.4235589" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info active="true" anchor="bottom" id="Messages" order="9" visible="true" weight="0.4235589" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="bottom" id="Tail" order="8" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -397,6 +368,204 @@
     </buildFile>
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team7303/robot/Constants.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1054">
+          <caret line="84" column="5" selection-start-line="84" selection-start-column="5" selection-end-line="84" selection-end-column="5" />
+          <folding>
+            <element signature="e#2315#2316#0" expanded="true" />
+            <element signature="e#2353#2354#0" expanded="true" />
+            <element signature="e#2404#2405#0" expanded="true" />
+            <element signature="e#2446#2447#0" expanded="true" />
+            <element signature="e#2500#2501#0" expanded="true" />
+            <element signature="e#2546#2547#0" expanded="true" />
+            <element signature="e#2597#2598#0" expanded="true" />
+            <element signature="e#2639#2640#0" expanded="true" />
+            <element signature="e#2693#2694#0" expanded="true" />
+            <element signature="e#2739#2740#0" expanded="true" />
+            <element signature="e#2790#2791#0" expanded="true" />
+            <element signature="e#2832#2833#0" expanded="true" />
+            <element signature="e#2876#2877#0" expanded="true" />
+            <element signature="e#2910#2911#0" expanded="true" />
+            <element signature="e#2953#2954#0" expanded="true" />
+            <element signature="e#2987#2988#0" expanded="true" />
+            <element signature="e#3031#3032#0" expanded="true" />
+            <element signature="e#3065#3066#0" expanded="true" />
+            <element signature="e#3110#3111#0" expanded="true" />
+            <element signature="e#3145#3146#0" expanded="true" />
+            <element signature="e#3190#3191#0" expanded="true" />
+            <element signature="e#3225#3226#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team7303/shared/MixedDrive.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1853">
+          <caret line="115" selection-start-line="115" selection-end-line="115" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team7303/robot/RobotMap.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="27" column="42" selection-start-line="27" selection-start-column="42" selection-end-line="27" selection-end-column="42" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team7303/robot/OI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="27" selection-start-line="27" selection-end-line="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team7303/subsystems/RobotDriveV4/PoseEstimator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="595">
+          <caret line="43" column="78" selection-start-line="43" selection-start-column="78" selection-end-line="43" selection-end-column="78" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/wpilib/java/current/lib/WPILib-sources.jar!/edu/wpi/first/wpilibj/drive/DifferentialDrive.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2261">
+          <caret line="144" selection-start-line="144" selection-end-line="190" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team7303/shared/LoggingSystem.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1020">
+          <caret line="89" column="38" selection-start-line="89" selection-start-column="38" selection-end-line="89" selection-end-column="38" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2030#2031#0" expanded="true" />
+            <element signature="e#2065#2066#0" expanded="true" />
+            <element signature="e#2116#2117#0" expanded="true" />
+            <element signature="e#2154#2155#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team7303/subsystems/RobotDriveV4/RobotDriveV4.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3978">
+          <caret line="283" column="116" selection-start-line="283" selection-start-column="116" selection-end-line="283" selection-end-column="116" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team7303/robot/Constants.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1054">
+          <caret line="84" column="5" selection-start-line="84" selection-start-column="5" selection-end-line="84" selection-end-column="5" />
+          <folding>
+            <element signature="e#2315#2316#0" expanded="true" />
+            <element signature="e#2353#2354#0" expanded="true" />
+            <element signature="e#2404#2405#0" expanded="true" />
+            <element signature="e#2446#2447#0" expanded="true" />
+            <element signature="e#2500#2501#0" expanded="true" />
+            <element signature="e#2546#2547#0" expanded="true" />
+            <element signature="e#2597#2598#0" expanded="true" />
+            <element signature="e#2639#2640#0" expanded="true" />
+            <element signature="e#2693#2694#0" expanded="true" />
+            <element signature="e#2739#2740#0" expanded="true" />
+            <element signature="e#2790#2791#0" expanded="true" />
+            <element signature="e#2832#2833#0" expanded="true" />
+            <element signature="e#2876#2877#0" expanded="true" />
+            <element signature="e#2910#2911#0" expanded="true" />
+            <element signature="e#2953#2954#0" expanded="true" />
+            <element signature="e#2987#2988#0" expanded="true" />
+            <element signature="e#3031#3032#0" expanded="true" />
+            <element signature="e#3065#3066#0" expanded="true" />
+            <element signature="e#3110#3111#0" expanded="true" />
+            <element signature="e#3145#3146#0" expanded="true" />
+            <element signature="e#3190#3191#0" expanded="true" />
+            <element signature="e#3225#3226#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team7303/shared/MixedDrive.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1853">
+          <caret line="115" selection-start-line="115" selection-end-line="115" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team7303/robot/RobotMap.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="27" column="42" selection-start-line="27" selection-start-column="42" selection-end-line="27" selection-end-column="42" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team7303/robot/OI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="27" selection-start-line="27" selection-end-line="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team7303/subsystems/RobotDriveV4/PoseEstimator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="595">
+          <caret line="43" column="78" selection-start-line="43" selection-start-column="78" selection-end-line="43" selection-end-column="78" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/wpilib/java/current/lib/WPILib-sources.jar!/edu/wpi/first/wpilibj/drive/DifferentialDrive.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2261">
+          <caret line="144" selection-start-line="144" selection-end-line="190" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team7303/shared/LoggingSystem.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1020">
+          <caret line="89" column="38" selection-start-line="89" selection-start-column="38" selection-end-line="89" selection-end-column="38" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2030#2031#0" expanded="true" />
+            <element signature="e#2065#2066#0" expanded="true" />
+            <element signature="e#2116#2117#0" expanded="true" />
+            <element signature="e#2154#2155#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team7303/subsystems/RobotDriveV4/RobotDriveV4.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3978">
+          <caret line="283" column="116" lean-forward="true" selection-start-line="283" selection-start-column="116" selection-end-line="283" selection-end-column="116" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team7303/robot/Constants.java">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -445,7 +614,7 @@
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#2030#2031#0" expanded="true" />
-            <element signature="e#2054#2055#0" expanded="true" />
+            <element signature="e#2065#2066#0" expanded="true" />
             <element signature="e#2116#2117#0" expanded="true" />
             <element signature="e#2154#2155#0" expanded="true" />
           </folding>
@@ -559,12 +728,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team7303/shared/LoggingSystem.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="434">
+        <state relative-caret-position="1020">
           <caret line="89" column="38" selection-start-line="89" selection-start-column="38" selection-end-line="89" selection-end-column="38" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#2030#2031#0" expanded="true" />
-            <element signature="e#2054#2055#0" expanded="true" />
+            <element signature="e#2065#2066#0" expanded="true" />
             <element signature="e#2116#2117#0" expanded="true" />
             <element signature="e#2154#2155#0" expanded="true" />
           </folding>
@@ -573,34 +742,22 @@
     </entry>
     <entry file="jar://$USER_HOME$/wpilib/java/current/lib/WPILib-sources.jar!/edu/wpi/first/wpilibj/drive/DifferentialDrive.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="702">
+        <state relative-caret-position="2261">
           <caret line="144" selection-start-line="144" selection-end-line="190" selection-end-column="26" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team7303/subsystems/RobotDriveV4/example.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="20" selection-start-line="2" selection-start-column="20" selection-end-line="2" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team7303/subsystems/RobotDriveV4/example.java" />
     <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team7303/robot/OI.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
+        <state relative-caret-position="306">
           <caret line="27" selection-start-line="27" selection-end-line="27" />
-          <folding>
-            <element signature="e#810#811#0" expanded="true" />
-            <element signature="e#854#855#0" expanded="true" />
-            <element signature="e#899#900#0" expanded="true" />
-            <element signature="e#932#933#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team7303/subsystems/RobotDriveV4/PoseEstimator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="451">
+        <state relative-caret-position="595">
           <caret line="43" column="78" selection-start-line="43" selection-start-column="78" selection-end-line="43" selection-end-column="78" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -610,7 +767,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team7303/robot/RobotMap.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
+        <state relative-caret-position="357">
           <caret line="27" column="42" selection-start-line="27" selection-start-column="42" selection-end-line="27" selection-end-column="42" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -620,7 +777,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team7303/shared/MixedDrive.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1301">
+        <state relative-caret-position="1853">
           <caret line="115" selection-start-line="115" selection-end-line="115" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -630,7 +787,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team7303/robot/Constants.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1428">
+        <state relative-caret-position="1054">
           <caret line="84" column="5" selection-start-line="84" selection-start-column="5" selection-end-line="84" selection-end-column="5" />
           <folding>
             <element signature="e#2315#2316#0" expanded="true" />
@@ -659,21 +816,97 @@
         </state>
       </provider>
     </entry>
+    <entry file="jar://$USER_HOME$/releases/maven/development/edu/wpi/first/wpilibj/wpilibj-java/2018.424242.4.1-20180528083343-1014-gd1587ed/wpilibj-java-2018.424242.4.1-20180528083343-1014-gd1587ed.jar!/edu/wpi/first/wpilibj/CAN.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="26" column="47" selection-start-line="26" selection-start-column="47" selection-end-line="26" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team7303/subsystems/RobotDriveV4/RobotDriveV4.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3298">
-          <caret line="283" column="116" lean-forward="true" selection-start-line="283" selection-start-column="116" selection-end-line="283" selection-end-column="116" />
+        <state relative-caret-position="876">
+          <caret line="283" column="116" selection-start-line="283" selection-start-column="116" selection-end-line="283" selection-end-column="116" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1744#1745#0" expanded="true" />
-            <element signature="e#1826#1827#0" expanded="true" />
-            <element signature="e#3190#3191#0" expanded="true" />
-            <element signature="e#3237#3238#0" expanded="true" />
-            <element signature="e#5168#5169#0" expanded="true" />
-            <element signature="e#5231#5232#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ArtifactsStructureConfigurable.UI">
+        <settings>
+          <artifact-editor />
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="FacetStructureConfigurable.UI">
+        <settings>
+          <last-edited>FRC</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="GlobalLibrariesConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="JdkListConfigurable.UI">
+        <settings>
+          <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ModuleStructureConfigurable.UI">
+        <settings>
+          <last-edited>RIO-CODE</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectLibrariesConfigurable.UI">
+        <settings>
+          <last-edited>wpilibj-java-2018.424242.4.1-20180528083343-1014-gd1587ed</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
   </component>
 </project>

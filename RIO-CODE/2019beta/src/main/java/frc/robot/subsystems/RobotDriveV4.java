@@ -1,112 +1,110 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import edu.wpi.first.wpilibj.*;
-import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.*;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Timer;
+import frc.robot.Constants;
+import frc.robot.lib.AutoTrajectory.*;
+import frc.robot.lib.DataRecorder;
+import frc.robot.lib.HIDHelper;
+import frc.robot.lib.loops.Loop;
 
 import java.util.Set;
 
 public class RobotDriveV4 extends Subsystem {
 
-    enum DriveControlState {
-        OPEN_LOOP("Open Loop"), PATH_FOLLOWING_CONTROL("Path following"), PROFILING_TEST("Profiling test");
-        private String s;
-
-        DriveControlState(String name){
-            s = name;
-        }
-
-        @Override
-        public String toString() {
-            return s;
-        }
-    }
-
     //used internally for data
-    private Notifier m_NotifierInstance;
-    private boolean isReversed = false;
     private double[] operatorInput = {0, 0, 0}; //last input set from joystick update
     private DriveControlState driveControlState = DriveControlState.OPEN_LOOP;
     private AdaptivePurePursuitController pathFollowingController;
+    private DataRecorder<PeriodicIO> dataRecorder;
 
-    public RobotDriveV4() {
+    //construct one and only 1 instance of this class
+    private static final RobotDriveV4 m_DriveInstance = new RobotDriveV4();
 
-        m_NotifierInstance = new Notifier(periodic);
+    public RobotDriveV4 getInstance(){
+        return m_DriveInstance;
+    }
+
+    private RobotDriveV4() {
+        dataRecorder = new DataRecorder("", );
         reset();
-        initGyro();
-        startPeriodic();
     }
 
-    private void startPeriodic(){
-        m_NotifierInstance.startPeriodic(.DRIVETRAIN_UPDATE_RATE);
-    }
 
-    private Runnable periodic = () -> {
-        synchronized (RobotDriveV4.this){
-            if(Constants.ENABLE_MP_TEST_MODE) driveControlState = DriveControlState.PROFILING_TEST;
-            if(DriverStation.getInstance().isEnabled()){
-                switch (driveControlState){
+    private final Loop mLoop = new Loop(){
+
+        @Override
+        public void onStart(double timestamp) {
+            synchronized (RobotDriveV4.this){
+
+            }
+        }
+
+        @Override
+        public void onLoop(double timestamp) {
+            synchronized (RobotDriveV4.this) {
+                if (Constants.ENABLE_MP_TEST_MODE) driveControlState = DriveControlState.PROFILING_TEST;
+                switch (driveControlState) {
                     case PATH_FOLLOWING_CONTROL:
                         updatePathFollower();
                         if (isFinishedPath()) stop();
                         break;
 
                     case PROFILING_TEST:
-                        if(DriverStation.getInstance().isAutonomous()) {
-                            driveTank(Constants.MP_TEST_SPEED, Constants.MP_TEST_SPEED);
+                        if (DriverStation.getInstance().isAutonomous()) {
+                            //driveTank(Constants.MP_TEST_SPEED, Constants.MP_TEST_SPEED);
                         }
                         break;
 
                     default: //open loop
-                        if(DriverStation.getInstance().isOperatorControl())operatorInput = getAdjStick();
-                        else operatorInput = new double[] {0,0,0};
-                        if (isReversed) {
-                            operatorInput[0] *= -1;
-                            operatorInput[1] *= -1;
-                        }
-                        if (Robot.oi.getMasterStick().getPOV() >= 0) {
-                            operatorInput[0] *= Constants.getTeleopYCutPercentage();
-                            operatorInput[1] *= Constants.getTeleopXCutPercentage();
-                        }
-                        if (enLock) operatorInput[2] = pidOutput;
-                        else setTarget(getGyro()); // Safety feature in case PID gets enabled
-                        driveCartesian(operatorInput[1], -operatorInput[0], operatorInput[2]);
+                        if (DriverStation.getInstance().isOperatorControl()) operatorInput = HIDHelper.getAdjStick(Constants.MASTER_STICK);
+                        else operatorInput = new double[]{0, 0, 0};
                         break;
                 }
+
+
             }
-            smartDashboardUpdates();
+        }
+
+        @Override
+        public void onStop(double timestamp) {
+
         }
     };
 
-    public double getGyro() {
-        return ((RobotMap.ahrs.getYaw() + 360) % 360); //add 360 to make all positive then mod by 360 to get remainder
-    }
+    private Runnable periodic = () -> {
 
-    public double getGyroContinuous(){
-        return RobotMap.ahrs.getAngle();
+    };
+
+    public double getGyro() {
+        //TODO implement value retrieval
+        return 0;
+        //return ((RobotMap.ahrs.getYaw() + 360) % 360); //add 360 to make all positive then mod by 360 to get remainder
     }
 
     public double getLeftEncoder(){
-        return -RobotMap.driveFrontLeft.getSensorCollection().getQuadraturePosition();
+        //TODO implement value retrieval
+        return 0;
     }
 
     public double getLeftVelocity(){
-        return -RobotMap.driveFrontLeft.getSensorCollection().getQuadratureVelocity();
+        //TODO implement value retrieval
+        return 0;
     }
 
     public double getRightEncoder(){
-        return RobotMap.driveFrontRight.getSensorCollection().getQuadraturePosition();
+        //TODO implement value retrieval
+        return 0;
     }
 
     public double getRightVelocity(){
-        return RobotMap.driveFrontRight.getSensorCollection().getQuadratureVelocity();
+        //TODO implement value retrieval
+        return 0;
     }
 
     public synchronized void followPath(Path path, boolean reversed) {
         pathFollowingController = new AdaptivePurePursuitController(Constants.PATH_FOLLOWING_LOOKAHEAD,
-                Constants.PATH_FOLLOWING_MAX_ACCELERATION, Constants.DRIVETRAIN_UPDATE_RATE, path, reversed, 1);
+                Constants.PATH_FOLLOWING_MAX_ACCELERATION, Constants.LOOPER_DT, path, reversed, 1);
         driveControlState = DriveControlState.PATH_FOLLOWING_CONTROL;
         updatePathFollower();
     }
@@ -121,7 +119,6 @@ public class RobotDriveV4 extends Subsystem {
 
     public void stop(){
         driveControlState = DriveControlState.OPEN_LOOP;
-        driveTank(-Math.signum(lastval) * Constants.BRAKE_RPM, -Math.signum(lastval) * Constants.BRAKE_RPM);
     }
 
     public synchronized boolean isFinishedPath() {
@@ -137,35 +134,11 @@ public class RobotDriveV4 extends Subsystem {
         operatorInput = input;
     }
 
-    public void setIsReversed(boolean isReversed){
-        this.isReversed = isReversed;
-    }
-
     public void reset(){
-        m_MixedDriveInstance.resetSelectedSensors();
-        resetGyro();
+        //TODO add reset with sensor impl
+
     }
 
-
-    private void resetGyro(){
-        RobotMap.ahrs.reset();
-    }
-
-    private static double inchesToRotations(double inches) {
-        return inches / (Constants.WHEEL_DIAMETER * Math.PI);
-    }
-
-    private static double inchesPerSecondToRpm(double inches_per_second) {
-        return inchesToRotations(inches_per_second) * 60;
-    }
-
-    private static double uPer100MsToRPM(double uPer100Ms){
-        return (uPer100Ms* 75) / 512.0;
-    }
-
-    private static double RPMToUnitsPer100Ms(double RPM){
-        return (RPM * 512) / 75.0;
-    }
 
     private synchronized void updatePathFollower() {
         RigidTransform2d robot_pose = RobotMap.robotPose.getLatestFieldToVehicle().getValue();
@@ -180,36 +153,32 @@ public class RobotDriveV4 extends Subsystem {
             double scaling = Constants.PATH_FOLLOWING_MAX_VELOCITY / max_vel;
             setpoint = new Kinematics.DriveVelocity(setpoint.left * scaling, setpoint.right * scaling);
         }
-        driveTank(inchesPerSecondToRpm(setpoint.left), inchesPerSecondToRpm(setpoint.right));
+        //driveTank(Util.inchesPerSecondToRpm(setpoint.left), Util.inchesPerSecondToRpm(setpoint.right));
     }
 
-    private void initGyro(){
-        gyroLock = new PIDController(Constants.getGyrolockKp(), Constants.getGyrolockKi(), Constants.getGyrolockKd(), this, this);
-        gyroLock.setAbsoluteTolerance(Constants.getGyrolockTol());
-        gyroLock.setOutputRange(-Constants.getGyrolockLim(), Constants.getGyrolockLim());
-        gyroLock.setInputRange(0, 360);
-        gyroLock.setContinuous();
-    }
+    public void outputTelemetry() {
 
-    private double[] getAdjStick() {
-        double[] out = new double[3];
-        out[0] = evalDeadBand(Robot.oi.getMasterStick().getY(), Constants.getTeleopDeadband()) * Constants.getTeleopYPercentage();
-        out[1] = evalDeadBand(Robot.oi.getMasterStick().getX(), Constants.getTeleopDeadband()) * Constants.getTeleopXPercentage();
-        out[2] = evalDeadBand(Robot.oi.getMasterStick().getZ(), Constants.getTeleopDeadband()) * Constants.getTeleopZPercentage();
-        return out;
-    }
-
-    // figures out if the stick value is within the deadband
-    private double evalDeadBand(double stickInpt, double deadBand) {
-        if (Math.abs(stickInpt) < deadBand) {
-            return 0;
-        } else {
-            if (stickInpt < 0) {
-                return (0 - Math.pow(stickInpt, 2));
-            } else {
-                return Math.pow(stickInpt, 2);
-            }
+        if (dataRecorder != null) {
+            dataRecorder.write();
         }
+    }
+
+    enum DriveControlState {
+        OPEN_LOOP, PATH_FOLLOWING_CONTROL, PROFILING_TEST;
+
+        @Override
+        public String toString() {
+            return name().charAt(0) + name().substring(1).toLowerCase();
+        }
+    }
+
+    public static class PeriodicIO{
+        //inputs
+
+
+        //outputs
+
+
     }
 
 }

@@ -1,5 +1,8 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Joystick;
+import frc.robot.lib.HIDHelper;
+
 public class Constants {
 
     /*
@@ -12,9 +15,7 @@ public class Constants {
     public static String ROBOT_NAME = "Cube Crusher";
 
     //update times / rates
-    public static double DRIVETRAIN_UPDATE_RATE = 0.010;
-    public static double LOGGING_UPDATE_RATE = 0.010;
-    public static double STATE_MACHINE_UPDATE_RATE = 0.010;
+    public static double LOOPER_DT = 0.01; //dt in seconds
 
     //MP Test mode values
     public static boolean ENABLE_MP_TEST_MODE = false; //enables motion profiling test across all modes
@@ -30,9 +31,10 @@ public class Constants {
     public static double PATH_FOLLOWING_MAX_VELOCITY = 200.0; //overall max velocity - includes turns - in inches/sec
     public static double PATH_FOLLOWING_MAX_ACCELERATION = 42.0; // overall max acceleration - includes turns - in inches/sec^2
 
-
     //logging directories
     public static String DRIVE_PATH_1 = "/media/sda"; // top usb port
     public static String DRIVE_PATH_2 = "/media/sdb"; // bottom usb port
+
+    public static final HIDHelper.HIDConstants MASTER_STICK = new HIDHelper.HIDConstants(new Joystick(0), 0.05, 0.0, 0.8, 0.5, 2);
 
 }

@@ -1,5 +1,5 @@
 // NOTE: This file is available at http://algs4.cs.princeton.edu/14analysis/PolynomialRegression.java.html
-package frc.robot.lib.util;
+package frc.lib.util;
 
 /******************************************************************************
  *  Compilation:  javac -cp .:jama.jar PolynomialRegression.java

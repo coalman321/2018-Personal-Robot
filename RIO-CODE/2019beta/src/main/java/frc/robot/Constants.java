@@ -1,7 +1,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
-import frc.robot.lib.util.HIDHelper;
+import frc.lib.util.HIDHelper;
 
 public class Constants {
 
@@ -23,13 +23,20 @@ public class Constants {
 
     //Pure pursuit related values
     public static int OBSERVATION_BUFFER_SIZE = 10; //size of pose observation buffer
-    public static double TRACK_WIDTH_INCHES = 23.5;
-    public static double TRACK_SCRUB_FACTOR = 0.5;
-    public static double WHEEL_DIAMETER = 6.0;
-    public static double COUNTS_PER_REV = 4096; //encoder counts per revolution
-    public static double PATH_FOLLOWING_LOOKAHEAD = 24.0; // lookahead in inches
-    public static double PATH_FOLLOWING_MAX_VELOCITY = 200.0; //overall max velocity - includes turns - in inches/sec
-    public static double PATH_FOLLOWING_MAX_ACCELERATION = 42.0; // overall max acceleration - includes turns - in inches/sec^2
+    public static final double kDriveWheelTrackWidthInches = 25.54;
+    public static final double kDriveWheelDiameterInches = 3.92820959548 * 0.99;
+    public static final double kDriveWheelRadiusInches = kDriveWheelDiameterInches / 2.0;
+    public static final double kTrackScrubFactor = 1.0;  // Tune me!
+    public static final double kRobotLinearInertia = 60.0;  // kg TODO tune
+    public static final double kRobotAngularInertia = 10.0;  // kg m^2 TODO tune
+    public static final double kRobotAngularDrag = 12.0;  // N*m / (rad/sec) TODO tune
+    public static final double kDriveVIntercept = 1.055;  // V
+    public static final double kDriveKv = 0.135;  // V per rad/s
+    public static final double kDriveKa = 0.012;  // V per rad/s^2
+    public static final double DRIVE_ENCODER_PPR = 4096.0; //encoder counts per revolution
+    public static final double kPathKX = 4.0;  // units/s per unit of error
+    public static final double kPathLookaheadTime = 0.4;  // seconds to look ahead along the path for steering
+    public static final double kPathMinLookaheadDistance = 24.0;  // inches
 
     //logging directories
     public static String DRIVE_PATH_1 = "/media/sda"; // top usb port

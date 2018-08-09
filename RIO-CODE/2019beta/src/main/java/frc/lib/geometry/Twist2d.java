@@ -1,4 +1,4 @@
-package frc.lib.AutoTrajectory;
+package frc.lib.geometry;
 
 import frc.lib.util.Util;
 

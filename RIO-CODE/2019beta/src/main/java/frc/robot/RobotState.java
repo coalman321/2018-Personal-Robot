@@ -1,9 +1,9 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.lib.AutoTrajectory.Pose2d;
-import frc.lib.AutoTrajectory.Rotation2d;
-import frc.lib.AutoTrajectory.Twist2d;
+import frc.lib.geometry.Pose2d;
+import frc.lib.geometry.Rotation2d;
+import frc.lib.geometry.Twist2d;
 import frc.lib.util.InterpolatingDouble;
 import frc.lib.util.InterpolatingTreeMap;
 import frc.robot.subsystems.Drive;

@@ -62,30 +62,34 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="genericTest.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/frc/robot/genericTest.java">
+      <file leaf-file-name="SubsystemManager.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/frc/robot/SubsystemManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="9" column="25" selection-start-line="9" selection-start-column="25" selection-end-line="9" selection-end-column="25" />
+            <state relative-caret-position="322">
+              <caret line="83" column="41" selection-start-line="83" selection-start-column="41" selection-end-line="83" selection-end-column="41" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#178#179#0" expanded="true" />
-                <element signature="e#208#209#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="build.gradle" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/build.gradle">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="493">
-              <caret line="59" column="1" selection-start-line="59" selection-start-column="1" selection-end-line="59" selection-end-column="1" />
-            </state>
-          </provider>
-        </entry>
-      </file>
     </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>com.team254.</find>
+    </findStrings>
+    <replaceStrings>
+      <replace>frc.</replace>
+    </replaceStrings>
   </component>
   <component name="GradleLocalSettings">
     <option name="myGradleHomes">
@@ -364,9 +368,9 @@
     </option>
     <option name="modificationStamps">
       <map>
-        <entry key="$PROJECT_DIR$" value="6135110831401" />
+        <entry key="$PROJECT_DIR$" value="6135112134706" />
         <entry key="$PROJECT_DIR$/.gradle" value="0" />
-        <entry key="$PROJECT_DIR$/build.gradle" value="2458002222" />
+        <entry key="$PROJECT_DIR$/build.gradle" value="3028432288" />
         <entry key="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" value="2371942159" />
         <entry key="$PROJECT_DIR$/settings.gradle" value="1595935860" />
       </map>
@@ -579,6 +583,23 @@
       <list>
         <option value="$PROJECT_DIR$/src/test/java/frc/robot/genericTest.java" />
         <option value="$PROJECT_DIR$/build.gradle" />
+        <option value="$PROJECT_DIR$/src/test/java/frc/lib/spline/SplineGeneratorTest.java" />
+        <option value="$PROJECT_DIR$/src/test/java/frc/lib/geometry/TestSE2Math.java" />
+        <option value="$PROJECT_DIR$/src/test/java/frc/lib/physics/PhysicsTest.java" />
+        <option value="$PROJECT_DIR$/src/test/java/frc/lib/spline/QuinticHermiteOptimizerTest.java" />
+        <option value="$PROJECT_DIR$/src/test/java/frc/lib/trajectory/timing/TimedStateTest.java" />
+        <option value="$PROJECT_DIR$/src/test/java/frc/lib/trajectory/DistanceViewTest.java" />
+        <option value="$PROJECT_DIR$/src/test/java/frc/lib/trajectory/PurePursuitControllerTest.java" />
+        <option value="$PROJECT_DIR$/src/test/java/frc/lib/trajectory/TrajectoryIteratorTest.java" />
+        <option value="$PROJECT_DIR$/src/test/java/frc/lib/trajectory/TrajectoryTest.java" />
+        <option value="$PROJECT_DIR$/src/test/java/frc/lib/trajectory/IntegrationTest.java" />
+        <option value="$PROJECT_DIR$/src/test/java/frc/lib/trajectory/timing/TimingUtilTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/frc/robot/paths/TrajectoryGenerator.java" />
+        <option value="$PROJECT_DIR$/src/test/java/frc/robot/planners/SuperstructureMotionPlannerTest.java" />
+        <option value="$PROJECT_DIR$/src/test/java/frc/robot/planners/DriveMotionPlannerTest.java" />
+        <option value="$PROJECT_DIR$/src/test/java/frc/robot/paths/TrajectoryGeneratorTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/frc/robot/subsystems/Subsystem.java" />
+        <option value="$PROJECT_DIR$/src/main/java/frc/robot/SubsystemManager.java" />
       </list>
     </option>
   </component>
@@ -646,6 +667,16 @@
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="frc" type="462c0819:PsiDirectoryNode" />
               <item name="lib" type="462c0819:PsiDirectoryNode" />
+              <item name="trajectory" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="2019beta" type="b2602c69:ProjectViewProjectNode" />
+              <item name="2019beta" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="frc" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
               <item name="util" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -661,22 +692,31 @@
               <item name="2019beta" type="b2602c69:ProjectViewProjectNode" />
               <item name="2019beta" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-            </path>
-            <path>
-              <item name="2019beta" type="b2602c69:ProjectViewProjectNode" />
-              <item name="2019beta" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="2019beta" type="b2602c69:ProjectViewProjectNode" />
-              <item name="2019beta" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="frc" type="462c0819:PsiDirectoryNode" />
               <item name="robot" type="462c0819:PsiDirectoryNode" />
+              <item name="paths" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="2019beta" type="b2602c69:ProjectViewProjectNode" />
+              <item name="2019beta" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="frc" type="462c0819:PsiDirectoryNode" />
+              <item name="robot" type="462c0819:PsiDirectoryNode" />
+              <item name="planners" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="2019beta" type="b2602c69:ProjectViewProjectNode" />
+              <item name="2019beta" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="frc" type="462c0819:PsiDirectoryNode" />
+              <item name="robot" type="462c0819:PsiDirectoryNode" />
+              <item name="subsystems" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -686,6 +726,15 @@
   </component>
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="frc.robot.paths" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Cole Tucker\Documents\Github\2018-Personal-Robot\RIO-CODE\2019beta\src\test\java\frc\robot" />
+      <recent name="C:\Users\Cole Tucker\Documents\Github\2018-Personal-Robot\RIO-CODE\2019beta\src\test\java\frc" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -699,7 +748,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.genericTest">
+  <component name="RunManager" selected="JUnit.All in 2019beta_test">
     <configuration default="true" type="Application" factoryName="Application">
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
     </configuration>
@@ -788,7 +837,7 @@
         <option name="vmOptions" />
       </ExternalSystemSettings>
     </configuration>
-    <configuration name="2019beta [test]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="2019beta [test]" type="GradleRunConfiguration" factoryName="Gradle">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -804,6 +853,23 @@
         </option>
         <option name="vmOptions" />
       </ExternalSystemSettings>
+    </configuration>
+    <configuration name="All in 2019beta_test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="2019beta_test" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="package" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <patterns />
     </configuration>
     <configuration default="true" type="JUnit" factoryName="JUnit">
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -825,7 +891,7 @@
       <module name="2019beta_test" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="frc.robot.*" />
+          <option name="PATTERN" value="frc.robot.planners.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -874,11 +940,12 @@
       <item itemvalue="Gradle.2019beta [check]" />
       <item itemvalue="Gradle.2019beta [junitPlatformTest]" />
       <item itemvalue="JUnit.genericTest" />
+      <item itemvalue="JUnit.All in 2019beta_test" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.All in 2019beta_test" />
         <item itemvalue="Gradle.2019beta [junitPlatformTest]" />
-        <item itemvalue="Gradle.2019beta [test]" />
         <item itemvalue="Gradle.2019beta [check]" />
         <item itemvalue="Gradle.2019beta [testClasses]" />
         <item itemvalue="Gradle.2019beta [clean]" />
@@ -899,33 +966,40 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="2019beta_[test] - 2018.08.09 at 09h 21m 38s.xml">
-      <configuration name="2019beta [test]" configurationId="GradleRunConfiguration" />
-    </history-entry>
-    <history-entry file="2019beta_[test] - 2018.08.09 at 09h 22m 40s.xml">
-      <configuration name="2019beta [test]" configurationId="GradleRunConfiguration" />
-    </history-entry>
-    <history-entry file="2019beta_[test] - 2018.08.09 at 09h 26m 35s.xml">
-      <configuration name="2019beta [test]" configurationId="GradleRunConfiguration" />
-    </history-entry>
-    <history-entry file="2019beta_[test] - 2018.08.09 at 09h 28m 00s.xml">
-      <configuration name="2019beta [test]" configurationId="GradleRunConfiguration" />
-    </history-entry>
-    <history-entry file="2019beta_[test] - 2018.08.09 at 09h 28m 09s.xml">
-      <configuration name="2019beta [test]" configurationId="GradleRunConfiguration" />
-    </history-entry>
-    <history-entry file="2019beta_[check] - 2018.08.09 at 09h 28m 34s.xml">
-      <configuration name="2019beta [check]" configurationId="GradleRunConfiguration" />
-    </history-entry>
-    <history-entry file="2019beta_[test] - 2018.08.09 at 09h 47m 02s.xml">
-      <configuration name="2019beta [test]" configurationId="GradleRunConfiguration" />
-    </history-entry>
     <history-entry file="2019beta_[test] - 2018.08.09 at 09h 47m 34s.xml">
       <configuration name="2019beta [test]" configurationId="GradleRunConfiguration" />
+    </history-entry>
+    <history-entry file="2019beta_[test] - 2018.08.09 at 09h 49m 21s.xml">
+      <configuration name="2019beta [test]" configurationId="GradleRunConfiguration" />
+    </history-entry>
+    <history-entry file="2019beta_[test] - 2018.08.09 at 09h 49m 44s.xml">
+      <configuration name="2019beta [test]" configurationId="GradleRunConfiguration" />
+    </history-entry>
+    <history-entry file="2019beta_[test] - 2018.08.09 at 09h 49m 49s.xml">
+      <configuration name="2019beta [test]" configurationId="GradleRunConfiguration" />
+    </history-entry>
+    <history-entry file="2019beta_[test] - 2018.08.09 at 09h 50m 28s.xml">
+      <configuration name="2019beta [test]" configurationId="GradleRunConfiguration" />
+    </history-entry>
+    <history-entry file="genericTest - 2018.08.09 at 09h 50m 38s.xml">
+      <configuration name="genericTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="2019beta_[test] - 2018.08.09 at 10h 02m 33s.xml">
+      <configuration name="2019beta [test]" configurationId="GradleRunConfiguration" />
+    </history-entry>
+    <history-entry file="All_in_2019beta_test - 2018.08.09 at 10h 03m 09s.xml">
+      <configuration name="All in 2019beta_test" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="All_in_2019beta_test - 2018.08.09 at 10h 07m 46s.xml">
+      <configuration name="All in 2019beta_test" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="All_in_2019beta_test - 2018.08.09 at 10h 12m 22s.xml">
+      <configuration name="All in 2019beta_test" configurationId="JUnit" />
     </history-entry>
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1096" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -934,15 +1008,15 @@
       <window_info anchor="right" id="Capture Analysis" />
       <window_info anchor="bottom" id="Event Log" side_tool="true" />
       <window_info anchor="right" id="Maven Projects" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32985386" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.32985386" />
       <window_info anchor="bottom" id="Version Control" show_stripe_button="false" />
       <window_info anchor="bottom" id="Terminal" weight="0.32985386" />
       <window_info id="Capture Tool" />
       <window_info id="Designer" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18603411" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18603411" />
       <window_info anchor="bottom" id="FRC" />
       <window_info anchor="bottom" id="Build" weight="0.2672234" />
-      <window_info anchor="right" id="Gradle" visible="true" weight="0.32995737" />
+      <window_info anchor="right" id="Gradle" weight="0.32995737" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info id="UI Designer" />
@@ -968,10 +1042,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="662">
+          <caret line="76" column="17" selection-start-line="76" selection-start-column="17" selection-end-line="76" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/frc/robot/genericTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="25" selection-start-line="9" selection-start-column="25" selection-end-line="9" selection-end-column="25" />
+        <state relative-caret-position="136">
+          <caret line="8" column="16" selection-start-line="8" selection-start-column="16" selection-end-line="8" selection-end-column="16" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#178#179#0" expanded="true" />
@@ -980,10 +1061,150 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/build.gradle">
+    <entry file="file://$PROJECT_DIR$/src/test/java/frc/lib/physics/DriveCharacterizationTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="59" column="1" selection-start-line="59" selection-start-column="1" selection-end-line="59" selection-end-column="1" />
+        <state relative-caret-position="68">
+          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/frc/lib/physics/PhysicsTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2615">
+          <caret line="2" column="11" selection-start-line="2" selection-start-column="11" selection-end-line="2" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/frc/lib/spline/QuinticHermiteOptimizerTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="11" selection-start-line="5" selection-start-column="11" selection-end-line="5" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/frc/lib/spline/SplineGeneratorTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/frc/lib/trajectory/timing/TimedStateTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="11" selection-start-line="4" selection-start-column="11" selection-end-line="4" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/frc/lib/trajectory/DistanceViewTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="11" selection-start-line="3" selection-start-column="11" selection-end-line="3" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/frc/lib/trajectory/PurePursuitControllerTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="11" selection-start-line="5" selection-start-column="11" selection-end-line="5" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/frc/lib/trajectory/TrajectoryIteratorTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="11" selection-start-line="3" selection-start-column="11" selection-end-line="3" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/frc/lib/trajectory/timing/TimingUtilTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="629">
+          <caret line="48" column="17" lean-forward="true" selection-start-line="48" selection-start-column="17" selection-end-line="48" selection-end-column="17" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/frc/lib/trajectory/IntegrationTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="689">
+          <caret line="89" column="14" selection-start-line="89" selection-start-column="14" selection-end-line="89" selection-end-column="14" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/frc/robot/paths/TrajectoryGenerator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-9000">
+          <caret line="13" column="27" lean-forward="true" selection-start-line="13" selection-start-column="27" selection-end-line="13" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/frc/lib/geometry/TestSE2Math.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="11" selection-start-line="2" selection-start-column="11" selection-end-line="2" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/frc/lib/trajectory/TrajectoryTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="21" column="16" selection-start-line="21" selection-start-column="16" selection-end-line="21" selection-end-column="16" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/frc/robot/planners/SuperstructureMotionPlannerTest.java">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/frc/robot/planners/DriveMotionPlannerTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="11" selection-start-line="8" selection-start-column="11" selection-end-line="8" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/frc/robot/paths/TrajectoryGeneratorTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="19" column="13" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/frc/robot/planners/DriveMotionPlanner.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="22" column="13" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/frc/robot/subsystems/Subsystem.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" column="5" selection-start-line="14" selection-start-column="5" selection-end-line="14" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/frc/robot/SubsystemManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="322">
+          <caret line="83" column="41" selection-start-line="83" selection-start-column="41" selection-end-line="83" selection-end-column="41" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

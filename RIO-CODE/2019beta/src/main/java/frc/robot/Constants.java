@@ -1,7 +1,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
-import frc.robot.lib.HIDHelper;
+import frc.robot.lib.util.HIDHelper;
 
 public class Constants {
 

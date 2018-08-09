@@ -4,7 +4,6 @@ plugins {
 }
 
 def ROBOT_CLASS = "frc.robot.Robot"
-
 // Define my targets (RoboRIO) and artifacts (deployable files)
 // This is added by GradleRIO's backing project EmbeddedTools.
 deploy {
@@ -32,6 +31,8 @@ dependencies {
     compile wpilib()
     compile ctre()
     compile navx()
+    //testCompile("org.junit.jupiter:junit-jupiter-api:5.0.3")
+    //testRuntime("org.junit.jupiter:junit-jupiter-engine:5.0.3")
 }
 
 // Setting up my Jar File. In this case, adding all libraries into the main jar ('fat jar')
@@ -48,6 +49,16 @@ compileJava {
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
 }
+
+//junitPlatform {
+//    filters {
+//        engines {
+//        }
+ //       tags {
+ //           exclude 'slow'
+ //       }
+//    }
+//}
 
 wrapper {
     gradleVersion = '4.9'

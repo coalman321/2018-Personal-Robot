@@ -18,7 +18,7 @@ public class Looper implements ILooper {
     private boolean running_;
 
     private final Notifier notifier_;
-    private final List<Loop> loops_ = null;
+    private final List<Loop> loops_ = new ArrayList<>();
     private final Object taskRunningLock_ = new Object();
     private double timestamp_ = 0;
     private double dt_ = 0;
@@ -26,7 +26,6 @@ public class Looper implements ILooper {
     public Looper() {
         notifier_ = new Notifier(runnable_);
         running_ = false;
-        loops_ = new ArrayList<>();
     }
 
     private final Runnable runnable_ = () -> {

@@ -3,30 +3,32 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Constants;
-import frc.robot.lib.AutoTrajectory.*;
-import frc.robot.lib.DataRecorder;
-import frc.robot.lib.HIDHelper;
+import frc.lib.AutoTrajectory.*;
+import frc.lib.util.DataRecorder;
+import frc.lib.util.HIDHelper;
 import frc.robot.lib.loops.Loop;
 
 import java.util.Set;
 
-public class RobotDriveV4 extends Subsystem {
+public class Drive extends Subsystem {
 
     //used internally for data
     private double[] operatorInput = {0, 0, 0}; //last input set from joystick update
     private DriveControlState driveControlState = DriveControlState.OPEN_LOOP;
-    private AdaptivePurePursuitController pathFollowingController;
+    private PurePursuitController pathFollowingController;
     private DataRecorder<PeriodicIO> dataRecorder;
+    private PeriodicIO periodicIOInstance;
 
     //construct one and only 1 instance of this class
-    private static final RobotDriveV4 m_DriveInstance = new RobotDriveV4();
+    private static final Drive m_DriveInstance = new Drive();
 
-    public RobotDriveV4 getInstance(){
+    public static Drive getInstance(){
         return m_DriveInstance;
     }
 
-    private RobotDriveV4() {
-        dataRecorder = new DataRecorder("", );
+    private Drive() {
+        periodicIOInstance = new PeriodicIO();
+        dataRecorder = new DataRecorder<PeriodicIO>("", PeriodicIO.class);
         reset();
     }
 
@@ -35,14 +37,14 @@ public class RobotDriveV4 extends Subsystem {
 
         @Override
         public void onStart(double timestamp) {
-            synchronized (RobotDriveV4.this){
+            synchronized (Drive.this){
 
             }
         }
 
         @Override
         public void onLoop(double timestamp) {
-            synchronized (RobotDriveV4.this) {
+            synchronized (Drive.this) {
                 if (Constants.ENABLE_MP_TEST_MODE) driveControlState = DriveControlState.PROFILING_TEST;
                 switch (driveControlState) {
                     case PATH_FOLLOWING_CONTROL:
@@ -141,7 +143,7 @@ public class RobotDriveV4 extends Subsystem {
 
 
     private synchronized void updatePathFollower() {
-        RigidTransform2d robot_pose = RobotMap.robotPose.getLatestFieldToVehicle().getValue();
+        RigidTransform2d robot_pose = robotPose.getLatestFieldToVehicle().getValue();
         RigidTransform2d.Delta command = pathFollowingController.update(robot_pose, Timer.getFPGATimestamp());
         Kinematics.DriveVelocity setpoint = Kinematics.inverseKinematics(command);
 
@@ -163,6 +165,20 @@ public class RobotDriveV4 extends Subsystem {
         }
     }
 
+    public static double inchesToRotations(double inches) {
+        return inches / (Constants.WHEEL_DIAMETER * Math.PI);
+    }
+
+    public static double inchesPerSecondToRpm(double inches_per_second) { return inchesToRotations(inches_per_second) * 60; }
+
+    public static double uPer100MsToRPM(double uPer100Ms){
+        return (uPer100Ms* 75) / 512.0;
+    }
+
+    public static double RPMToUnitsPer100Ms(double RPM){
+        return (RPM * 512) / 75.0;
+    }
+
     enum DriveControlState {
         OPEN_LOOP, PATH_FOLLOWING_CONTROL, PROFILING_TEST;
 
@@ -174,9 +190,14 @@ public class RobotDriveV4 extends Subsystem {
 
     public static class PeriodicIO{
         //inputs
+        public Rotation2d gyroHeading;
+        public int rearEncoderCount;
+        public int steeringEncoderAngle;
 
 
         //outputs
+        public double wantedVelocity;
+        public Rotation2d wantedHeading;
 
 
     }

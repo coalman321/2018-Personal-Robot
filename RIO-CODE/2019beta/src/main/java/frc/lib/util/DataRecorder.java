@@ -1,4 +1,4 @@
-package frc.robot.lib;
+package frc.lib.util;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -38,7 +38,7 @@ public class DataRecorder<T> {
      * registers an update in values to a queue
      * @param val
      */
-    public void add(T val){
+    public void publishValues(T val){
         StringBuilder line = new StringBuilder();
         for(Field field : mFields){
             if(line.length() != 0){

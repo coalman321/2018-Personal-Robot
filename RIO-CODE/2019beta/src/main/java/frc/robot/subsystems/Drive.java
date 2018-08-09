@@ -9,10 +9,11 @@ import frc.lib.trajectory.PurePursuitController;
 import frc.lib.trajectory.TrajectoryIterator;
 import frc.lib.trajectory.timing.TimedState;
 import frc.lib.util.DataRecorder;
+import frc.lib.util.DriveSignal;
 import frc.lib.util.HIDHelper;
 import frc.robot.Constants;
 import frc.robot.RobotState;
-import frc.robot.lib.loops.Loop;
+import frc.lib.loops.Loop;
 import frc.robot.planners.DriveMotionPlanner;
 
 public class Drive extends Subsystem {
@@ -26,6 +27,7 @@ public class Drive extends Subsystem {
     private PeriodicIO periodicIO;
     private boolean mOverrideTrajectory = false;
     private double[] operatorInput = {0, 0, 0}; //last input set from joystick update
+    private Rotation2d mGyroOffset;
 
     //construct one and only 1 instance of this class
     private static Drive m_DriveInstance = new Drive();
@@ -93,10 +95,10 @@ public class Drive extends Subsystem {
     public synchronized void setHeading(Rotation2d heading) {
         System.out.println("SET HEADING: " + heading.getDegrees());
 
-        mGyroOffset = heading.rotateBy(Rotation2d.fromDegrees(mPigeon.getFusedHeading()).inverse());
+        mGyroOffset = heading.rotateBy(Rotation2d.fromDegrees(0).inverse()); //TODO replace zero with gyro source
         System.out.println("Gyro offset: " + mGyroOffset.getDegrees());
 
-        mPeriodicIO.gyro_heading = heading;
+        periodicIO.gyro_heading = heading;
     }
 
     public double getLeftEncoder(){
@@ -150,11 +152,11 @@ public class Drive extends Subsystem {
     }
 
     public double getLeftEncoderRotations() {
-        return mPeriodicIO.left_position_ticks / Constants.DRIVE_ENCODER_PPR;
+        return periodicIO.left_position_ticks / Constants.DRIVE_ENCODER_PPR;
     }
 
     public double getRightEncoderRotations() {
-        return mPeriodicIO.right_position_ticks / Constants.DRIVE_ENCODER_PPR;
+        return periodicIO.right_position_ticks / Constants.DRIVE_ENCODER_PPR;
     }
 
     public double getLeftEncoderDistance() {
@@ -166,7 +168,7 @@ public class Drive extends Subsystem {
     }
 
     public double getRightVelocityNativeUnits() {
-        return mPeriodicIO.right_velocity_ticks_per_100ms;
+        return periodicIO.right_velocity_ticks_per_100ms;
     }
 
     public double getRightLinearVelocity() {
@@ -174,7 +176,7 @@ public class Drive extends Subsystem {
     }
 
     public double getLeftVelocityNativeUnits() {
-        return mPeriodicIO.left_velocity_ticks_per_100ms;
+        return periodicIO.left_velocity_ticks_per_100ms;
     }
 
     public double getLeftLinearVelocity() {
@@ -201,18 +203,18 @@ public class Drive extends Subsystem {
 
             // DriveSignal signal = new DriveSignal(demand.left_feedforward_voltage / 12.0, demand.right_feedforward_voltage / 12.0);
 
-            mPeriodicIO.error = mMotionPlanner.error();
-            mPeriodicIO.path_setpoint = mMotionPlanner.setpoint();
+            periodicIO.error = mMotionPlanner.error();
+            periodicIO.path_setpoint = mMotionPlanner.setpoint();
 
             if (!mOverrideTrajectory) {
                 setVelocity(new DriveSignal(radiansPerSecondToTicksPer100ms(output.left_velocity), radiansPerSecondToTicksPer100ms(output.right_velocity)),
                         new DriveSignal(output.left_feedforward_voltage / 12.0, output.right_feedforward_voltage / 12.0));
 
-                mPeriodicIO.left_accel = radiansPerSecondToTicksPer100ms(output.left_accel) / 1000.0;
-                mPeriodicIO.right_accel = radiansPerSecondToTicksPer100ms(output.right_accel) / 1000.0;
+                periodicIO.left_accel = radiansPerSecondToTicksPer100ms(output.left_accel) / 1000.0;
+                periodicIO.right_accel = radiansPerSecondToTicksPer100ms(output.right_accel) / 1000.0;
             } else {
                 setVelocity(DriveSignal.BRAKE, DriveSignal.BRAKE);
-                mPeriodicIO.left_accel = mPeriodicIO.right_accel = 0.0;
+                periodicIO.left_accel = periodicIO.right_accel = 0.0;
             }
         } else {
             DriverStation.reportError("Drive is not in path following state", false);
@@ -224,19 +226,14 @@ public class Drive extends Subsystem {
      */
     public synchronized void setOpenLoop(DriveSignal signal) {
         if (driveControlState != DriveControlState.OPEN_LOOP) {
-            setBrakeMode(false);
-            mAutoShift = true;
-
             System.out.println("Switching to open loop");
             System.out.println(signal);
             driveControlState = DriveControlState.OPEN_LOOP;
-            mLeftMaster.configNeutralDeadband(0.04, 0);
-            mRightMaster.configNeutralDeadband(0.04, 0);
         }
-        mPeriodicIO.left_demand = signal.getLeft();
-        mPeriodicIO.right_demand = signal.getRight();
-        mPeriodicIO.left_feedforward = 0.0;
-        mPeriodicIO.right_feedforward = 0.0;
+        periodicIO.left_demand = signal.getLeft();
+        periodicIO.right_demand = signal.getRight();
+        periodicIO.left_feedforward = 0.0;
+        periodicIO.right_feedforward = 0.0;
     }
 
     /**
@@ -245,19 +242,13 @@ public class Drive extends Subsystem {
     public synchronized void setVelocity(DriveSignal signal, DriveSignal feedforward) {
         if (driveControlState != DriveControlState.PATH_FOLLOWING) {
             // We entered a velocity control state.
-            setBrakeMode(true);
-            mAutoShift = false;
-            mLeftMaster.selectProfileSlot(kLowGearVelocityControlSlot, 0);
-            mRightMaster.selectProfileSlot(kLowGearVelocityControlSlot, 0);
-            mLeftMaster.configNeutralDeadband(0.0, 0);
-            mRightMaster.configNeutralDeadband(0.0, 0);
 
             driveControlState = DriveControlState.PATH_FOLLOWING;
         }
-        mPeriodicIO.left_demand = signal.getLeft();
-        mPeriodicIO.right_demand = signal.getRight();
-        mPeriodicIO.left_feedforward = feedforward.getLeft();
-        mPeriodicIO.right_feedforward = feedforward.getRight();
+        periodicIO.left_demand = signal.getLeft();
+        periodicIO.right_demand = signal.getRight();
+        periodicIO.left_feedforward = feedforward.getLeft();
+        periodicIO.right_feedforward = feedforward.getRight();
     }
 
     public synchronized void setTrajectory(TrajectoryIterator<TimedState<Pose2dWithCurvature>> trajectory) {

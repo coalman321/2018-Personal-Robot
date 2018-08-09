@@ -1,7 +1,7 @@
 package frc.lib.trajectory;
 
-import com.team254.lib.geometry.State;
-import com.team254.lib.util.CSVWritable;
+import frc.lib.geometry.State;
+import frc.lib.util.CSVWritable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,6 @@ public class Trajectory<S extends State<S>> implements CSVWritable {
      * Create a trajectory from the given states and transforms.
      *
      * @param states The states of the trajectory.
-     * @throws InvalidTrajectoryException
      */
     public Trajectory(final List<S> states) {
         points_ = new ArrayList<>(states.size());

@@ -1,6 +1,6 @@
 package frc.robot.subsystems;
 
-import frc.robot.lib.loops.ILooper;
+import frc.lib.loops.ILooper;
 
 public abstract class Subsystem {
 

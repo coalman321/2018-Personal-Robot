@@ -1,6 +1,6 @@
 package frc.lib.trajectory;
 
-import com.team254.lib.geometry.State;
+import frc.lib.geometry.State;
 
 public class TrajectorySamplePoint<S extends State<S>> {
     protected final S state_;

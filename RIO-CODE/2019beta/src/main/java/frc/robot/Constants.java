@@ -11,9 +11,6 @@ public class Constants {
      * ----------------------
      */
 
-    private static boolean isCompBot = true; //change this to use competition or non-competition constants
-    public static String ROBOT_NAME = "Cube Crusher";
-
     //update times / rates
     public static double LOOPER_DT = 0.01; //dt in seconds
 
@@ -22,7 +19,6 @@ public class Constants {
     public static double MP_TEST_SPEED = 152;
 
     //Pure pursuit related values
-    public static int OBSERVATION_BUFFER_SIZE = 10; //size of pose observation buffer
     public static final double kDriveWheelTrackWidthInches = 25.54;
     public static final double kDriveWheelDiameterInches = 3.92820959548 * 0.99;
     public static final double kDriveWheelRadiusInches = kDriveWheelDiameterInches / 2.0;

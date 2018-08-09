@@ -1,6 +1,6 @@
 package frc.lib.trajectory;
 
-import com.team254.lib.geometry.State;
+import frc.lib.geometry.State;
 
 public class TrajectoryIterator<S extends State<S>> {
     protected final TrajectoryView<S> view_;

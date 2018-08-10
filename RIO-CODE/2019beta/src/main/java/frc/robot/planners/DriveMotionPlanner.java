@@ -317,8 +317,8 @@ public class DriveMotionPlanner implements CSVWritable {
             final double dcurvature_ds_m = Units.meters_to_inches(Units.meters_to_inches(mSetpoint.state()
                     .getDCurvatureDs()));
             final double acceleration_m = Units.inches_to_meters(mSetpoint.acceleration());
-            final DifferentialDrive.DriveDynamics dynamics = mModel.solveInverseDynamics(
-                    new DifferentialDrive.ChassisState(velocity_m, velocity_m * curvature_m),
+            final DifferentialDrive.DriveDynamics dynamics = mModel.solveInverseDynamics( // TODO Test removing this code
+                    new DifferentialDrive.ChassisState(velocity_m, velocity_m * curvature_m), //TODO try outputting setpoint values
                     new DifferentialDrive.ChassisState(acceleration_m,
                             acceleration_m * curvature_m + velocity_m * velocity_m * dcurvature_ds_m));
             mError = current_state.inverse().transformBy(mSetpoint.state().getPose());

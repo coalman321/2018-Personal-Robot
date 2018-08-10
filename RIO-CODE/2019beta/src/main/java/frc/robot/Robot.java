@@ -10,6 +10,12 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import frc.lib.loops.Looper;
+import frc.robot.paths.TrajectoryGenerator;
+import frc.robot.subsystems.Drive;
+import frc.robot.subsystems.RobotStateEstimator;
+
+import java.util.Arrays;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -19,10 +25,18 @@ import edu.wpi.first.wpilibj.command.Scheduler;
  * project.
  */
 public class Robot extends TimedRobot {
-  public static OI m_oi;
 
-  Command m_autonomousCommand;
+  private TrajectoryGenerator mTrajectoryGenerator = TrajectoryGenerator.getInstance();
+  private final SubsystemManager mSubsystemManager = new SubsystemManager(Arrays.asList(
+          RobotStateEstimator.getInstance(),
+          Drive.getInstance()
+  ));
+  private Drive mDrive = Drive.getInstance();
+  private Command m_autonomousCommand;
+  private Looper mEnabledLooper = new Looper();
+  private Looper mDisabledLooper = new Looper();
 
+  public static OI mOI;
 
   /**
    * This function is run when the robot is first started up and should be
@@ -30,7 +44,10 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    m_oi = new OI();
+      mOI = new OI();
+      mSubsystemManager.registerEnabledLoops(mEnabledLooper);
+      mSubsystemManager.registerDisabledLoops(mDisabledLooper);
+      mTrajectoryGenerator.generateTrajectories();
 
   }
 

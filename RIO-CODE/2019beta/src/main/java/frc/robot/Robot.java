@@ -47,7 +47,7 @@ public class Robot extends TimedRobot {
       mOI = new OI();
       mSubsystemManager.registerEnabledLoops(mEnabledLooper);
       mSubsystemManager.registerDisabledLoops(mDisabledLooper);
-      mTrajectoryGenerator.generateTrajectories();
+      //mTrajectoryGenerator.generateTrajectories();
 
   }
 

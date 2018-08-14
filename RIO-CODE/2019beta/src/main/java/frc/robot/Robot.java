@@ -31,7 +31,7 @@ public class Robot extends TimedRobot {
             Drive.getInstance()
     ));
     private Drive mDrive = Drive.getInstance();
-    private Command m_autonomousCommand;\
+    private Command m_autonomousCommand;
     private Looper mEnabledLooper = new Looper();
     private Looper mDisabledLooper = new Looper();
 

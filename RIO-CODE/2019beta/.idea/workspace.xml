@@ -65,8 +65,16 @@
       <file leaf-file-name="Robot.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/frc/robot/Robot.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="51" column="3" lean-forward="true" selection-start-line="51" selection-start-column="3" selection-end-line="51" selection-end-column="3" />
+            <state relative-caret-position="1819">
+              <caret line="120" column="31" selection-start-line="120" selection-start-column="31" selection-end-line="120" selection-end-column="31" />
+              <folding>
+                <element signature="e#2790#2791#0" expanded="true" />
+                <element signature="e#2836#2837#0" expanded="true" />
+                <element signature="e#3709#3710#0" expanded="true" />
+                <element signature="e#3754#3755#0" expanded="true" />
+                <element signature="e#3999#4000#0" expanded="true" />
+                <element signature="e#4044#4045#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -673,7 +681,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="-10" />
     <option name="y" value="-10" />
     <option name="width" value="1940" />
@@ -684,9 +692,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="AndroidView" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -752,6 +757,9 @@
           <select />
         </subPane>
       </pane>
+      <pane id="AndroidView" />
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -1030,6 +1038,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="878" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -1043,11 +1052,10 @@
       <window_info anchor="bottom" id="Terminal" order="13" weight="0.32985386" />
       <window_info id="Capture Tool" order="7" />
       <window_info id="Designer" order="7" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19932885" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20469798" />
       <window_info anchor="bottom" id="FRC" order="13" />
-      <window_info anchor="bottom" id="Build" order="13" weight="0.26684636" />
       <window_info anchor="bottom" id="Tail" order="8" />
-      <window_info anchor="right" id="Gradle" order="6" visible="true" weight="0.3281879" />
+      <window_info anchor="right" id="Gradle" order="6" weight="0.3281879" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info id="UI Designer" order="7" />
@@ -1058,6 +1066,7 @@
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Build" order="13" weight="0.26684636" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Find" order="1" />
@@ -1353,8 +1362,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/frc/robot/Robot.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="51" column="3" lean-forward="true" selection-start-line="51" selection-start-column="3" selection-end-line="51" selection-end-column="3" />
+        <state relative-caret-position="1819">
+          <caret line="120" column="31" selection-start-line="120" selection-start-column="31" selection-end-line="120" selection-end-column="31" />
+          <folding>
+            <element signature="e#2790#2791#0" expanded="true" />
+            <element signature="e#2836#2837#0" expanded="true" />
+            <element signature="e#3709#3710#0" expanded="true" />
+            <element signature="e#3754#3755#0" expanded="true" />
+            <element signature="e#3999#4000#0" expanded="true" />
+            <element signature="e#4044#4045#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

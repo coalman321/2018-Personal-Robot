@@ -25,13 +25,12 @@ import java.util.Arrays;
  * project.
  */
 public class Robot extends TimedRobot {
-    private TrajectoryGenerator mTrajectoryGenerator = TrajectoryGenerator.getInstance();
+    //private TrajectoryGenerator mTrajectoryGenerator = TrajectoryGenerator.getInstance();
     private final SubsystemManager mSubsystemManager = new SubsystemManager(Arrays.asList(
             RobotStateEstimator.getInstance(),
             Drive.getInstance()
     ));
     private Drive mDrive = Drive.getInstance();
-    private Command m_autonomousCommand;
     private Looper mEnabledLooper = new Looper();
     private Looper mDisabledLooper = new Looper();
 
@@ -60,6 +59,8 @@ public class Robot extends TimedRobot {
     */
     @Override
     public void robotPeriodic() {
+        mSubsystemManager.outputToSmartDashboard();
+        mSubsystemManager.writeToLog();
     }
 
     /**

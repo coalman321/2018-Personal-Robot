@@ -34,15 +34,10 @@ public class Robot extends TimedRobot {
     private Looper mEnabledLooper = new Looper();
     private Looper mDisabledLooper = new Looper();
 
-    public static OI mOI;
+    public static OI mOI = OI.getInstance();
 
-    /**
-    * This function is run when the robot is first started up and should be
-    * used for any initialization code.
-    */
     @Override
     public void robotInit() {
-        mOI = new OI();
         mSubsystemManager.registerEnabledLoops(mEnabledLooper);
         mSubsystemManager.registerDisabledLoops(mDisabledLooper);
         mDisabledLooper.start();
@@ -63,11 +58,6 @@ public class Robot extends TimedRobot {
         mSubsystemManager.writeToLog();
     }
 
-    /**
-    * This function is called once each time the robot enters Disabled mode.
-    * You can use it to reset any subsystem information you want to clear when
-    * the robot is disabled.
-    */
     @Override
     public void disabledInit() {
         mEnabledLooper.stop();
@@ -79,17 +69,6 @@ public class Robot extends TimedRobot {
         Scheduler.getInstance().run();
     }
 
-    /**
-    * This autonomous (along with the chooser code above) shows how to select
-    * between different autonomous modes using the dashboard. The sendable
-    * chooser code works with the Java SmartDashboard. If you prefer the
-    * LabVIEW Dashboard, remove all of the chooser code and uncomment the
-    * getString code to get the auto name from the text box below the Gyro
-    *
-    * <p>You can add additional auto modes by adding additional commands to the
-    * chooser code above (like the commented example) or additional comparisons
-    * to the switch structure below with additional strings & commands.
-    */
     @Override
     public void autonomousInit() {
         mDisabledLooper.stop();
@@ -97,9 +76,6 @@ public class Robot extends TimedRobot {
 
     }
 
-    /**
-    * This function is called periodically during autonomous.
-    */
     @Override
     public void autonomousPeriodic() {
         Scheduler.getInstance().run();

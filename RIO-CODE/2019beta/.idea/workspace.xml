@@ -50,11 +50,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Robot.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Robot.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/frc/robot/Robot.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="58" column="6" lean-forward="true" selection-start-line="58" selection-start-column="6" selection-end-line="58" selection-end-column="6" />
+            <state relative-caret-position="170">
+              <caret line="36" column="43" selection-start-line="36" selection-start-column="43" selection-end-line="36" selection-end-column="43" />
               <folding>
                 <element signature="e#2790#2791#0" expanded="true" />
                 <element signature="e#2836#2837#0" expanded="true" />
@@ -62,6 +62,19 @@
                 <element signature="e#3754#3755#0" expanded="true" />
                 <element signature="e#3999#4000#0" expanded="true" />
                 <element signature="e#4044#4045#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="OI.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/frc/robot/OI.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="178">
+              <caret line="19" column="43" selection-start-line="19" selection-start-column="43" selection-end-line="19" selection-end-column="43" />
+              <folding>
+                <element signature="e#881#882#0" expanded="true" />
+                <element signature="e#906#907#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -666,6 +679,7 @@
         <option value="$PROJECT_DIR$/src/main/java/frc/robot/planners/DriveMotionPlanner.java" />
         <option value="$PROJECT_DIR$/src/main/java/frc/robot/subsystems/Drive.java" />
         <option value="$PROJECT_DIR$/src/main/java/frc/robot/Robot.java" />
+        <option value="$PROJECT_DIR$/src/main/java/frc/robot/OI.java" />
       </list>
     </option>
   </component>
@@ -1021,10 +1035,10 @@
       <window_info anchor="bottom" id="Terminal" order="13" weight="0.32985386" />
       <window_info id="Capture Tool" order="7" />
       <window_info id="Designer" order="7" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20469798" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20469798" />
       <window_info anchor="bottom" id="FRC" order="13" />
       <window_info anchor="bottom" id="Tail" order="8" />
-      <window_info active="true" anchor="bottom" id="Find" order="1" visible="true" weight="0.32884097" />
+      <window_info anchor="bottom" id="Find" order="1" visible="true" weight="0.32884097" />
       <window_info anchor="right" id="Gradle" order="6" weight="0.3281879" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -1077,13 +1091,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/frc/lib/loops/Looper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="28" selection-start-line="2" selection-start-column="28" selection-end-line="2" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/frc/robot/Robot.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="612">
@@ -1363,8 +1370,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/frc/robot/Robot.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="58" column="6" lean-forward="true" selection-start-line="58" selection-start-column="6" selection-end-line="58" selection-end-column="6" />
+        <state relative-caret-position="170">
+          <caret line="36" column="43" selection-start-line="36" selection-start-column="43" selection-end-line="36" selection-end-column="43" />
           <folding>
             <element signature="e#2790#2791#0" expanded="true" />
             <element signature="e#2836#2837#0" expanded="true" />
@@ -1372,6 +1379,17 @@
             <element signature="e#3754#3755#0" expanded="true" />
             <element signature="e#3999#4000#0" expanded="true" />
             <element signature="e#4044#4045#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/frc/robot/OI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="178">
+          <caret line="19" column="43" selection-start-line="19" selection-start-column="43" selection-end-line="19" selection-end-column="43" />
+          <folding>
+            <element signature="e#881#882#0" expanded="true" />
+            <element signature="e#906#907#0" expanded="true" />
           </folding>
         </state>
       </provider>

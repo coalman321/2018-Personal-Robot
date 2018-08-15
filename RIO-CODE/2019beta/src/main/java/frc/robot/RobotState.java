@@ -41,10 +41,6 @@ public class RobotState {
         distance_driven_ = 0.0;
     }
 
-    public synchronized void resetDistanceDriven() {
-        distance_driven_ = 0.0;
-    }
-
     /**
      * Returns the robot's position on the field at a certain time. Linearly interpolates between stored robot positions
      * to fill in the gaps.
@@ -96,7 +92,7 @@ public class RobotState {
         return vehicle_velocity_measured_;
     }
 
-    public void outputToSmartDashboard() {
+    public void outputTelemetry() {
         Pose2d odometry = getLatestFieldToVehicle().getValue();
         SmartDashboard.putNumber("Robot Pose X", odometry.getTranslation().x());
         SmartDashboard.putNumber("Robot Pose Y", odometry.getTranslation().y());

@@ -107,7 +107,6 @@ public class DriveMotionPlanner implements CSVWritable {
             double max_voltage) {
         List<Pose2d> waypoints_maybe_flipped = waypoints;
         final Pose2d flip = Pose2d.fromRotation(new Rotation2d(-1, 0, false));
-        // TODO re-architect the spline generator to support reverse.
         if (reversed) {
             waypoints_maybe_flipped = new ArrayList<>(waypoints.size());
             for (int i = 0; i < waypoints.size(); ++i) {
@@ -335,7 +334,6 @@ public class DriveMotionPlanner implements CSVWritable {
                 mOutput = updateNonlinearFeedback(dynamics, current_state);
             }
         } else {
-            // TODO Possibly switch to a pose stabilizing controller?
             mOutput = new Output();
         }
         return mOutput;

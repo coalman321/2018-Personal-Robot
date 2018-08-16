@@ -1,0 +1,13 @@
+"Part";"Value";"Device";"Package";"Description";"PROD_ID";"SPICEPREFIX";"VALUE";
+"C1";"";"C-USC0603";"C0603";"CAPACITOR, American symbol";"";"C";"";
+"C2";"";"C-USC0603";"C0603";"CAPACITOR, American symbol";"";"C";"";
+"D1";"";"ZENER-DIODESOT23";"SOT23";"Z-Diode";"";"";"";
+"D2";"";"D-SOD-80";"SOD80";"DIODE";"";"";"";
+"FAN";"350428-1";"350428-1";"350428-1";"Universal MATE-N-LOK .250" Centerline, 600 V, 19 - 36 A max";"";"";"";
+"JETSON";"350428-1";"350428-1";"350428-1";"Universal MATE-N-LOK .250" Centerline, 600 V, 19 - 36 A max";"";"";"";
+"POWER";"350428-1";"350428-1";"350428-1";"Universal MATE-N-LOK .250" Centerline, 600 V, 19 - 36 A max";"";"";"";
+"RADIO";"350428-1";"350428-1";"350428-1";"Universal MATE-N-LOK .250" Centerline, 600 V, 19 - 36 A max";"";"";"";
+"REG";"350428-1";"350428-1";"350428-1";"Universal MATE-N-LOK .250" Centerline, 600 V, 19 - 36 A max";"";"";"";
+"RIO";"350428-1";"350428-1";"350428-1";"Universal MATE-N-LOK .250" Centerline, 600 V, 19 - 36 A max";"";"";"";
+"SPARE";"350428-1";"350428-1";"350428-1";"Universal MATE-N-LOK .250" Centerline, 600 V, 19 - 36 A max";"";"";"";
+"U1";"+12v";"V_REG_78XX7812";"TO-252";"Voltage Regulator";"VREG-12370";"";"+12v";

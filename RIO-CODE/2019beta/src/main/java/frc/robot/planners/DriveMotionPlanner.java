@@ -56,10 +56,7 @@ public class DriveMotionPlanner implements CSVWritable {
                 Units.inches_to_meters(Constants.kDriveWheelRadiusInches) * Units.inches_to_meters(Constants
                         .kDriveWheelRadiusInches) * Constants.kRobotLinearInertia / (2.0 * Constants.kDriveKa),
                 Constants.kDriveVIntercept);
-        mModel = new DifferentialDrive(
-                Constants.kRobotLinearInertia,
-                Constants.kRobotAngularInertia,
-                Constants.kRobotAngularDrag,
+        mModel = new DifferentialDrive(Constants.kRobotLinearInertia, Constants.kRobotAngularInertia, Constants.kRobotAngularDrag,
                 Units.inches_to_meters(Constants.kDriveWheelDiameterInches / 2.0),
                 Units.inches_to_meters(Constants.kDriveWheelTrackWidthInches / 2.0 * Constants.kTrackScrubFactor),
                 transmission, transmission
@@ -218,8 +215,8 @@ public class DriveMotionPlanner implements CSVWritable {
     }
 
     protected Output updatePurePursuit(DifferentialDrive.DriveDynamics dynamics, Pose2d current_state) {
-        double lookahead_time = Constants.kPathLookaheadTime;
-        final double kLookaheadSearchDt = 0.01;
+        double lookahead_time = Constants.kPathLookaheadTime; //how much time to look ahead to
+        final double kLookaheadSearchDt = 0.01; //time step forward
         TimedState<Pose2dWithCurvature> lookahead_state = mCurrentTrajectory.preview(lookahead_time).state();
         double actual_lookahead_distance = mSetpoint.state().distance(lookahead_state.state());
         while (actual_lookahead_distance < Constants.kPathMinLookaheadDistance &&

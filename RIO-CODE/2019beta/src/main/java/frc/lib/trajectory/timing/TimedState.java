@@ -30,6 +30,10 @@ public class TimedState<S extends State<S>> implements State<TimedState<S>> {
         t_ = t;
     }
 
+
+    /**
+     * @return Time stamp at which state is achieved
+     */
     public double t() {
         return t_;
     }
@@ -38,6 +42,9 @@ public class TimedState<S extends State<S>> implements State<TimedState<S>> {
         velocity_ = velocity;
     }
 
+    /**
+     * @return velocity (ds / dt)
+     */
     public double velocity() {
         return velocity_;
     }
@@ -46,6 +53,9 @@ public class TimedState<S extends State<S>> implements State<TimedState<S>> {
         acceleration_ = acceleration;
     }
 
+    /**
+     * @return Acceleration (d^2s / dt^2)
+     */
     public double acceleration() {
         return acceleration_;
     }
@@ -81,6 +91,11 @@ public class TimedState<S extends State<S>> implements State<TimedState<S>> {
                 new_v,
                 acceleration());
     }
+
+    /**
+     * @param other other state to compute distance to
+     * @return distance between states
+     */
 
     @Override
     public double distance(TimedState<S> other) {

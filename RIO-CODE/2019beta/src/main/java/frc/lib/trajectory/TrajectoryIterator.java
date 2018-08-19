@@ -31,10 +31,18 @@ public class TrajectoryIterator<S extends State<S>> {
         return current_sample_;
     }
 
+    /**
+     * @return the state of the current trajectory sample point
+     */
     public S getState() {
         return getSample().state();
     }
 
+    /**
+     *
+     * @param additional_progress to advance trajectory to
+     * @return the sample point at given progress
+     */
     public TrajectorySamplePoint<S> advance(double additional_progress) {
         progress_ = Math.max(view_.first_interpolant(),
                 Math.min(view_.last_interpolant(), progress_ + additional_progress));
@@ -42,9 +50,12 @@ public class TrajectoryIterator<S extends State<S>> {
         return current_sample_;
     }
 
+    /**
+     * @param additional_progress time to look ahead to
+     * @return trajectory sample point at time specified
+     */
     public TrajectorySamplePoint<S> preview(double additional_progress) {
-        final double progress = Math.max(view_.first_interpolant(),
-                Math.min(view_.last_interpolant(), progress_ + additional_progress));
+        final double progress = Math.max(view_.first_interpolant(), Math.min(view_.last_interpolant(), progress_ + additional_progress));
         return view_.sample(progress);
     }
 

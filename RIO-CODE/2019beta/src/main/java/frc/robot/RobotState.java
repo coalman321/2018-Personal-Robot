@@ -8,6 +8,7 @@ import frc.lib.util.InterpolatingDouble;
 import frc.lib.util.InterpolatingTreeMap;
 import frc.robot.subsystems.Drive;
 
+
 import java.util.Map;
 
 public class RobotState {
@@ -62,20 +63,15 @@ public class RobotState {
         field_to_vehicle_.put(new InterpolatingDouble(timestamp), observation);
     }
 
-    public synchronized void addObservations(double timestamp, Twist2d measured_velocity,
-                                             Twist2d predicted_velocity) {
-        addFieldToVehicleObservation(timestamp,
-                Kinematics.integrateForwardKinematics(getLatestFieldToVehicle().getValue(), measured_velocity));
+    public synchronized void addObservations(double timestamp, Twist2d measured_velocity, Twist2d predicted_velocity) {
+        addFieldToVehicleObservation(timestamp, Kinematics.integrateForwardKinematics(getLatestFieldToVehicle().getValue(), measured_velocity));
         vehicle_velocity_measured_ = measured_velocity;
         vehicle_velocity_predicted_ = predicted_velocity;
     }
 
-    public synchronized Twist2d generateOdometryFromSensors(double left_encoder_delta_distance, double
-            right_encoder_delta_distance, Rotation2d current_gyro_angle) {
+    public synchronized Twist2d generateOdometryFromSensors(double left_encoder_delta_distance, double right_encoder_delta_distance, Rotation2d current_gyro_angle) {
         final Pose2d last_measurement = getLatestFieldToVehicle().getValue();
-        final Twist2d delta = Kinematics.forwardKinematics(last_measurement.getRotation(),
-                left_encoder_delta_distance, right_encoder_delta_distance,
-                current_gyro_angle);
+        final Twist2d delta = Kinematics.forwardKinematics(last_measurement.getRotation(), left_encoder_delta_distance, right_encoder_delta_distance, current_gyro_angle);
         distance_driven_ += delta.dx; //do we care about dy here?
         return delta;
     }

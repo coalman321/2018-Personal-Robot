@@ -5,21 +5,23 @@ import edu.wpi.first.wpilibj.Timer;
 import frc.lib.geometry.Pose2d;
 import frc.lib.geometry.Pose2dWithCurvature;
 import frc.lib.geometry.Rotation2d;
+import frc.lib.loops.Loop;
 import frc.lib.trajectory.PurePursuitController;
 import frc.lib.trajectory.TrajectoryIterator;
 import frc.lib.trajectory.timing.TimedState;
-import frc.lib.util.ReflectingCSVWriter;
 import frc.lib.util.DriveSignal;
 import frc.lib.util.HIDHelper;
+import frc.lib.util.ReflectingCSVWriter;
 import frc.robot.Constants;
 import frc.robot.RobotState;
-import frc.lib.loops.Loop;
 import frc.robot.planners.DriveMotionPlanner;
 
 public class Drive extends Subsystem {
 
     //used internally for data
 
+    //construct one and only 1 instance of this class
+    private static Drive m_DriveInstance = new Drive();
     private DriveControlState mDriveControlState = DriveControlState.OPEN_LOOP;
     private DriveMotionPlanner mMotionPlanner;
     private PurePursuitController pathFollowingController;
@@ -27,29 +29,12 @@ public class Drive extends Subsystem {
     private PeriodicIO periodicIO;
     private boolean mOverrideTrajectory = false;
     private double[] operatorInput = {0, 0, 0}; //last input set from joystick update
-    private Rotation2d mGyroOffset;
-
-    //construct one and only 1 instance of this class
-    private static Drive m_DriveInstance = new Drive();
-
-    public static Drive getInstance(){
-        return m_DriveInstance;
-    }
-
-    private Drive() {
-        periodicIO = new PeriodicIO();
-        mCSVWriter = new ReflectingCSVWriter<PeriodicIO>("", PeriodicIO.class);
-        reset();
-        mMotionPlanner = new DriveMotionPlanner();
-    }
-
-
-    private final Loop mLoop = new Loop(){
+    private final Loop mLoop = new Loop() {
 
         @Override
         public void onStart(double timestamp) {
-            synchronized (Drive.this){
-
+            synchronized (Drive.this) {
+                startLogging();
             }
         }
 
@@ -68,10 +53,14 @@ public class Drive extends Subsystem {
                         }
                         break;
 
-                    default: //open loop
-                        if (DriverStation.getInstance().isOperatorControl()) operatorInput = HIDHelper.getAdjStick(Constants.MASTER_STICK);
+                    case OPEN_LOOP:
+                        if (DriverStation.getInstance().isOperatorControl())
+                            operatorInput = HIDHelper.getAdjStick(Constants.MASTER_STICK);
                         else operatorInput = new double[]{0, 0, 0};
                         break;
+
+                    default:
+                        System.out.println("unexpected control state ");;
                 }
 
 
@@ -83,6 +72,38 @@ public class Drive extends Subsystem {
 
         }
     };
+    private Rotation2d mGyroOffset;
+
+    private Drive() {
+        periodicIO = new PeriodicIO();
+        mCSVWriter = new ReflectingCSVWriter<PeriodicIO>("", PeriodicIO.class);
+        reset();
+        mMotionPlanner = new DriveMotionPlanner();
+    }
+
+    public static Drive getInstance() {
+        return m_DriveInstance;
+    }
+
+    private static double rotationsToInches(double rotations) {
+        return rotations * (Constants.kDriveWheelDiameterInches * Math.PI);
+    }
+
+    private static double rpmToInchesPerSecond(double rpm) {
+        return rotationsToInches(rpm) / 60;
+    }
+
+    private static double inchesToRotations(double inches) {
+        return inches / (Constants.kDriveWheelDiameterInches * Math.PI);
+    }
+
+    private static double inchesPerSecondToRpm(double inches_per_second) {
+        return inchesToRotations(inches_per_second) * 60;
+    }
+
+    private static double radiansPerSecondToTicksPer100ms(double rad_s) {
+        return rad_s / (Math.PI * 2.0) * 4096.0 / 10.0;
+    }
 
     public synchronized Rotation2d getHeading() {
         return periodicIO.gyro_heading;
@@ -97,47 +118,34 @@ public class Drive extends Subsystem {
         periodicIO.gyro_heading = heading;
     }
 
-    public double getLeftEncoder(){
+    public double getLeftEncoder() {
         //TODO implement value retrieval
         return 0;
     }
 
-    public double getLeftVelocity(){
+    public double getLeftVelocity() {
         //TODO implement value retrieval
         return 0;
     }
 
-    public double getRightEncoder(){
+    public double getRightEncoder() {
         //TODO implement value retrieval
         return 0;
     }
 
-    public double getRightVelocity(){
+    public double getRightVelocity() {
         //TODO implement value retrieval
         return 0;
     }
 
-
-    public void setOperatorInput(double[] input){
+    public void setOperatorInput(double[] input) {
         operatorInput = input;
     }
 
-    public void reset(){
+    public void reset() {
         //TODO add reset with sensor impl
 
     }
-
-    private static double rotationsToInches(double rotations) { return rotations * (Constants.kDriveWheelDiameterInches * Math.PI); }
-
-    private static double rpmToInchesPerSecond(double rpm) {
-        return rotationsToInches(rpm) / 60;
-    }
-
-    private static double inchesToRotations(double inches) { return inches / (Constants.kDriveWheelDiameterInches * Math.PI); }
-
-    private static double inchesPerSecondToRpm(double inches_per_second) { return inchesToRotations(inches_per_second) * 60; }
-
-    private static double radiansPerSecondToTicksPer100ms(double rad_s) { return rad_s / (Math.PI * 2.0) * 4096.0 / 10.0; }
 
     public double getLeftEncoderRotations() {
         return periodicIO.left_position_ticks / Constants.DRIVE_ENCODER_PPR;
@@ -159,19 +167,25 @@ public class Drive extends Subsystem {
         return periodicIO.right_velocity_ticks_per_100ms;
     }
 
-    public double getRightLinearVelocity() { return rotationsToInches(getRightVelocityNativeUnits() * 10.0 / Constants.DRIVE_ENCODER_PPR); }
+    public double getRightLinearVelocity() {
+        return rotationsToInches(getRightVelocityNativeUnits() * 10.0 / Constants.DRIVE_ENCODER_PPR);
+    }
 
     public double getLeftVelocityNativeUnits() {
         return periodicIO.left_velocity_ticks_per_100ms;
     }
 
-    public double getLeftLinearVelocity() { return rotationsToInches(getLeftVelocityNativeUnits() * 10.0 / Constants.DRIVE_ENCODER_PPR); }
+    public double getLeftLinearVelocity() {
+        return rotationsToInches(getLeftVelocityNativeUnits() * 10.0 / Constants.DRIVE_ENCODER_PPR);
+    }
 
     public double getLinearVelocity() {
         return (getLeftLinearVelocity() + getRightLinearVelocity()) / 2.0;
     }
 
-    public double getAngularVelocity() { return (getRightLinearVelocity() - getLeftLinearVelocity()) / Constants.kDriveWheelTrackWidthInches; }
+    public double getAngularVelocity() {
+        return (getRightLinearVelocity() - getLeftLinearVelocity()) / Constants.kDriveWheelTrackWidthInches;
+    }
 
     public void overrideTrajectory(boolean value) {
         mOverrideTrajectory = value;
@@ -186,7 +200,7 @@ public class Drive extends Subsystem {
             // DriveSignal signal = new DriveSignal(demand.left_feedforward_voltage / 12.0, demand.right_feedforward_voltage / 12.0);
 
             periodicIO.error = mMotionPlanner.error();
-            periodicIO.path_setpoint = mMotionPlanner.setpoint(); //TODO use setpoint to set outputs?
+            periodicIO.path_setpoint = mMotionPlanner.setpoint();
 
             if (!mOverrideTrajectory) {
                 setVelocity(new DriveSignal(radiansPerSecondToTicksPer100ms(output.left_velocity), radiansPerSecondToTicksPer100ms(output.right_velocity)),
@@ -209,7 +223,7 @@ public class Drive extends Subsystem {
     public synchronized void setOpenLoop(DriveSignal signal) {
         if (mDriveControlState != DriveControlState.OPEN_LOOP) {
             System.out.println("Switching to open loop");
-            System.out.println(signal);
+            /*System.out.println(signal);*/
             mDriveControlState = DriveControlState.OPEN_LOOP;
         }
         periodicIO.left_demand = signal.getLeft();
@@ -224,6 +238,7 @@ public class Drive extends Subsystem {
     public synchronized void setVelocity(DriveSignal signal, DriveSignal feedforward) {
         if (mDriveControlState != DriveControlState.PATH_FOLLOWING) {
             // We entered a velocity control state.
+            //TODO configure motor control for velocity
 
             mDriveControlState = DriveControlState.PATH_FOLLOWING;
         }
@@ -253,11 +268,11 @@ public class Drive extends Subsystem {
     public synchronized void readPeriodicInputs() {
         double prevLeftTicks = periodicIO.left_position_ticks;
         double prevRightTicks = periodicIO.right_position_ticks;
-        periodicIO.left_position_ticks = 0; //TODO Add data source
-        periodicIO.right_position_ticks = 0; //TODO Add data source
-        periodicIO.left_velocity_ticks_per_100ms = 0; //TODO Add data source
-        periodicIO.right_velocity_ticks_per_100ms = 0; //TODO Add data source
-        periodicIO.gyro_heading = Rotation2d.fromDegrees(0).rotateBy(mGyroOffset); //TODO Add data source
+        periodicIO.left_position_ticks = 0; //TODO Add data source replacing zero
+        periodicIO.right_position_ticks = 0; //TODO Add data source replacing zero
+        periodicIO.left_velocity_ticks_per_100ms = 0; //TODO Add data source replacing zero
+        periodicIO.right_velocity_ticks_per_100ms = 0; //TODO Add data source replacing zero
+        periodicIO.gyro_heading = Rotation2d.fromDegrees(0).rotateBy(mGyroOffset); //TODO Add data source replacing zero
 
         double deltaLeftTicks = ((periodicIO.left_position_ticks - prevLeftTicks) / 4096.0) * Math.PI;
         if (deltaLeftTicks > 0.0) {
@@ -283,9 +298,11 @@ public class Drive extends Subsystem {
     @Override
     public synchronized void writePeriodicOutputs() {
         if (mDriveControlState == DriveControlState.OPEN_LOOP) {
+            //TODO write open loop outputs
             //mLeftMaster.set(ControlMode.PercentOutput, periodicIO.left_demand, DemandType.ArbitraryFeedForward, 0.0);
             //mRightMaster.set(ControlMode.PercentOutput, periodicIO.right_demand, DemandType.ArbitraryFeedForward, 0.0);
         } else {
+            //TODO write velocity control mode outputs
             //mLeftMaster.set(ControlMode.Velocity, periodicIO.left_demand, DemandType.ArbitraryFeedForward,
             //       periodicIO.left_feedforward + Constants.kDriveLowGearVelocityKd * periodicIO.left_accel / 1023.0);
             //mRightMaster.set(ControlMode.Velocity, periodicIO.right_demand, DemandType.ArbitraryFeedForward,
@@ -302,13 +319,21 @@ public class Drive extends Subsystem {
         }
     }
 
+    public synchronized void startLogging() {
+        if (mCSVWriter == null) {
+            mCSVWriter = new ReflectingCSVWriter<>("/home/lvuser/DRIVE-LOGS.csv", PeriodicIO.class);
+        }
+    }
+
     @Override
     public void stop() {
 
     }
 
     enum DriveControlState {
-        OPEN_LOOP, PATH_FOLLOWING, PROFILING_TEST;
+        OPEN_LOOP,
+        PATH_FOLLOWING,
+        PROFILING_TEST;
 
         @Override
         public String toString() {

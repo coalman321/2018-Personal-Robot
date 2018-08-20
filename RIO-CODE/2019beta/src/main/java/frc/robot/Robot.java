@@ -33,7 +33,6 @@ public class Robot extends TimedRobot {
             RobotStateEstimator.getInstance(),
             Drive.getInstance()
     ));
-    private Drive mDrive = Drive.getInstance();
     private Looper mEnabledLooper = new Looper();
     private Looper mDisabledLooper = new Looper();
 
@@ -104,6 +103,13 @@ public class Robot extends TimedRobot {
 
     @Override
     public void testPeriodic() {
+    }
+
+    public void outputTelemetry(){
+        Drive.getInstance().outputTelemetry();
+        RobotState.getInstance().outputTelemetry();
+
+
     }
 }
 

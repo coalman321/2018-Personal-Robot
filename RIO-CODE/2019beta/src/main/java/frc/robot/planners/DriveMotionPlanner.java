@@ -49,6 +49,7 @@ public class DriveMotionPlanner implements CSVWritable {
 
     DifferentialDrive.ChassisState prev_velocity_ = new DifferentialDrive.ChassisState();
     double mDt = 0.0;
+    private double angularPosition = 0.0;
 
     public DriveMotionPlanner() {
         final DCMotorTransmission transmission = new DCMotorTransmission(
@@ -81,6 +82,7 @@ public class DriveMotionPlanner implements CSVWritable {
         mError = Pose2d.identity();
         mOutput = new Output();
         mLastTime = Double.POSITIVE_INFINITY;
+        anngularPosition = 0;
     }
 
     public Trajectory<TimedState<Pose2dWithCurvature>> generateTrajectory(
@@ -202,7 +204,7 @@ public class DriveMotionPlanner implements CSVWritable {
         }
 
         //TODO calculate outputs
-        //adjusted_velocity.angular; //integrate to get result riemann
+        double angularPosition += adjusted_velocity.angular * mDt;
         //adjusted_velocity.linear; //straight return for velocity control
 
         return null;
@@ -243,7 +245,7 @@ public class DriveMotionPlanner implements CSVWritable {
         }
 
         //TODO calculate outputs
-        //adjusted_velocity.angular; //integrate to get result riemann
+        double angularPosition += adjusted_velocity.angular * mDt;
         //adjusted_velocity.linear; //straight return for velocity control
 
         return null;
@@ -268,7 +270,7 @@ public class DriveMotionPlanner implements CSVWritable {
                                 .getTranslation().y()));
 
         //TODO calculate outputs
-        //adjusted_velocity.angular; //integrate to get result riemann
+        double angularPosition += adjusted_velocity.angular * mDt;
         //adjusted_velocity.linear; //straight return for velocity control
 
         return null;
@@ -298,11 +300,7 @@ public class DriveMotionPlanner implements CSVWritable {
                             acceleration_m * curvature_m + velocity_m * velocity_m * dcurvature_ds_m));
             mError = current_state.inverse().transformBy(mSetpoint.state().getPose());
 
-            /*if (mFollowerType == FollowerType.FEEDFORWARD_ONLY) {
-                mOutput = new Output(dynamics.wheel_velocity.left, dynamics.wheel_velocity.right, dynamics
-                        .wheel_acceleration.left, dynamics.wheel_acceleration.right, dynamics.voltage
-                        .left, dynamics.voltage.right);
-            } else */ if (mFollowerType == FollowerType.PURE_PURSUIT) {
+            if (mFollowerType == FollowerType.PURE_PURSUIT) {
                 mOutput = updatePurePursuit(dynamics, current_state);
             } else if (mFollowerType == FollowerType.PID) {
                 mOutput = updatePID(dynamics, current_state);

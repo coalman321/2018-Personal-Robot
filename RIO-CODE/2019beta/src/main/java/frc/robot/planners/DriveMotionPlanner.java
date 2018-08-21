@@ -191,8 +191,7 @@ public class DriveMotionPlanner implements CSVWritable {
         final double kPathKX = 5.0;
         final double kPathKY = 1.0;
         final double kPathKTheta = 5.0;
-        adjusted_velocity.linear = dynamics.chassis_velocity.linear + kPathKX * Units.inches_to_meters
-                (mError.getTranslation().x());
+        adjusted_velocity.linear = dynamics.chassis_velocity.linear + kPathKX * Units.inches_to_meters(mError.getTranslation().x());
         adjusted_velocity.angular = dynamics.chassis_velocity.angular + dynamics.chassis_velocity.linear * kPathKY *
                 Units.inches_to_meters(mError.getTranslation().y()) + kPathKTheta * mError.getRotation().getRadians();
 
@@ -203,6 +202,8 @@ public class DriveMotionPlanner implements CSVWritable {
         }
 
         //TODO calculate outputs
+        //adjusted_velocity.angular;
+        //adjusted_velocity.linear;
 
         return null;
     }
@@ -242,6 +243,8 @@ public class DriveMotionPlanner implements CSVWritable {
         }
 
         //TODO calculate outputs
+        //adjusted_velocity.angular;
+        //adjusted_velocity.linear;
 
         return null;
     }
@@ -265,6 +268,8 @@ public class DriveMotionPlanner implements CSVWritable {
                                 .getTranslation().y()));
 
         //TODO calculate outputs
+        //adjusted_velocity.angular;
+        //adjusted_velocity.linear;
 
         return null;
     }

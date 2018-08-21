@@ -202,8 +202,8 @@ public class DriveMotionPlanner implements CSVWritable {
         }
 
         //TODO calculate outputs
-        //adjusted_velocity.angular;
-        //adjusted_velocity.linear;
+        //adjusted_velocity.angular; //integrate to get result riemann
+        //adjusted_velocity.linear; //straight return for velocity control
 
         return null;
     }
@@ -243,8 +243,8 @@ public class DriveMotionPlanner implements CSVWritable {
         }
 
         //TODO calculate outputs
-        //adjusted_velocity.angular;
-        //adjusted_velocity.linear;
+        //adjusted_velocity.angular; //integrate to get result riemann
+        //adjusted_velocity.linear; //straight return for velocity control
 
         return null;
     }
@@ -268,8 +268,8 @@ public class DriveMotionPlanner implements CSVWritable {
                                 .getTranslation().y()));
 
         //TODO calculate outputs
-        //adjusted_velocity.angular;
-        //adjusted_velocity.linear;
+        //adjusted_velocity.angular; //integrate to get result riemann
+        //adjusted_velocity.linear; //straight return for velocity control
 
         return null;
     }

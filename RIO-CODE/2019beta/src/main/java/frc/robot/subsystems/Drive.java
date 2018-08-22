@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.Timer;
 import frc.lib.geometry.Pose2d;
 import frc.lib.geometry.Pose2dWithCurvature;
 import frc.lib.geometry.Rotation2d;
+import frc.lib.loops.ILooper;
 import frc.lib.loops.Loop;
 import frc.lib.trajectory.PurePursuitController;
 import frc.lib.trajectory.TrajectoryIterator;
@@ -24,7 +25,6 @@ public class Drive extends Subsystem {
     private static Drive m_DriveInstance = new Drive();
     private DriveControlState mDriveControlState = DriveControlState.OPEN_LOOP;
     private DriveMotionPlanner mMotionPlanner;
-    private PurePursuitController pathFollowingController;
     private ReflectingCSVWriter<PeriodicIO> mCSVWriter;
     private PeriodicIO periodicIO;
     private boolean mOverrideTrajectory = false;
@@ -203,14 +203,13 @@ public class Drive extends Subsystem {
             periodicIO.path_setpoint = mMotionPlanner.setpoint();
 
             if (!mOverrideTrajectory) {
-                setVelocity(new DriveSignal(radiansPerSecondToTicksPer100ms(output.left_velocity), radiansPerSecondToTicksPer100ms(output.right_velocity)),
-                        new DriveSignal(output.left_feedforward_voltage / 12.0, output.right_feedforward_voltage / 12.0));
+                setVelocity(new DriveSignal(radiansPerSecondToTicksPer100ms(output.linear_velocity), Math.toDegrees(output.angular_position))
+                        /*, new DriveSignal(output.left_feedforward_voltage / 12.0, output.right_feedforward_voltage / 12.0)*/);
 
-                periodicIO.left_accel = radiansPerSecondToTicksPer100ms(output.left_accel) / 1000.0;
-                periodicIO.right_accel = radiansPerSecondToTicksPer100ms(output.right_accel) / 1000.0;
+                //periodicIO.left_accel = radiansPerSecondToTicksPer100ms(output.left_accel) / 1000.0; //unused
+                //periodicIO.right_accel = radiansPerSecondToTicksPer100ms(output.right_accel) / 1000.0; //unused
             } else {
-                setVelocity(DriveSignal.BRAKE, DriveSignal.BRAKE);
-                periodicIO.left_accel = periodicIO.right_accel = 0.0;
+                setVelocity(DriveSignal.BRAKE/*, DriveSignal.BRAKE*/);
             }
         } else {
             DriverStation.reportError("Drive is not in path following state", false);
@@ -228,14 +227,14 @@ public class Drive extends Subsystem {
         }
         periodicIO.left_demand = signal.getLeft();
         periodicIO.right_demand = signal.getRight();
-        periodicIO.left_feedforward = 0.0;
-        periodicIO.right_feedforward = 0.0;
+        //periodicIO.left_feedforward = 0.0; //unused
+        //periodicIO.right_feedforward = 0.0; //unused
     }
 
     /**
      * Configures talons for velocity control
      */
-    public synchronized void setVelocity(DriveSignal signal, DriveSignal feedforward) {
+    public synchronized void setVelocity(DriveSignal signal/*, DriveSignal feedforward*/) {
         if (mDriveControlState != DriveControlState.PATH_FOLLOWING) {
             // We entered a velocity control state.
             //TODO configure motor control for velocity
@@ -244,8 +243,8 @@ public class Drive extends Subsystem {
         }
         periodicIO.left_demand = signal.getLeft();
         periodicIO.right_demand = signal.getRight();
-        periodicIO.left_feedforward = feedforward.getLeft();
-        periodicIO.right_feedforward = feedforward.getRight();
+        //periodicIO.left_feedforward = feedforward.getLeft(); //unused
+        //periodicIO.right_feedforward = feedforward.getRight(); //unused
     }
 
     public synchronized void setTrajectory(TrajectoryIterator<TimedState<Pose2dWithCurvature>> trajectory) {
@@ -326,6 +325,11 @@ public class Drive extends Subsystem {
     }
 
     @Override
+    public void registerEnabledLoops(ILooper enabledLooper) {
+        enabledLooper.register(mLoop);
+    }
+
+    @Override
     public void stop() {
 
     }
@@ -355,10 +359,10 @@ public class Drive extends Subsystem {
         // OUTPUTS
         public double left_demand;
         public double right_demand;
-        public double left_accel;
-        public double right_accel;
-        public double left_feedforward;
-        public double right_feedforward;
+        //public double left_accel; //unused
+        //public double right_accel; //unused
+        //public double left_feedforward; //unused
+        //public double right_feedforward; //unused
         public TimedState<Pose2dWithCurvature> path_setpoint = new TimedState<Pose2dWithCurvature>(Pose2dWithCurvature.identity());
     }
 

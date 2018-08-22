@@ -39,7 +39,6 @@ public class DriveMotionPlanner implements CSVWritable {
     }
 
     final DifferentialDrive mModel;
-
     TrajectoryIterator<TimedState<Pose2dWithCurvature>> mCurrentTrajectory;
     boolean mIsReversed = false;
     double mLastTime = Double.POSITIVE_INFINITY;
@@ -82,7 +81,7 @@ public class DriveMotionPlanner implements CSVWritable {
         mError = Pose2d.identity();
         mOutput = new Output();
         mLastTime = Double.POSITIVE_INFINITY;
-        anngularPosition = 0;
+        angularPosition = 0;
     }
 
     public Trajectory<TimedState<Pose2dWithCurvature>> generateTrajectory(
@@ -143,48 +142,29 @@ public class DriveMotionPlanner implements CSVWritable {
     @Override
     public String toCSV() {
         DecimalFormat fmt = new DecimalFormat("#0.000");
-        return fmt.format(mOutput.left_velocity) + "," + fmt.format(mOutput.right_velocity) + "," + fmt.format
-                (mOutput.left_feedforward_voltage) + "," + fmt.format(mOutput.right_feedforward_voltage) + "," +
-                mSetpoint.toCSV();
+        return fmt.format(mOutput.linear_velocity) + "," + fmt.format(mOutput.angular_position) + "," + fmt.format
+                (mOutput.angular_velocity) + "," + mSetpoint.toCSV();
     }
 
     public static class Output {
         public Output() {
         }
 
-        public Output(double left_velocity, double right_velocity, double left_accel, double right_accel,
-                      double left_feedforward_voltage, double
-                              right_feedforward_voltage) {
-            this.left_velocity = left_velocity;
-            this.right_velocity = right_velocity;
-            this.left_accel = left_accel;
-            this.right_accel = right_accel;
-            this.left_feedforward_voltage = left_feedforward_voltage;
-            this.right_feedforward_voltage = right_feedforward_voltage;
+        public Output(double linear_velocity, double angular_position, double angular_velocity, double linear_accel) {
+            this.linear_velocity = linear_velocity;
+            this.angular_position = angular_position;
+            this.angular_velocity = angular_velocity;
+            this.linear_accel = linear_accel;
+
         }
 
-        public double left_velocity;  // rad/s
-        public double right_velocity;  // rad/s
+        public double angular_position; // rad
 
-        public double left_accel;  // rad/s^2
-        public double right_accel;  // rad/s^2
+        public double linear_velocity;  // rad/s -- may not hold true
+        public double angular_velocity;  // rad/s
 
-        public double left_feedforward_voltage;
-        public double right_feedforward_voltage;
+        public double linear_accel;  // rad/s^2 --may not hold true
 
-        public void flip() {
-            double tmp_left_velocity = left_velocity;
-            left_velocity = -right_velocity;
-            right_velocity = -tmp_left_velocity;
-
-            double tmp_left_accel = left_accel;
-            left_accel = -right_accel;
-            right_accel = -tmp_left_accel;
-
-            double tmp_left_feedforward = left_feedforward_voltage;
-            left_feedforward_voltage = -right_feedforward_voltage;
-            right_feedforward_voltage = -tmp_left_feedforward;
-        }
     }
 
     protected Output updatePID(DifferentialDrive.DriveDynamics dynamics, Pose2d current_state) {
@@ -204,10 +184,10 @@ public class DriveMotionPlanner implements CSVWritable {
         }
 
         //TODO calculate outputs
-        double angularPosition += adjusted_velocity.angular * mDt;
+        angularPosition += adjusted_velocity.angular * mDt;
         //adjusted_velocity.linear; //straight return for velocity control
 
-        return null;
+        return new Output(adjusted_velocity.linear, angularPosition, adjusted_velocity.angular, 0.0);
     }
 
     protected Output updatePurePursuit(DifferentialDrive.DriveDynamics dynamics, Pose2d current_state) {
@@ -245,10 +225,10 @@ public class DriveMotionPlanner implements CSVWritable {
         }
 
         //TODO calculate outputs
-        double angularPosition += adjusted_velocity.angular * mDt;
+        angularPosition += adjusted_velocity.angular * mDt;
         //adjusted_velocity.linear; //straight return for velocity control
 
-        return null;
+        return new Output(adjusted_velocity.linear, angularPosition, adjusted_velocity.angular, 0.0);
     }
 
     protected Output updateNonlinearFeedback(DifferentialDrive.DriveDynamics dynamics, Pose2d current_state) {
@@ -270,10 +250,10 @@ public class DriveMotionPlanner implements CSVWritable {
                                 .getTranslation().y()));
 
         //TODO calculate outputs
-        double angularPosition += adjusted_velocity.angular * mDt;
+        angularPosition += adjusted_velocity.angular * mDt;
         //adjusted_velocity.linear; //straight return for velocity control
 
-        return null;
+        return new Output(adjusted_velocity.linear, angularPosition, adjusted_velocity.angular, 0.0);
     }
 
     public Output update(double timestamp, Pose2d current_state) {

@@ -17,7 +17,7 @@ public class DriveMotionPlannerTest {
 
     //TODO re-enable these tests
 
-    //@Test
+    @Test
     public void testForwardSwerveRight() {
         System.out.println("testing Pure pursuit forward swerve right");
         DriveMotionPlanner motion_planner = new DriveMotionPlanner();
@@ -41,9 +41,10 @@ public class DriveMotionPlannerTest {
         }
     }
 
-    //@Test
+    @Test
     public void testForwardSwerveLeft() {
         System.out.println("testing PID forward swerve left");
+        System.out.println("time, velocity, accel, ");
         DriveMotionPlanner motion_planner = new DriveMotionPlanner();
         motion_planner.setFollowerType(DriveMotionPlanner.FollowerType.PID);
         motion_planner.setTrajectory(new TrajectoryIterator<>(new TimedView<>(motion_planner.generateTrajectory
@@ -63,7 +64,7 @@ public class DriveMotionPlannerTest {
         }
     }
 
-    //@Test
+    @Test
     public void testReverseSwerveLeft() {
         System.out.println("testing nonlinear reverse swerve left");
         DriveMotionPlanner motion_planner = new DriveMotionPlanner();
@@ -83,7 +84,7 @@ public class DriveMotionPlannerTest {
         }
     }
 
-    //@Test
+    @Test
     public void testForwardReverseSame() {
         System.out.println("testing pure pursuit forward reverse same");
         DriveMotionPlanner fwd_motion_planner = new DriveMotionPlanner();
@@ -111,15 +112,11 @@ public class DriveMotionPlannerTest {
         Pose2d rev_pose = rev_motion_planner.setpoint().state().getPose().transformBy(start_error_rev);
         while (!fwd_motion_planner.isDone() || !rev_motion_planner.isDone()) {
             DriveMotionPlanner.Output fwd_output = fwd_motion_planner.update(t, fwd_pose);
-            Twist2d fwd_delta = Kinematics.forwardKinematics(fwd_output.left_velocity * dt * Constants
-                    .kDriveWheelDiameterInches / 2.0, fwd_output.right_velocity * dt * Constants
-                    .kDriveWheelDiameterInches / 2.0);
+            Twist2d fwd_delta = Kinematics.forwardKinematics2(fwd_output.linear_velocity , fwd_output.angular_velocity);
             fwd_pose = fwd_pose.transformBy(Pose2d.exp(fwd_delta));
             //System.out.println("FWD Delta: " + fwd_delta + ", Pose: " + fwd_pose);
             DriveMotionPlanner.Output rev_output = rev_motion_planner.update(t, rev_pose);
-            Twist2d rev_delta = Kinematics.forwardKinematics(rev_output.left_velocity * dt * Constants
-                    .kDriveWheelDiameterInches / 2.0, rev_output.right_velocity * dt * Constants
-                    .kDriveWheelDiameterInches / 2.0);
+            Twist2d rev_delta = Kinematics.forwardKinematics2(rev_output.linear_velocity, rev_output.angular_velocity);
             rev_pose = rev_pose.transformBy(Pose2d.exp(rev_delta));
             //System.out.println("REV Delta: " + rev_delta + ", Pose: " + rev_pose);
             System.out.println(fwd_motion_planner.toCSV() + "," + rev_motion_planner.toCSV());
@@ -127,7 +124,7 @@ public class DriveMotionPlannerTest {
         }
     }
 
-    //@Test
+    @Test
     public void testFollowerReachesGoal() {
         System.out.println("testing nonlinear reaches goal");
         final DriveMotionPlanner motion_planner = new DriveMotionPlanner();
@@ -144,9 +141,7 @@ public class DriveMotionPlannerTest {
         Pose2d pose = motion_planner.setpoint().state().getPose().transformBy(initial_error);
         while (!motion_planner.isDone()) {
             DriveMotionPlanner.Output output = motion_planner.update(t, pose);
-            Twist2d delta = Kinematics.forwardKinematics(output.left_velocity * dt * Constants
-                    .kDriveWheelDiameterInches / 2.0, output.right_velocity * dt * Constants
-                    .kDriveWheelDiameterInches / 2.0);
+            Twist2d delta = Kinematics.forwardKinematics2(output.linear_velocity, output.angular_velocity);
             // Add some systemic error.
             delta = new Twist2d(delta.dx * 1.0, delta.dy * 1.0, delta.dtheta * 1.05);
             pose = pose.transformBy(Pose2d.exp(delta));

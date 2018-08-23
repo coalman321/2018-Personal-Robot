@@ -11,15 +11,16 @@ import frc.robot.Constants;
 import frc.robot.Kinematics;
 import org.junit.jupiter.api.Test;
 
+import java.text.DecimalFormat;
 import java.util.Arrays;
 
 public class DriveMotionPlannerTest {
 
-    //TODO re-enable these tests
+    public DecimalFormat fmt = new DecimalFormat("#0.000");
 
     @Test
     public void testForwardSwerveRight() {
-        System.out.println("testing Pure pursuit forward swerve right -- DMP Standard analysis");
+        System.out.println("testing forward swerve right -- DMP Standard analysis");
         DriveMotionPlanner motion_planner = new DriveMotionPlanner();
         motion_planner.setFollowerType(DriveMotionPlanner.FollowerType.PURE_PURSUIT);
         motion_planner.setTrajectory(new TrajectoryIterator<>(new TimedView<>(motion_planner.generateTrajectory
@@ -36,14 +37,14 @@ public class DriveMotionPlannerTest {
             pose = motion_planner.mSetpoint.state().getPose();//.transformBy(new Pose2d(new Translation2d(0.0, 1.0),
             // Rotation2d.fromDegrees(2.0)));
 
-            System.out.println(t + "," + motion_planner.toCSV());
+            System.out.println(fmt.format(t) + "," + motion_planner.toCSV());
             t += 0.01;// + (2.0 * Math.random() - 1.0) * 0.002;
         }
     }
 
     @Test
     public void testForwardSwerveLeft() {
-        System.out.println("testing PID forward swerve left -- DMP Standard analysis");
+        System.out.println("testing forward swerve left -- DMP Standard analysis");
         DriveMotionPlanner motion_planner = new DriveMotionPlanner();
         motion_planner.setFollowerType(DriveMotionPlanner.FollowerType.PID);
         motion_planner.setTrajectory(new TrajectoryIterator<>(new TimedView<>(motion_planner.generateTrajectory
@@ -58,14 +59,14 @@ public class DriveMotionPlannerTest {
             motion_planner.update(t, pose);
             pose = motion_planner.mSetpoint.state().getPose();//.transformBy(new Pose2d(new Translation2d(0.0, -1.0),
             // Rotation2d.fromDegrees(-2.0)));
-            System.out.println(t + "," + motion_planner.toCSV());
+            System.out.println(fmt.format(t) + "," + motion_planner.toCSV());
             t += 0.01;
         }
     }
 
     @Test
     public void testReverseSwerveLeft() {
-        System.out.println("testing nonlinear reverse swerve left -- DMP Standard analysis");
+        System.out.println("testing reverse swerve left -- DMP Standard analysis");
         DriveMotionPlanner motion_planner = new DriveMotionPlanner();
         motion_planner.setTrajectory(new TrajectoryIterator<>(new TimedView<>(motion_planner.generateTrajectory
                 (true, Arrays.asList(new Pose2d(new Translation2d(240.0, 0.0), Rotation2d.identity()),
@@ -78,14 +79,14 @@ public class DriveMotionPlannerTest {
         while (!motion_planner.isDone()) {
             motion_planner.update(t, pose);
             pose = motion_planner.mSetpoint.state().getPose();
-            System.out.println(t + "," + motion_planner.toCSV());
+            System.out.println(fmt.format(t) + "," + motion_planner.toCSV());
             t += 0.01;
         }
     }
 
     @Test
     public void testForwardReverseSame() {
-        System.out.println("testing pure pursuit forward reverse same  -- DMP ForwardRev analysis");
+        System.out.println("testing forward reverse same  -- DMP ForwardRev analysis");
         DriveMotionPlanner fwd_motion_planner = new DriveMotionPlanner();
         fwd_motion_planner.setFollowerType(DriveMotionPlanner.FollowerType.PURE_PURSUIT);
         fwd_motion_planner.setTrajectory(new TrajectoryIterator<>(new TimedView<>(fwd_motion_planner.generateTrajectory
@@ -111,21 +112,21 @@ public class DriveMotionPlannerTest {
         Pose2d rev_pose = rev_motion_planner.setpoint().state().getPose().transformBy(start_error_rev);
         while (!fwd_motion_planner.isDone() || !rev_motion_planner.isDone()) {
             DriveMotionPlanner.Output fwd_output = fwd_motion_planner.update(t, fwd_pose);
-            Twist2d fwd_delta = Kinematics.forwardKinematics2(fwd_output.linear_velocity , fwd_output.angular_velocity);
+            Twist2d fwd_delta = Kinematics.forwardKinematics2(fwd_output.linear_velocity * dt , fwd_output.angular_velocity * dt);
             fwd_pose = fwd_pose.transformBy(Pose2d.exp(fwd_delta));
             //System.out.println("FWD Delta: " + fwd_delta + ", Pose: " + fwd_pose);
             DriveMotionPlanner.Output rev_output = rev_motion_planner.update(t, rev_pose);
-            Twist2d rev_delta = Kinematics.forwardKinematics2(rev_output.linear_velocity, rev_output.angular_velocity);
+            Twist2d rev_delta = Kinematics.forwardKinematics2(rev_output.linear_velocity * dt, rev_output.angular_velocity * dt);
             rev_pose = rev_pose.transformBy(Pose2d.exp(rev_delta));
             //System.out.println("REV Delta: " + rev_delta + ", Pose: " + rev_pose);
-            System.out.println(t + "," +fwd_motion_planner.toCSV() + "," + rev_motion_planner.toCSV());
+            System.out.println(fmt.format(t) + "," +fwd_motion_planner.toCSV() + "," + rev_motion_planner.toCSV());
             t += dt;
         }
     }
 
     @Test
     public void testFollowerReachesGoal() {
-        System.out.println("testing nonlinear reaches goal -- DMP FollowerReachesGoal analysis");
+        System.out.println("testing follower reaches goal -- DMP FollowerReachesGoal analysis");
         final DriveMotionPlanner motion_planner = new DriveMotionPlanner();
         motion_planner.setFollowerType(DriveMotionPlanner.FollowerType.NONLINEAR_FEEDBACK);
         motion_planner.setTrajectory(new TrajectoryIterator<>(new TimedView<>(motion_planner.generateTrajectory
@@ -140,12 +141,13 @@ public class DriveMotionPlannerTest {
         Pose2d pose = motion_planner.setpoint().state().getPose().transformBy(initial_error);
         while (!motion_planner.isDone()) {
             DriveMotionPlanner.Output output = motion_planner.update(t, pose);
-            Twist2d delta = Kinematics.forwardKinematics2(output.linear_velocity, output.angular_velocity);
+            //System.out.println("linVel: " + fmt.format(output.linear_velocity) + " angVel: " + fmt.format(output.angular_velocity) );
+            Twist2d delta = Kinematics.forwardKinematics2(output.linear_velocity * dt, output.angular_velocity * dt);
             // Add some systemic error.
             delta = new Twist2d(delta.dx * 1.0, delta.dy * 1.0, delta.dtheta * 1.05);
             pose = pose.transformBy(Pose2d.exp(delta));
             t += dt;
-            System.out.println(t + "," +motion_planner.toCSV() + "," + pose.toCSV());
+            System.out.println(fmt.format(t) + "," +motion_planner.toCSV() + "," + pose.toCSV());
         }
         System.out.println(pose);
     }
@@ -165,7 +167,7 @@ public class DriveMotionPlannerTest {
         while (!motion_planner.isDone()) {
             motion_planner.update(t, pose);
             pose = motion_planner.mSetpoint.state().getPose();
-            System.out.println(t + "," + motion_planner.toCSV());
+            System.out.println(fmt.format(t) + "," + motion_planner.toCSV());
             t += 0.01;
         }
     }

@@ -45,8 +45,6 @@ public class DriveMotionPlanner implements CSVWritable {
     public TimedState<Pose2dWithCurvature> mSetpoint = new TimedState<>(Pose2dWithCurvature.identity());
     Pose2d mError = Pose2d.identity();
     Output mOutput = new Output();
-
-    DifferentialDrive.ChassisState prev_velocity_ = new DifferentialDrive.ChassisState();
     double mDt = 0.0;
     private double angularPosition = 0.0;
 
@@ -160,10 +158,10 @@ public class DriveMotionPlanner implements CSVWritable {
 
         public double angular_position; // rad
 
-        public double linear_velocity;  // rad/s -- may not hold true
+        public double linear_velocity;  // m/s
         public double angular_velocity;  // rad/s
 
-        public double linear_accel;  // rad/s^2 --may not hold true
+        public double linear_accel;  // m/s^2
 
     }
 
@@ -183,11 +181,10 @@ public class DriveMotionPlanner implements CSVWritable {
             adjusted_velocity.angular = dynamics.chassis_velocity.angular;
         }
 
-        //TODO calculate outputs
         angularPosition += adjusted_velocity.angular * mDt;
         //adjusted_velocity.linear; //straight return for velocity control
 
-        return new Output(adjusted_velocity.linear, angularPosition, adjusted_velocity.angular, 0.0);
+        return new Output(Units.meters_to_inches(adjusted_velocity.linear), (angularPosition), (adjusted_velocity.angular), 0.0);
     }
 
     protected Output updatePurePursuit(DifferentialDrive.DriveDynamics dynamics, Pose2d current_state) {
@@ -224,11 +221,10 @@ public class DriveMotionPlanner implements CSVWritable {
             adjusted_velocity.angular = curvature * dynamics.chassis_velocity.linear;
         }
 
-        //TODO calculate outputs
         angularPosition += adjusted_velocity.angular * mDt;
         //adjusted_velocity.linear; //straight return for velocity control
 
-        return new Output(adjusted_velocity.linear, angularPosition, adjusted_velocity.angular, 0.0);
+        return new Output(Units.meters_to_inches(adjusted_velocity.linear), (angularPosition), (adjusted_velocity.angular), 0.0);
     }
 
     protected Output updateNonlinearFeedback(DifferentialDrive.DriveDynamics dynamics, Pose2d current_state) {
@@ -242,18 +238,15 @@ public class DriveMotionPlanner implements CSVWritable {
 
         // Compute error components.
         final double angle_error_rads = mError.getRotation().getRadians();
-        final double sin_x_over_x = Util.epsilonEquals(angle_error_rads, 0.0, 1E-2) ? 1.0 : mError.getRotation().sin() / angle_error_rads; //zero or sin(x) / x
+        final double sin_x_over_x = Util.epsilonEquals(angle_error_rads, 0.0, 1E-2) ? 1.0 : mError.getRotation().sin() / angle_error_rads; // one or sin(x) / x
         final DifferentialDrive.ChassisState adjusted_velocity = new DifferentialDrive.ChassisState(
                 dynamics.chassis_velocity.linear * mError.getRotation().cos() + k * Units.inches_to_meters(mError.getTranslation().x()),
-                dynamics.chassis_velocity.angular + k * angle_error_rads +
-                        dynamics.chassis_velocity.linear * kBeta * sin_x_over_x * Units.inches_to_meters(mError
-                                .getTranslation().y()));
+                dynamics.chassis_velocity.angular + k * angle_error_rads + dynamics.chassis_velocity.linear * kBeta * sin_x_over_x * Units.inches_to_meters(mError.getTranslation().y()));
 
-        //TODO calculate outputs
         angularPosition += adjusted_velocity.angular * mDt;
         //adjusted_velocity.linear; //straight return for velocity control
 
-        return new Output(adjusted_velocity.linear, angularPosition, adjusted_velocity.angular, 0.0);
+        return new Output(Units.meters_to_inches(adjusted_velocity.linear), (angularPosition), (adjusted_velocity.angular), 0.0);
     }
 
     public Output update(double timestamp, Pose2d current_state) {

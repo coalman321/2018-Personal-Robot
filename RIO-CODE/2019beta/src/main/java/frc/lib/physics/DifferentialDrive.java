@@ -165,8 +165,7 @@ public class DifferentialDrive {
     }
 
     // Solve for torques and voltages.
-    public DriveDynamics solveInverseDynamics(final ChassisState chassis_velocity, final ChassisState
-            chassis_acceleration) {
+    public DriveDynamics solveInverseDynamics(final ChassisState chassis_velocity, final ChassisState chassis_acceleration) {
         DriveDynamics dynamics = new DriveDynamics();
         dynamics.chassis_velocity = chassis_velocity;
         dynamics.curvature = dynamics.chassis_velocity.angular / dynamics.chassis_velocity.linear;

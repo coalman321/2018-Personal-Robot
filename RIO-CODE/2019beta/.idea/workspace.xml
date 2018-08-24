@@ -50,11 +50,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="RobotStateEstimator.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="RobotStateEstimator.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/frc/robot/subsystems/RobotStateEstimator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-680">
-              <caret line="1" selection-start-line="1" selection-end-line="1" />
+            <state relative-caret-position="268">
+              <caret line="69" column="113" selection-start-line="69" selection-start-column="113" selection-end-line="69" selection-end-column="113" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -62,23 +62,49 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RobotState.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/frc/robot/RobotState.java">
+      <file leaf-file-name="Drive.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/frc/robot/subsystems/Drive.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="176">
-              <caret line="67" column="47" selection-start-line="67" selection-start-column="47" selection-end-line="67" selection-end-column="47" />
+            <state relative-caret-position="400">
+              <caret line="167" column="93" selection-start-line="167" selection-start-column="93" selection-end-line="167" selection-end-column="93" />
+              <folding>
+                <element signature="e#4184#4185#0" expanded="true" />
+                <element signature="e#4253#4254#0" expanded="true" />
+                <element signature="e#4305#4306#0" expanded="true" />
+                <element signature="e#4370#4371#0" expanded="true" />
+                <element signature="e#4576#4577#0" expanded="true" />
+                <element signature="e#4613#4614#0" expanded="true" />
+                <element signature="e#4746#4747#0" expanded="true" />
+                <element signature="e#4789#4790#0" expanded="true" />
+                <element signature="e#10935#10936#0" expanded="true" />
+                <element signature="e#10980#10981#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DriveSystemTest.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/frc/robot/DriveSystemTest.java">
+      <file leaf-file-name="DriveMotionPlanner.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/frc/robot/planners/DriveMotionPlanner.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="9" column="44" selection-start-line="9" selection-start-column="44" selection-end-line="9" selection-end-column="44" />
+            <state relative-caret-position="349">
+              <caret line="255" column="64" selection-start-line="255" selection-start-column="64" selection-end-line="255" selection-end-column="64" />
               <folding>
-                <element signature="imports" expanded="true" />
+                <element signature="e#14846#14847#0" expanded="true" />
+                <element signature="e#14926#14927#0" expanded="true" />
+                <element signature="e#14955#14956#0" expanded="true" />
+                <element signature="e#14984#14985#0" expanded="true" />
+                <element signature="e#15041#15042#0" expanded="true" />
+                <element signature="e#15073#15074#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DriveSignal.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/frc/lib/util/DriveSignal.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="391">
+              <caret line="29" column="5" lean-forward="true" selection-start-line="29" selection-start-column="5" selection-end-line="29" selection-end-column="5" />
             </state>
           </provider>
         </entry>
@@ -95,17 +121,17 @@
       <file leaf-file-name="Kinematics.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/frc/robot/Kinematics.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="816">
-              <caret line="50" selection-start-line="50" selection-end-line="50" />
+            <state relative-caret-position="512">
+              <caret line="41" column="5" selection-start-line="41" selection-start-column="5" selection-end-line="41" selection-end-column="5" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Twist2d.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/frc/lib/geometry/Twist2d.java">
+      <file leaf-file-name="RobotState.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/frc/robot/RobotState.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
+            <state relative-caret-position="493">
+              <caret line="57" column="51" selection-start-line="57" selection-start-column="51" selection-end-line="57" selection-end-column="51" />
             </state>
           </provider>
         </entry>
@@ -125,6 +151,7 @@
       <find>mPeriodicIO</find>
       <find>chassisState</find>
       <find>now</find>
+      <find>r</find>
     </findStrings>
     <replaceStrings>
       <replace>frc.</replace>
@@ -408,7 +435,7 @@
     </option>
     <option name="modificationStamps">
       <map>
-        <entry key="$PROJECT_DIR$" value="6135213839575" />
+        <entry key="$PROJECT_DIR$" value="6138137166724" />
         <entry key="$PROJECT_DIR$/.gradle" value="0" />
         <entry key="$PROJECT_DIR$/build.gradle" value="3028432288" />
         <entry key="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" value="2371942159" />
@@ -632,7 +659,6 @@
         <option value="$PROJECT_DIR$/src/test/java/frc/lib/trajectory/PurePursuitControllerTest.java" />
         <option value="$PROJECT_DIR$/src/test/java/frc/lib/trajectory/TrajectoryIteratorTest.java" />
         <option value="$PROJECT_DIR$/src/test/java/frc/lib/trajectory/TrajectoryTest.java" />
-        <option value="$PROJECT_DIR$/src/test/java/frc/lib/trajectory/IntegrationTest.java" />
         <option value="$PROJECT_DIR$/src/test/java/frc/lib/trajectory/timing/TimingUtilTest.java" />
         <option value="$PROJECT_DIR$/src/test/java/frc/robot/planners/SuperstructureMotionPlannerTest.java" />
         <option value="$PROJECT_DIR$/src/test/java/frc/robot/paths/TrajectoryGeneratorTest.java" />
@@ -645,20 +671,23 @@
         <option value="$PROJECT_DIR$/src/main/java/frc/lib/trajectory/timing/TimedState.java" />
         <option value="$PROJECT_DIR$/src/main/java/frc/lib/trajectory/TrajectoryIterator.java" />
         <option value="$PROJECT_DIR$/src/main/java/frc/robot/Robot.java" />
-        <option value="$PROJECT_DIR$/src/main/java/frc/robot/RobotState.java" />
         <option value="$PROJECT_DIR$/src/main/java/frc/lib/physics/DCMotorTransmission.java" />
         <option value="$PROJECT_DIR$/src/main/java/frc/lib/spline/CubicHermiteSpline.java" />
         <option value="$PROJECT_DIR$/src/main/java/frc/lib/spline/Spline.java" />
-        <option value="$PROJECT_DIR$/src/main/java/frc/robot/subsystems/Drive.java" />
         <option value="$PROJECT_DIR$/../test visualization/testPlot.plt" />
         <option value="$PROJECT_DIR$/../test visualization/DMP--ForwardRev.plt" />
-        <option value="$PROJECT_DIR$/src/main/java/frc/robot/Kinematics.java" />
         <option value="$PROJECT_DIR$/src/main/java/frc/lib/physics/DifferentialDrive.java" />
         <option value="$PROJECT_DIR$/../test visualization/DMP--FollowerReachGoal.plt" />
-        <option value="$PROJECT_DIR$/src/main/java/frc/robot/planners/DriveMotionPlanner.java" />
         <option value="$PROJECT_DIR$/src/test/java/frc/robot/planners/DriveMotionPlannerTest.java" />
-        <option value="$PROJECT_DIR$/src/main/java/frc/robot/subsystems/RobotStateEstimator.java" />
         <option value="$PROJECT_DIR$/src/test/java/frc/robot/DriveSystemTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/frc/robot/subsystems/RobotStateEstimator.java" />
+        <option value="$PROJECT_DIR$/src/main/java/frc/robot/RobotState.java" />
+        <option value="$PROJECT_DIR$/src/main/java/frc/robot/Kinematics.java" />
+        <option value="$PROJECT_DIR$/src/main/java/frc/lib/util/DriveSignal.java" />
+        <option value="$PROJECT_DIR$/src/main/java/frc/robot/planners/DriveMotionPlanner.java" />
+        <option value="$PROJECT_DIR$/src/main/java/frc/lib/trajectory/timing/DifferentialDriveDynamicsConstraint.java" />
+        <option value="$PROJECT_DIR$/src/test/java/frc/lib/trajectory/IntegrationTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/frc/robot/subsystems/Drive.java" />
       </list>
     </option>
   </component>
@@ -673,9 +702,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
-      <pane id="AndroidView" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -717,6 +745,26 @@
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="frc" type="462c0819:PsiDirectoryNode" />
               <item name="robot" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="2019beta" type="b2602c69:ProjectViewProjectNode" />
+              <item name="2019beta" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="frc" type="462c0819:PsiDirectoryNode" />
+              <item name="robot" type="462c0819:PsiDirectoryNode" />
+              <item name="planners" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="2019beta" type="b2602c69:ProjectViewProjectNode" />
+              <item name="2019beta" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="frc" type="462c0819:PsiDirectoryNode" />
+              <item name="robot" type="462c0819:PsiDirectoryNode" />
+              <item name="subsystems" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="2019beta" type="b2602c69:ProjectViewProjectNode" />
@@ -766,6 +814,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="AndroidView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -793,7 +842,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.DriveSystemTest.testRobotPose">
+  <component name="RunManager" selected="Gradle.2019beta [build]">
     <configuration default="true" type="Application" factoryName="Application">
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
     </configuration>
@@ -1023,15 +1072,6 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="DriveMotionPlannerTest - 2018.08.22 at 21h 44m 40s.xml">
-      <configuration name="DriveMotionPlannerTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="DriveMotionPlannerTest - 2018.08.22 at 21h 46m 50s.xml">
-      <configuration name="DriveMotionPlannerTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="DriveMotionPlannerTest - 2018.08.22 at 21h 58m 26s.xml">
-      <configuration name="DriveMotionPlannerTest" configurationId="JUnit" />
-    </history-entry>
     <history-entry file="DriveMotionPlannerTest - 2018.08.22 at 22h 00m 28s.xml">
       <configuration name="DriveMotionPlannerTest" configurationId="JUnit" />
     </history-entry>
@@ -1053,6 +1093,15 @@
     <history-entry file="DriveSystemTest_testRobotPose - 2018.08.23 at 11h 53m 15s.xml">
       <configuration name="DriveSystemTest.testRobotPose" configurationId="JUnit" />
     </history-entry>
+    <history-entry file="2019beta_[test] - 2018.08.23 at 19h 59m 02s.xml">
+      <configuration name="2019beta [test]" configurationId="GradleRunConfiguration" />
+    </history-entry>
+    <history-entry file="2019beta_[test] - 2018.08.23 at 20h 15m 33s.xml">
+      <configuration name="2019beta [test]" configurationId="GradleRunConfiguration" />
+    </history-entry>
+    <history-entry file="2019beta_[test] - 2018.08.23 at 21h 43m 34s.xml">
+      <configuration name="2019beta [test]" configurationId="GradleRunConfiguration" />
+    </history-entry>
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1064,24 +1113,24 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1550" height="878" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1096" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
-      <window_info anchor="bottom" id="TODO" order="6" weight="0.32749325" />
-      <window_info anchor="bottom" id="Messages" order="9" weight="0.4235589" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32672232" />
       <window_info anchor="right" id="Palette&#9;" order="4" />
       <window_info id="Image Layers" order="7" />
       <window_info anchor="right" id="Capture Analysis" order="5" />
       <window_info anchor="bottom" id="Event Log" order="13" side_tool="true" />
       <window_info anchor="right" id="Maven Projects" order="7" />
       <window_info anchor="bottom" id="Version Control" order="13" show_stripe_button="false" />
-      <window_info anchor="bottom" x="0" y="23" width="1536" height="841" id="Run" order="2" type="WINDOWED" weight="0.4039666" />
+      <window_info anchor="bottom" x="0" y="23" width="1536" height="841" id="Run" order="2" weight="0.4039666" />
       <window_info anchor="bottom" id="Terminal" order="13" weight="0.32985386" />
       <window_info id="Capture Tool" order="7" />
       <window_info id="Designer" order="7" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1704698" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.17217484" />
       <window_info anchor="bottom" id="FRC" order="13" />
-      <window_info anchor="bottom" id="Tail" order="8" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32881" />
       <window_info anchor="right" id="Gradle" order="6" weight="0.3281879" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -1089,20 +1138,21 @@
       <window_info anchor="right" id="Theme Preview" order="8" />
       <window_info id="Favorites" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Tail" order="8" />
+      <window_info anchor="bottom" id="Messages" order="9" weight="0.4235589" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Build" order="13" weight="0.26617953" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32881" />
     </layout>
     <layout-to-restore>
-      <window_info anchor="bottom" id="Build" order="9" weight="0.26684636" />
+      <window_info anchor="bottom" id="Build" order="9" weight="0.26617953" />
       <window_info id="Designer" order="2" />
       <window_info anchor="right" id="Palette" order="3" />
       <window_info id="Image Layers" order="3" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.32881" />
+      <window_info anchor="bottom" x="0" y="23" width="1536" height="841" id="Run" order="2" type="WINDOWED" weight="0.4039666" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info id="UI Designer" order="4" />
@@ -1114,14 +1164,14 @@
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
       <window_info anchor="bottom" id="FRC" order="12" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32881" />
+      <window_info anchor="bottom" id="Find" order="1" visible="true" weight="0.32881" />
       <window_info anchor="bottom" id="Version Control" order="13" show_stripe_button="false" />
       <window_info anchor="right" id="Maven Projects" order="7" />
       <window_info anchor="right" id="Gradle" order="6" weight="0.3281879" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1641791" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.17217484" />
       <window_info anchor="bottom" id="Messages" order="8" weight="0.4235589" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="TODO" order="6" weight="0.32881" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32749325" />
       <window_info anchor="right" id="Palette&#9;" order="4" />
       <window_info anchor="right" id="Theme Preview" order="8" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -1134,10 +1184,8 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/test/java/frc/lib/trajectory/PurePursuitControllerTest.java" />
     <entry file="file://$PROJECT_DIR$/src/test/java/frc/lib/trajectory/TrajectoryIteratorTest.java" />
     <entry file="file://$PROJECT_DIR$/src/test/java/frc/lib/trajectory/timing/TimingUtilTest.java" />
-    <entry file="file://$PROJECT_DIR$/src/test/java/frc/lib/trajectory/IntegrationTest.java" />
     <entry file="file://$PROJECT_DIR$/src/test/java/frc/lib/geometry/TestSE2Math.java" />
     <entry file="file://$PROJECT_DIR$/src/test/java/frc/lib/trajectory/TrajectoryTest.java" />
     <entry file="file://$PROJECT_DIR$/src/test/java/frc/robot/planners/SuperstructureMotionPlannerTest.java" />
@@ -1149,13 +1197,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/frc/robot/paths/TrajectoryGeneratorTest.java" />
-    <entry file="file://$PROJECT_DIR$/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="881">
-          <caret line="76" column="17" selection-start-line="76" selection-start-column="17" selection-end-line="76" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/frc/robot/paths/TrajectoryGenerator.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="323">
@@ -1216,13 +1257,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-544">
           <caret line="12" column="28" lean-forward="true" selection-start-line="12" selection-start-column="28" selection-end-line="12" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/frc/lib/util/DriveSignal.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
         </state>
       </provider>
     </entry>
@@ -1360,13 +1394,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/frc/robot/subsystems/Drive.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="211" column="70" selection-start-line="211" selection-start-column="70" selection-end-line="211" selection-end-column="70" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/frc/lib/geometry/Pose2d.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
@@ -1381,13 +1408,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/frc/robot/Kinematics.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="816">
-          <caret line="50" selection-start-line="50" selection-end-line="50" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../test visualization/DMP--FollowerReachGoal.plt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="816">
@@ -1395,17 +1415,34 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/frc/robot/planners/DriveMotionPlanner.java">
+    <entry file="file://$PROJECT_DIR$/src/test/java/frc/robot/DriveSystemTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3808">
-          <caret line="244" selection-start-line="244" selection-end-line="244" />
+        <state relative-caret-position="68">
+          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/frc/robot/planners/DriveMotionPlannerTest.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/frc/robot/subsystems/RobotStateEstimator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="231">
-          <caret line="127" column="16" selection-start-line="127" selection-start-column="16" selection-end-line="127" selection-end-column="16" />
+        <state relative-caret-position="268">
+          <caret line="69" column="113" selection-start-line="69" selection-start-column="113" selection-end-line="69" selection-end-column="113" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/frc/robot/RobotState.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="493">
+          <caret line="57" column="51" selection-start-line="57" selection-start-column="51" selection-end-line="57" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/frc/robot/Kinematics.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="512">
+          <caret line="41" column="5" selection-start-line="41" selection-start-column="5" selection-end-line="41" selection-end-column="5" />
         </state>
       </provider>
     </entry>
@@ -1416,29 +1453,71 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/frc/robot/DriveSystemTest.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/frc/lib/util/DriveSignal.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="44" selection-start-line="9" selection-start-column="44" selection-end-line="9" selection-end-column="44" />
+        <state relative-caret-position="391">
+          <caret line="29" column="5" lean-forward="true" selection-start-line="29" selection-start-column="5" selection-end-line="29" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/frc/robot/planners/DriveMotionPlannerTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="231">
+          <caret line="127" column="16" selection-start-line="127" selection-start-column="16" selection-end-line="127" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/frc/robot/planners/DriveMotionPlanner.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="349">
+          <caret line="255" column="64" selection-start-line="255" selection-start-column="64" selection-end-line="255" selection-end-column="64" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#14846#14847#0" expanded="true" />
+            <element signature="e#14926#14927#0" expanded="true" />
+            <element signature="e#14955#14956#0" expanded="true" />
+            <element signature="e#14984#14985#0" expanded="true" />
+            <element signature="e#15041#15042#0" expanded="true" />
+            <element signature="e#15073#15074#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/frc/robot/RobotState.java">
+    <entry file="file://$PROJECT_DIR$/src/test/java/frc/lib/trajectory/IntegrationTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="67" column="47" selection-start-line="67" selection-start-column="47" selection-end-line="67" selection-end-column="47" />
+        <state relative-caret-position="-559">
+          <caret line="57" column="114" lean-forward="true" selection-start-line="57" selection-start-column="114" selection-end-line="57" selection-end-column="114" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/frc/robot/subsystems/RobotStateEstimator.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/frc/lib/trajectory/timing/DifferentialDriveDynamicsConstraint.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-680">
-          <caret line="1" selection-start-line="1" selection-end-line="1" />
+        <state relative-caret-position="382">
+          <caret line="30" column="23" lean-forward="true" selection-start-line="30" selection-start-column="23" selection-end-line="30" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1292">
+          <caret line="76" column="17" selection-start-line="76" selection-start-column="17" selection-end-line="76" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/frc/robot/subsystems/Drive.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="400">
+          <caret line="167" column="93" selection-start-line="167" selection-start-column="93" selection-end-line="167" selection-end-column="93" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#4184#4185#0" expanded="true" />
+            <element signature="e#4253#4254#0" expanded="true" />
+            <element signature="e#4305#4306#0" expanded="true" />
+            <element signature="e#4370#4371#0" expanded="true" />
+            <element signature="e#4576#4577#0" expanded="true" />
+            <element signature="e#4613#4614#0" expanded="true" />
+            <element signature="e#4746#4747#0" expanded="true" />
+            <element signature="e#4789#4790#0" expanded="true" />
+            <element signature="e#10935#10936#0" expanded="true" />
+            <element signature="e#10980#10981#0" expanded="true" />
           </folding>
         </state>
       </provider>

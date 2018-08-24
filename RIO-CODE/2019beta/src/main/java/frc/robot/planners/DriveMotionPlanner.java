@@ -249,6 +249,12 @@ public class DriveMotionPlanner implements CSVWritable {
         return new Output(Units.meters_to_inches(adjusted_velocity.linear), (angularPosition), (adjusted_velocity.angular), 0.0);
     }
 
+    /**
+     *
+     * @param timestamp current time from fpga
+     * @param current_state current pose of the robot
+     * @return linear velocity (in/s) and angular position (rad)
+     */
     public Output update(double timestamp, Pose2d current_state) {
         if (mCurrentTrajectory == null) return new Output();
 

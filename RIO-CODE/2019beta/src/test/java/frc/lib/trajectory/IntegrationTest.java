@@ -34,11 +34,8 @@ public class IntegrationTest {
         Trajectory<Translation2d> reference_trajectory = new Trajectory<>(waypoints);
 
         // Generate a smooth (continuous curvature) path to follow.
-        IPathFollower path_follower = new PurePursuitController<Translation2d>(
-                new DistanceView<>(reference_trajectory), /* sampling_dist */1.0, /* lookahead= */ 6.0,
-                /* goal_tolerance= */ 0.1);
-        Trajectory<Pose2dWithCurvature> smooth_path = TrajectoryUtil.trajectoryFromPathFollower(path_follower,
-                Pose2dWithCurvature.identity(), /* step_size= */ 1.0, /* dcurvature_limit= */1.0);
+        IPathFollower path_follower = new PurePursuitController<Translation2d>(new DistanceView<>(reference_trajectory),1.0,6.0, 0.1);
+        Trajectory<Pose2dWithCurvature> smooth_path = TrajectoryUtil.trajectoryFromPathFollower(path_follower, Pose2dWithCurvature.identity(), 1.0,1.0);
 
         assertFalse(smooth_path.isEmpty());
         System.out.println(smooth_path.toCSV());
@@ -58,8 +55,7 @@ public class IntegrationTest {
                 new Pose2d(200.0, 70, Rotation2d.fromDegrees(45.0)));
 
         // Create a trajectory from splines.
-        Trajectory<Pose2dWithCurvature> trajectory = TrajectoryUtil.trajectoryFromSplineWaypoints(waypoints, 2.0,
-                0.2, Math.toRadians(5.0));
+        Trajectory<Pose2dWithCurvature> trajectory = TrajectoryUtil.trajectoryFromSplineWaypoints(waypoints, 2.0, 0.2, Math.toRadians(5.0));
         // System.out.println(trajectory.toCSV());
         // Create a differential drive.
         final double kRobotMassKg = 60.0;

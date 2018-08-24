@@ -32,7 +32,7 @@ public class Kinematics {
         return new Twist2d(dx, dy, prev_heading.inverse().rotateBy(current_heading).getRadians());
     }
 
-    public static Twist2d forwardKinematics(Rotation2d prev_heading, double x_delta, Rotation2d current_heading){
+    public static Twist2d forwardKinematics2(double x_delta, Rotation2d prev_heading, Rotation2d current_heading){
         final double dy = 0.0;
         return new Twist2d(x_delta, dy, prev_heading.inverse().rotateBy(current_heading).getRadians());
     }

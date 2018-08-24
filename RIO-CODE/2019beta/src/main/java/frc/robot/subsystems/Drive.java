@@ -7,7 +7,6 @@ import frc.lib.geometry.Pose2dWithCurvature;
 import frc.lib.geometry.Rotation2d;
 import frc.lib.loops.ILooper;
 import frc.lib.loops.Loop;
-import frc.lib.trajectory.PurePursuitController;
 import frc.lib.trajectory.TrajectoryIterator;
 import frc.lib.trajectory.timing.TimedState;
 import frc.lib.util.DriveSignal;
@@ -118,24 +117,26 @@ public class Drive extends Subsystem {
         periodicIO.gyro_heading = heading;
     }
 
-    public double getLeftEncoder() {
-        //TODO implement value retrieval
-        return 0;
+    public double getLinearEncoderRotations() {
+        return periodicIO.linear_position_ticks / Constants.DRIVE_ENCODER_PPR;
     }
 
-    public double getLeftVelocity() {
-        //TODO implement value retrieval
-        return 0;
+    /**
+     * @return linear position (in)
+     */
+    public double getLinearPosition() {
+        return rotationsToInches(getLinearEncoderRotations());
     }
 
-    public double getRightEncoder() {
-        //TODO implement value retrieval
-        return 0;
+    public double getLinearVelocityNativeUnits() {
+        return periodicIO.linear_velocity_ticks_per_100ms;
     }
 
-    public double getRightVelocity() {
-        //TODO implement value retrieval
-        return 0;
+    /**
+     * @return linear velocity (in/s)
+     */
+    public double getLinearVelocity() {
+        return rotationsToInches(getLinearVelocityNativeUnits() * 10.0 / Constants.DRIVE_ENCODER_PPR);
     }
 
     public void setOperatorInput(double[] input) {
@@ -145,46 +146,6 @@ public class Drive extends Subsystem {
     public void reset() {
         //TODO add reset with sensor impl
 
-    }
-
-    public double getLeftEncoderRotations() {
-        return periodicIO.left_position_ticks / Constants.DRIVE_ENCODER_PPR;
-    }
-
-    public double getRightEncoderRotations() {
-        return periodicIO.right_position_ticks / Constants.DRIVE_ENCODER_PPR;
-    }
-
-    public double getLeftEncoderDistance() {
-        return rotationsToInches(getLeftEncoderRotations());
-    }
-
-    public double getRightEncoderDistance() {
-        return rotationsToInches(getRightEncoderRotations());
-    }
-
-    public double getRightVelocityNativeUnits() {
-        return periodicIO.right_velocity_ticks_per_100ms;
-    }
-
-    public double getRightLinearVelocity() {
-        return rotationsToInches(getRightVelocityNativeUnits() * 10.0 / Constants.DRIVE_ENCODER_PPR);
-    }
-
-    public double getLeftVelocityNativeUnits() {
-        return periodicIO.left_velocity_ticks_per_100ms;
-    }
-
-    public double getLeftLinearVelocity() {
-        return rotationsToInches(getLeftVelocityNativeUnits() * 10.0 / Constants.DRIVE_ENCODER_PPR);
-    }
-
-    public double getLinearVelocity() {
-        return (getLeftLinearVelocity() + getRightLinearVelocity()) / 2.0;
-    }
-
-    public double getAngularVelocity() {
-        return (getRightLinearVelocity() - getLeftLinearVelocity()) / Constants.kDriveWheelTrackWidthInches;
     }
 
     public void overrideTrajectory(boolean value) {
@@ -203,13 +164,11 @@ public class Drive extends Subsystem {
             periodicIO.path_setpoint = mMotionPlanner.setpoint();
 
             if (!mOverrideTrajectory) {
-                setVelocity(new DriveSignal(radiansPerSecondToTicksPer100ms(output.linear_velocity), Math.toDegrees(output.angular_position))
-                        /*, new DriveSignal(output.left_feedforward_voltage / 12.0, output.right_feedforward_voltage / 12.0)*/);
+                setVelocity(new DriveSignal(inchesPerSecondToRpm(output.linear_velocity), Math.toDegrees(output.angular_position)));
+                //TODO will require additional math to convert from heading to steering angle
 
-                //periodicIO.left_accel = radiansPerSecondToTicksPer100ms(output.left_accel) / 1000.0; //unused
-                //periodicIO.right_accel = radiansPerSecondToTicksPer100ms(output.right_accel) / 1000.0; //unused
             } else {
-                setVelocity(DriveSignal.BRAKE/*, DriveSignal.BRAKE*/);
+                setVelocity(DriveSignal.BRAKE);
             }
         } else {
             DriverStation.reportError("Drive is not in path following state", false);
@@ -225,10 +184,8 @@ public class Drive extends Subsystem {
             /*System.out.println(signal);*/
             mDriveControlState = DriveControlState.OPEN_LOOP;
         }
-        periodicIO.left_demand = signal.getLeft();
-        periodicIO.right_demand = signal.getRight();
-        //periodicIO.left_feedforward = 0.0; //unused
-        //periodicIO.right_feedforward = 0.0; //unused
+        periodicIO.linear_demand = signal.getLinear();
+        periodicIO.angular_demand = signal.getAngular();
     }
 
     /**
@@ -241,10 +198,8 @@ public class Drive extends Subsystem {
 
             mDriveControlState = DriveControlState.PATH_FOLLOWING;
         }
-        periodicIO.left_demand = signal.getLeft();
-        periodicIO.right_demand = signal.getRight();
-        //periodicIO.left_feedforward = feedforward.getLeft(); //unused
-        //periodicIO.right_feedforward = feedforward.getRight(); //unused
+        periodicIO.linear_demand = signal.getLinear(); //TODO convert to native units
+        periodicIO.angular_demand = signal.getAngular(); //TODO convert to native units
     }
 
     public synchronized void setTrajectory(TrajectoryIterator<TimedState<Pose2dWithCurvature>> trajectory) {
@@ -265,46 +220,47 @@ public class Drive extends Subsystem {
 
     @Override
     public synchronized void readPeriodicInputs() {
-        double prevLeftTicks = periodicIO.left_position_ticks;
-        double prevRightTicks = periodicIO.right_position_ticks;
-        periodicIO.left_position_ticks = 0; //TODO Add data source replacing zero
-        periodicIO.right_position_ticks = 0; //TODO Add data source replacing zero
-        periodicIO.left_velocity_ticks_per_100ms = 0; //TODO Add data source replacing zero
-        periodicIO.right_velocity_ticks_per_100ms = 0; //TODO Add data source replacing zero
+        double prevLeftTicks = periodicIO.linear_position_ticks;
+        double prevAngularTicks = periodicIO.angular_positon_ticks;
+        periodicIO.linear_position_ticks = 0; //TODO Add data source replacing zero
+        periodicIO.angular_positon_ticks = 0; //TODO Add data source replacing zero
+        periodicIO.linear_velocity_ticks_per_100ms = 0; //TODO Add data source replacing zero
+        periodicIO.angular_velocity_ticks_per_100ms = 0; //TODO Add data source replacing zero
         periodicIO.gyro_heading = Rotation2d.fromDegrees(0).rotateBy(mGyroOffset); //TODO Add data source replacing zero
 
-        double deltaLeftTicks = ((periodicIO.left_position_ticks - prevLeftTicks) / 4096.0) * Math.PI;
-        if (deltaLeftTicks > 0.0) {
-            periodicIO.left_distance += deltaLeftTicks * Constants.kDriveWheelDiameterInches;
+        double deltaLinearTicks = ((periodicIO.linear_position_ticks - prevLeftTicks) / 4096.0) * Math.PI;
+        if (deltaLinearTicks > 0.0) {
+            periodicIO.linear_distance += deltaLinearTicks * Constants.kDriveWheelDiameterInches;
         } else {
-            periodicIO.left_distance += deltaLeftTicks * Constants.kDriveWheelDiameterInches;
+            periodicIO.linear_distance += deltaLinearTicks * Constants.kDriveWheelDiameterInches;
         }
 
-        double deltaRightTicks = ((periodicIO.right_position_ticks - prevRightTicks) / 4096.0) * Math.PI;
+        /*
+        double deltaRightTicks = ((periodicIO.angular_positon_ticks - prevAngularTicks) / 4096.0) * Math.PI;
         if (deltaRightTicks > 0.0) {
             periodicIO.right_distance += deltaRightTicks * Constants.kDriveWheelDiameterInches;
         } else {
             periodicIO.right_distance += deltaRightTicks * Constants.kDriveWheelDiameterInches;
-        }
+        }*/
 
         if (mCSVWriter != null) {
             mCSVWriter.add(periodicIO);
         }
 
-        // System.out.println("control state: " + mDriveControlState + ", left: " + periodicIO.left_demand + ", right: " + periodicIO.right_demand);
+        // System.out.println("control state: " + mDriveControlState + ", left: " + periodicIO.linear_demand + ", right: " + periodicIO.angular_demand);
     }
 
     @Override
     public synchronized void writePeriodicOutputs() {
         if (mDriveControlState == DriveControlState.OPEN_LOOP) {
             //TODO write open loop outputs
-            //mLeftMaster.set(ControlMode.PercentOutput, periodicIO.left_demand, DemandType.ArbitraryFeedForward, 0.0);
-            //mRightMaster.set(ControlMode.PercentOutput, periodicIO.right_demand, DemandType.ArbitraryFeedForward, 0.0);
+            //mLeftMaster.set(ControlMode.PercentOutput, periodicIO.linear_demand, DemandType.ArbitraryFeedForward, 0.0);
+            //mRightMaster.set(ControlMode.PercentOutput, periodicIO.angular_demand, DemandType.ArbitraryFeedForward, 0.0);
         } else {
             //TODO write velocity control mode outputs
-            //mLeftMaster.set(ControlMode.Velocity, periodicIO.left_demand, DemandType.ArbitraryFeedForward,
+            //mLeftMaster.set(ControlMode.Velocity, periodicIO.linear_demand, DemandType.ArbitraryFeedForward,
             //       periodicIO.left_feedforward + Constants.kDriveLowGearVelocityKd * periodicIO.left_accel / 1023.0);
-            //mRightMaster.set(ControlMode.Velocity, periodicIO.right_demand, DemandType.ArbitraryFeedForward,
+            //mRightMaster.set(ControlMode.Velocity, periodicIO.angular_demand, DemandType.ArbitraryFeedForward,
             //       periodicIO.right_feedforward + Constants.kDriveLowGearVelocityKd * periodicIO.right_accel / 1023.0);
         }
     }
@@ -347,22 +303,17 @@ public class Drive extends Subsystem {
 
     public static class PeriodicIO {
         // INPUTS
-        public int left_position_ticks;
-        public int right_position_ticks;
-        public double left_distance;
-        public double right_distance;
-        public int left_velocity_ticks_per_100ms;
-        public int right_velocity_ticks_per_100ms;
+        public int linear_position_ticks;
+        public double linear_distance;
+        public int linear_velocity_ticks_per_100ms;
+        public double angular_positon_ticks;
+        public int angular_velocity_ticks_per_100ms;
         public Rotation2d gyro_heading = Rotation2d.identity();
         public Pose2d error = Pose2d.identity();
 
         // OUTPUTS
-        public double left_demand;
-        public double right_demand;
-        //public double left_accel; //unused
-        //public double right_accel; //unused
-        //public double left_feedforward; //unused
-        //public double right_feedforward; //unused
+        public double linear_demand;
+        public double angular_demand;
         public TimedState<Pose2dWithCurvature> path_setpoint = new TimedState<Pose2dWithCurvature>(Pose2dWithCurvature.identity());
     }
 

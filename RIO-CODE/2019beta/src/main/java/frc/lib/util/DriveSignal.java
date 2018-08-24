@@ -1,32 +1,32 @@
 package frc.lib.util;
 
 /**
- * A drivetrain command consisting of the left, right motor settings and whether the brake mode is enabled.
+ * A drivetrain command consisting of the linear and angular motor settings and whether the brake mode is enabled.
  */
 public class DriveSignal {
-    protected double mLeftMotor;
-    protected double mRightMotor;
+    protected double mLinearMotor;
+    protected double mAngularMotor;
     protected boolean mBrakeMode;
 
-    public DriveSignal(double left, double right) {
-        this(left, right, false);
+    public DriveSignal(double linear, double angular) {
+        this(linear, angular, false);
     }
 
-    public DriveSignal(double left, double right, boolean brakeMode) {
-        mLeftMotor = left;
-        mRightMotor = right;
+    public DriveSignal(double linear, double angular, boolean brakeMode) {
+        mLinearMotor = linear;
+        mAngularMotor = angular;
         mBrakeMode = brakeMode;
     }
 
     public static final DriveSignal NEUTRAL = new DriveSignal(0, 0);
     public static final DriveSignal BRAKE = new DriveSignal(0, 0, true);
 
-    public double getLeft() {
-        return mLeftMotor;
+    public double getLinear() {
+        return mLinearMotor;
     }
 
-    public double getRight() {
-        return mRightMotor;
+    public double getAngular() {
+        return mAngularMotor;
     }
 
     public boolean getBrakeMode() {
@@ -35,6 +35,6 @@ public class DriveSignal {
 
     @Override
     public String toString() {
-        return "L: " + mLeftMotor + ", R: " + mRightMotor + (mBrakeMode ? ", BRAKE" : "");
+        return "L: " + mLinearMotor + ", R: " + mAngularMotor + (mBrakeMode ? ", BRAKE" : "");
     }
 }

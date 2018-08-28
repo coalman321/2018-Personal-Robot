@@ -22,6 +22,9 @@ public class Constants {
     public static final double kDriveWheelTrackWidthInches = 25.54;
     public static final double kDriveWheelDiameterInches = 3.92820959548 * 0.99;
     public static final double kDriveWheelRadiusInches = kDriveWheelDiameterInches / 2.0;
+    public static final double kDriveLength = 2; //m TODO measure wheel to wheel length
+    public static final double kDriveTurnMin = -40; //deg TODO measure
+    public static final double kDriveTurnMax = 50; //deg TODO measure
     public static final double kTrackScrubFactor = 1.0;  // Tune me!
     public static final double kRobotLinearInertia = 60.0;  // kg TODO tune
     public static final double kRobotAngularInertia = 10.0;  // kg m^2 TODO tune

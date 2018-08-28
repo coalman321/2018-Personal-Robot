@@ -1,14 +1,20 @@
 package frc.lib.util;
 
 import edu.wpi.first.wpilibj.Joystick;
+import javafx.scene.chart.Axis;
 
 public class HIDHelper {
 
+    /**
+     *
+     * @param constants HID constants
+     * @return double array following X(0), Y(1), Z(2)
+     */
     public static double[] getAdjStick(HIDConstants constants) {
         double[] out = new double[3];
         out[0] = applyScalarCut(constants.joystick.getX(), constants.deadBand, constants.scalarCutX, constants.polyFunct);
-        out[1] = applyScalarCut(constants.joystick.getX(), constants.deadBand, constants.scalarCutY, constants.polyFunct);
-        out[2] = applyScalarCut(constants.joystick.getX(), constants.deadBand, constants.scalarCutZ, constants.polyFunct);
+        out[1] = applyScalarCut(constants.joystick.getY(), constants.deadBand, constants.scalarCutY, constants.polyFunct);
+        out[2] = applyScalarCut(constants.joystick.getZ(), constants.deadBand, constants.scalarCutZ, constants.polyFunct);
         return out;
     }
 
@@ -27,6 +33,10 @@ public class HIDHelper {
                 return Math.pow(stickInpt, pow);
             }
         }
+    }
+
+    public static double getAxisMapped(double input, double min_output, double max_output){
+        return (input - -1) * (max_output - min_output) / (1 - -1) + max_output;
     }
 
     public static class HIDConstants{

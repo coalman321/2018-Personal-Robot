@@ -48,7 +48,7 @@ public class Drive extends Subsystem {
 
                     case PROFILING_TEST:
                         if (DriverStation.getInstance().isAutonomous()) {
-                            //driveTank(Constants.MP_TEST_SPEED, Constants.MP_TEST_SPEED);
+                            setVelocity(new DriveSignal(Constants.MP_TEST_SPEED, 0));
                         }
                         break;
 
@@ -56,6 +56,9 @@ public class Drive extends Subsystem {
                         if (DriverStation.getInstance().isOperatorControl())
                             operatorInput = HIDHelper.getAdjStick(Constants.MASTER_STICK);
                         else operatorInput = new double[]{0, 0, 0};
+                        setVelocity(new DriveSignal(operatorInput[0],
+                                HIDHelper.getAxisMapped(operatorInput[2], Constants.kDriveTurnMin, Constants.kDriveTurnMax)));
+
                         break;
 
                     default:
@@ -158,15 +161,12 @@ public class Drive extends Subsystem {
 
             DriveMotionPlanner.Output output = mMotionPlanner.update(now, RobotState.getInstance().getFieldToVehicle(now));
 
-            // DriveSignal signal = new DriveSignal(demand.left_feedforward_voltage / 12.0, demand.right_feedforward_voltage / 12.0);
-
             periodicIO.error = mMotionPlanner.error();
             periodicIO.path_setpoint = mMotionPlanner.setpoint();
 
             if (!mOverrideTrajectory) {
-                setVelocity(new DriveSignal(inchesPerSecondToRpm(output.linear_velocity), Math.toDegrees(output.angular_position)));
-                //TODO will require additional math to convert from heading to steering angle
-
+                final double right_wheel_angle = (output.linear_velocity * Math.tan(output.angular_position))/Constants.kDriveLength;
+                setVelocity(new DriveSignal(inchesPerSecondToRpm(output.linear_velocity), Math.toDegrees(right_wheel_angle)));
             } else {
                 setVelocity(DriveSignal.BRAKE);
             }

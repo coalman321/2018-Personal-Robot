@@ -41,6 +41,10 @@ public class Kinematics {
         return new Twist2d(linear_delta, 0.0, angular_delta);
     }
 
+    /*public static Twist2d forwardKinematics3(double linear_delta, double turn_angle){
+        return new Twist2d();
+    }*/
+
     /**
      * For convenience, integrate forward kinematics with a Twist2d and previous rotation.
      */

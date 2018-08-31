@@ -28,6 +28,7 @@ public class SubsystemManager implements ILooper {
     public void stop() {
         mAllSubsystems.forEach((s) -> s.stop());
     }
+
     private class EnabledLoop implements Loop {
 
         @Override

@@ -47,7 +47,7 @@ public class Drive extends Subsystem {
                         break;
 
                     case PROFILING_TEST:
-                        if (DriverStation.getInstance().isAutonomous()) {
+                        if (DriverStation.getInstance().isTest()) {
                             //driveTank(Constants.MP_TEST_SPEED, Constants.MP_TEST_SPEED);
                         }
                         break;
@@ -59,7 +59,7 @@ public class Drive extends Subsystem {
                         break;
 
                     default:
-                        System.out.println("unexpected control state ");;
+                        System.out.println("unexpected control state");
                 }
 
 

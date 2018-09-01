@@ -7,14 +7,18 @@
 
 package frc.robot;
 
-import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.lib.geometry.Pose2d;
+import frc.lib.geometry.Pose2dWithCurvature;
+import frc.lib.geometry.State;
 import frc.lib.loops.Looper;
-import frc.robot.paths.TrajectoryGenerator;
+import frc.lib.trajectory.TimedView;
+import frc.lib.trajectory.TrajectoryIterator;
+import frc.lib.trajectory.timing.TimedState;
+import frc.robot.subsystems.Communication;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.RobotStateEstimator;
 
@@ -31,10 +35,12 @@ public class Robot extends TimedRobot {
     //private TrajectoryGenerator mTrajectoryGenerator = TrajectoryGenerator.getInstance();
     private final SubsystemManager mSubsystemManager = new SubsystemManager(Arrays.asList(
             RobotStateEstimator.getInstance(),
-            Drive.getInstance()
+            Drive.getInstance(),
+            Communication.getInstance()
     ));
     private Looper mEnabledLooper = new Looper();
     private Looper mDisabledLooper = new Looper();
+    private TrajectoryIterator mWantedTrajectory;
 
     public static OI mOI = OI.getInstance();
 
@@ -57,8 +63,7 @@ public class Robot extends TimedRobot {
     */
     @Override
     public void robotPeriodic() {
-        mSubsystemManager.outputToSmartDashboard();
-        mSubsystemManager.writeToLog();
+
     }
 
     @Override
@@ -69,6 +74,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void disabledPeriodic() {
+        runCommunicationUpdates();
         Scheduler.getInstance().run();
     }
 
@@ -81,6 +87,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousPeriodic() {
+        runCommunicationUpdates();
         Scheduler.getInstance().run();
     }
 
@@ -93,23 +100,44 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopPeriodic() {
+        runCommunicationUpdates();
         Scheduler.getInstance().run();
     }
 
     public void testInit(){
-        mDisabledLooper.stop();
-        mEnabledLooper.start();
+        runCommunicationUpdates();
     }
 
     @Override
     public void testPeriodic() {
+
     }
 
-    public void outputTelemetry(){
-        Drive.getInstance().outputTelemetry();
-        RobotState.getInstance().outputTelemetry();
+    public void runCommunicationUpdates(){
+        if(Communication.getInstance().getPeriodicIO().wantPoseReset){
+            RobotState.getInstance().reset(Timer.getFPGATimestamp(), Communication.getInstance().getPeriodicIO().wantedResetPose);
+        }
 
+        //if want to receive trajectory
+        if(Communication.getInstance().getPeriodicIO().wantToRecieveTrajectory){
+            mWantedTrajectory = new TrajectoryIterator<>(new TimedView<>(Drive.getInstance().generateTrajectory(
+                    false,
+                    Communication.getInstance().getPeriodicIO().wantedTrajectory,
+                    null,
+                    Constants.kRobotMaxVelocity,
+                    Constants.kRobotMaxAccel,
+                    Constants.kRobotMaxVoltage))); // generate trajectory from data
+        }
 
+        //if want to run trajectory and not moving and trajectory is not null
+        if(Communication.getInstance().getPeriodicIO().wantToRunTrajectory &&
+                Math.abs(Drive.getInstance().getLinearVelocity()) < 1.00 &&
+                mWantedTrajectory != null){
+            Drive.getInstance().setTrajectory(mWantedTrajectory); //run new trajectory
+        }
+
+        mSubsystemManager.outputTelemetry();
+        mSubsystemManager.writeToLog();
     }
 }
 

@@ -130,7 +130,8 @@ public class DriveMotionPlannerTest {
         final DriveMotionPlanner motion_planner = new DriveMotionPlanner();
         motion_planner.setFollowerType(DriveMotionPlanner.FollowerType.NONLINEAR_FEEDBACK);
         motion_planner.setTrajectory(new TrajectoryIterator<>(new TimedView<>(motion_planner.generateTrajectory
-                (false, Arrays.asList(new Pose2d(new Translation2d(0.0, 0.0), Rotation2d.identity()),
+                (false, Arrays.asList(
+                        new Pose2d(new Translation2d(0.0, 0.0), Rotation2d.identity()),
                         new Pose2d(new Translation2d(120.0, -36.0), Rotation2d.identity()),
                         new Pose2d(new Translation2d(240.0, -36.0), Rotation2d.identity())),
                         null,

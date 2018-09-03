@@ -5,6 +5,7 @@ import frc.lib.geometry.Pose2d;
 import frc.lib.geometry.Rotation2d;
 import frc.lib.loops.ILooper;
 import frc.lib.loops.Loop;
+import frc.robot.RobotState;
 
 import java.util.ArrayList;
 
@@ -15,6 +16,9 @@ public class Communication extends Subsystem {
     private double[] mResetPoseInput;
     private double[] mTrajectory;
     private static final Communication mInstance = new Communication();
+    public static final String mDataSubTable = "data/";
+
+    private Pose2d currentPose;
 
     public static Communication getInstance() {
         return mInstance;
@@ -26,17 +30,17 @@ public class Communication extends Subsystem {
 
     public void readPeriodicInputs() {
         //pose reset
-        mPeriodicIO.wantPoseReset = SmartDashboard.getBoolean("wantPoseReset", false);
+        mPeriodicIO.wantPoseReset = SmartDashboard.getBoolean(mDataSubTable + "wantPoseReset", false);
         if(mPeriodicIO.wantPoseReset){
-            mResetPoseInput = SmartDashboard.getNumberArray("wantedResetPose", new double[] {0,0,0});
+            mResetPoseInput = SmartDashboard.getNumberArray(mDataSubTable + "wantedResetPose", new double[] {0,0,0});
             mPeriodicIO.wantedResetPose = new Pose2d(mResetPoseInput[0], mResetPoseInput[1], Rotation2d.fromDegrees(mResetPoseInput[2]));
         }
 
         //trajectory
-        mPeriodicIO.wantToRunTrajectory = SmartDashboard.getBoolean("wantToRunTrajectory", false);
-        mPeriodicIO.wantToRecieveTrajectory = SmartDashboard.getBoolean("wantToReceiveTrajectory", false);
+        mPeriodicIO.wantToRunTrajectory = SmartDashboard.getBoolean(mDataSubTable + "wantToRunTrajectory", false);
+        mPeriodicIO.wantToRecieveTrajectory = SmartDashboard.getBoolean(mDataSubTable + "wantToReceiveTrajectory", false);
         if(mPeriodicIO.wantToRecieveTrajectory) {
-            mTrajectory = SmartDashboard.getNumberArray("wantedTrajectory", new double[] {});
+            mTrajectory = SmartDashboard.getNumberArray(mDataSubTable + "wantedTrajectory", new double[] {});
             ArrayList<Pose2d> local_trajectory = new ArrayList<>();
             for(int i = 0; i < mTrajectory.length / 3; i +=3){
                 // i = x, i+1 = y, i+2 = r
@@ -45,9 +49,21 @@ public class Communication extends Subsystem {
             mPeriodicIO.wantedTrajectory = local_trajectory;
         }
 
+        //HMI
+        Counter
+
+
     }
 
     public void writePeriodicOutputs(){
+        //pose
+        currentPose = RobotState.getInstance().getLatestFieldToVehicle().getValue();
+        SmartDashboard.putNumber(mDataSubTable + "poseX", currentPose.getTranslation().x());
+        SmartDashboard.putNumber(mDataSubTable + "poseY", currentPose.getTranslation().y());
+        SmartDashboard.putNumber(mDataSubTable + "poseR", currentPose.getRotation().getDegrees());
+
+        //state control buttons
+
         //TODO publish misc sensor data
     }
 
@@ -67,7 +83,14 @@ public class Communication extends Subsystem {
         //no-op
     }
 
+    public enum RobotControlState{
+        DISABLED,
+        DRIVER_CONTROL,
+        AUTONOMOUS
+    }
+
     public static class PeriodicIO{
+        //inputs
         //Pose
         public boolean wantPoseReset;
         public Pose2d wantedResetPose;
@@ -77,7 +100,8 @@ public class Communication extends Subsystem {
         public boolean wantToRecieveTrajectory;
         public ArrayList<Pose2d> wantedTrajectory;
 
-        //?
+        //outputs
+        public RobotControlState wantedControlState;
         //public
 
     }

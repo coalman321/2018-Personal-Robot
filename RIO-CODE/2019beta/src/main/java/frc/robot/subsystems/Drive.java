@@ -30,6 +30,7 @@ public class Drive extends Subsystem {
     private DriveMotionPlanner mMotionPlanner;
     private ReflectingCSVWriter<PeriodicIO> mCSVWriter;
     private PeriodicIO periodicIO;
+    private Rotation2d mGyroOffset;
     private boolean mOverrideTrajectory = false;
     private double[] operatorInput = {0, 0, 0}; //last input set from joystick update
     private final Loop mLoop = new Loop() {
@@ -75,13 +76,12 @@ public class Drive extends Subsystem {
 
         }
     };
-    private Rotation2d mGyroOffset;
 
     private Drive() {
-        periodicIO = new PeriodicIO();
-        mCSVWriter = new ReflectingCSVWriter<PeriodicIO>("", PeriodicIO.class);
-        reset();
         mMotionPlanner = new DriveMotionPlanner();
+        reset();
+        mCSVWriter = new ReflectingCSVWriter<PeriodicIO>("", PeriodicIO.class);
+
     }
 
     public static Drive getInstance() {
@@ -148,6 +148,9 @@ public class Drive extends Subsystem {
     }
 
     public void reset() {
+        mOverrideTrajectory = false;
+        mMotionPlanner.reset();
+        periodicIO = new PeriodicIO();
         //TODO add reset with sensor impl
 
     }
@@ -162,8 +165,6 @@ public class Drive extends Subsystem {
 
             DriveMotionPlanner.Output output = mMotionPlanner.update(now, RobotState.getInstance().getFieldToVehicle(now));
 
-            // DriveSignal signal = new DriveSignal(demand.left_feedforward_voltage / 12.0, demand.right_feedforward_voltage / 12.0);
-
             periodicIO.error = mMotionPlanner.error();
             periodicIO.path_setpoint = mMotionPlanner.setpoint();
 
@@ -173,6 +174,9 @@ public class Drive extends Subsystem {
 
             } else {
                 setVelocity(DriveSignal.BRAKE);
+                mDriveControlState = DriveControlState.OPEN_LOOP;
+                mMotionPlanner.reset();
+
             }
         } else {
             DriverStation.reportError("Drive is not in path following state", false);
@@ -217,7 +221,7 @@ public class Drive extends Subsystem {
 
     public boolean isDoneWithTrajectory() {
         if (mMotionPlanner == null || mDriveControlState != DriveControlState.PATH_FOLLOWING) {
-            return false;
+            return true;
         }
         return mMotionPlanner.isDone() || mOverrideTrajectory;
     }

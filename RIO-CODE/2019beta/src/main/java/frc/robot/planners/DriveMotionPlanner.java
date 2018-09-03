@@ -292,6 +292,9 @@ public class DriveMotionPlanner implements CSVWritable {
         return mOutput;
     }
 
+    /**
+     * @return true if trajectory is not null AND remaining progress of trajectory is zero
+     */
     public boolean isDone() {
         return mCurrentTrajectory != null && mCurrentTrajectory.isDone();
     }

@@ -11,13 +11,11 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import frc.lib.geometry.Pose2d;
-import frc.lib.geometry.Pose2dWithCurvature;
-import frc.lib.geometry.State;
+
 import frc.lib.loops.Looper;
 import frc.lib.trajectory.TimedView;
 import frc.lib.trajectory.TrajectoryIterator;
-import frc.lib.trajectory.timing.TimedState;
+
 import frc.robot.subsystems.Communication;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.RobotStateEstimator;
@@ -129,14 +127,19 @@ public class Robot extends TimedRobot {
                     Constants.kRobotMaxVoltage))); // generate trajectory from data
         }
 
-        //if want to run trajectory and not moving and trajectory is not null
-        if(Communication.getInstance().getPeriodicIO().wantToRunTrajectory &&
-                Math.abs(Drive.getInstance().getLinearVelocity()) < 1.00 &&
-                mWantedTrajectory != null){
+        //if want to run trajectory AND not moving AND trajectory is not null AND is autonomous AND is done with trajectory
+        if(Communication.getInstance().getPeriodicIO().wantToRunTrajectory && Math.abs(Drive.getInstance().getLinearVelocity()) <= 0.01 &&
+                mWantedTrajectory != null && edu.wpi.first.wpilibj.RobotState.isAutonomous() && Drive.getInstance().isDoneWithTrajectory()){
             Drive.getInstance().setTrajectory(mWantedTrajectory); //run new trajectory
         }
+        else if(!Communication.getInstance().getPeriodicIO().wantToRunTrajectory && !Drive.getInstance().isDoneWithTrajectory() ||
+                !edu.wpi.first.wpilibj.RobotState.isAutonomous()){
+            Drive.getInstance().overrideTrajectory(true);
+        }
 
+        //run telemetry updates
         mSubsystemManager.outputTelemetry();
+        RobotState.getInstance().outputTelemetry();
         mSubsystemManager.writeToLog();
     }
 }

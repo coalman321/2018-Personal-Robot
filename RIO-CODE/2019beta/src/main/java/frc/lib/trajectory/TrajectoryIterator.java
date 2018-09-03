@@ -15,6 +15,9 @@ public class TrajectoryIterator<S extends State<S>> {
         progress_ = view_.first_interpolant();
     }
 
+    /**
+     * @return true if remaining progress on trajectory is zero
+     */
     public boolean isDone() {
         return getRemainingProgress() == 0.0;
     }

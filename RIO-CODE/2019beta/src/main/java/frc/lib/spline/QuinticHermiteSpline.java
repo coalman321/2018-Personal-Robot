@@ -62,6 +62,9 @@ public class QuinticHermiteSpline extends Spline {
 
     /**
      * Re-arranges the spline into an at^5 + bt^4 + ... + f form for simpler computations
+     * versions of:
+     * https://media.discordapp.net/attachments/368993897495527424/489995953475158026/SmartSelect_20180913-230852_FastHub.jpg?width=904&height=454
+     * https://math.stackexchange.com/questions/2313380/how-to-to-generate-hermite-interpolating-polynomials
      */
     private void computeCoefficients() {
         ax = -6 * x0 - 3 * dx0 - 0.5 * ddx0 + 0.5 * ddx1 - 3 * dx1 + 6 * x1;

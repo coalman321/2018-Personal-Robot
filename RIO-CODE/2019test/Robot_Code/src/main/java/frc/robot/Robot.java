@@ -8,7 +8,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import frc.lib.VersionData;
+import frc.lib.util.VersionData;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -18,38 +18,37 @@ import frc.lib.VersionData;
  * project.
  */
 public class Robot extends TimedRobot {
-  /**
-   * This function is run when the robot is first started up and should be used
-   * for any initialization code.
-   */
-  @Override
-  public void robotInit() {
-      VersionData.doVersionID();
+    /**
+     * This function is run when the robot is first started up and should be used
+     * for any initialization code.
+     */
+    @Override
+    public void robotInit() {
+        VersionData.WriteBuildInfoToDashboard();
+    }
 
-  }
+    @Override
+    public void autonomousInit() {
+    }
 
-  @Override
-  public void autonomousInit() {
-  }
+    @Override
+    public void autonomousPeriodic() {
+    }
 
-  @Override
-  public void autonomousPeriodic() {
-  }
+    @Override
+    public void teleopInit() {
+    }
 
-  @Override
-  public void teleopInit() {
-  }
+    @Override
+    public void teleopPeriodic() {
+    }
 
-  @Override
-  public void teleopPeriodic() {
-  }
+    @Override
+    public void testInit() {
+    }
 
-  @Override
-  public void testInit() {
-  }
-
-  @Override
-  public void testPeriodic() {
-  }
+    @Override
+    public void testPeriodic() {
+    }
 
 }

@@ -41,7 +41,7 @@ public class Logger extends Subsystem {
                     toWrite += "" + SmartDashboard.getNumber(key, 0.0) + Constants.DATA_SEPERATOR;
                 }
                 for (String key : stringKeys) {
-                    toWrite += "" + SmartDashboard.getNumber(key, 0.0) + Constants.DATA_SEPERATOR;
+                    toWrite += "" + SmartDashboard.getString(key, " ") + Constants.DATA_SEPERATOR;
                 }
                 toWrite += "\r\n";
                 //System.out.println(toWrite);
@@ -69,7 +69,8 @@ public class Logger extends Subsystem {
             printWriter = new PrintWriter(new BufferedWriter(new FileWriter(base)));
             initSuccess = true;
         } catch (Exception e) {
-            DriverStation.reportError("Failed to initialize log on file!", false);
+            DriverStation.reportError("No valid logging path detected. Logger stopped", false);
+            initSuccess = false;
         }
     }
 

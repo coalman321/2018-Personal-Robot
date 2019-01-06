@@ -1,0 +1,98 @@
+plugins {
+    id "java"
+    id "edu.wpi.first.GradleRIO" version "2019.1.1"
+}
+
+def ROBOT_MAIN_CLASS = "frc.robot.Main"
+
+// Define my targets (RoboRIO) and artifacts (deployable files)
+// This is added by GradleRIO's backing project EmbeddedTools.
+deploy {
+    targets {
+        roboRIO("roborio") {
+            // Team number is loaded either from the .wpilib/wpilib_preferences.json
+            // or from command line. If not found an exception will be thrown.
+            // You can use getTeamOrDefault(team) instead of getTeamNumber if you
+            // want to store a team number in this file.
+            team = frc.getTeamNumber()
+        }
+    }
+    artifacts {
+        frcJavaArtifact('frcJava') {
+            targets << "roborio"
+            // Debug can be overridden by command line, for use with VSCode
+            debug = frc.getDebugOrDefault(false)
+        }
+        // Built in artifact to deploy arbitrary files to the roboRIO.
+        fileTreeArtifact('frcStaticFileDeploy') {
+            // The directory below is the local directory to deploy
+            files = fileTree(dir: 'src/main/deploy')
+            // Deploy to RoboRIO target, into /home/lvuser/deploy
+            targets << "roborio"
+            directory = '/home/lvuser/deploy'
+        }
+    }
+}
+
+// Set this to true to enable desktop support.
+def includeDesktopSupport = false
+
+// Maven central needed for JUnit
+repositories {
+    mavenCentral()
+}
+
+// Defining my dependencies. In this case, WPILib (+ friends), and vendor libraries.
+// Also defines JUnit 4.
+dependencies {
+    compile wpi.deps.wpilib()
+    compile wpi.deps.vendor.java()
+    nativeZip wpi.deps.vendor.jni(wpi.platforms.roborio)
+    nativeDesktopZip wpi.deps.vendor.jni(wpi.platforms.desktop)
+    testCompile 'junit:junit:4.12'
+}
+
+// Setting up my Jar File. In this case, adding all libraries into the main jar ('fat jar')
+// in order to make them all available at runtime. Also adding the manifest so WPILib
+// knows where to look for our Robot Class.
+jar {
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    manifest edu.wpi.first.gradlerio.GradleRIOPlugin.javaManifest(ROBOT_MAIN_CLASS)
+}
+
+//build version plugin below this line 
+tasks.register("DoVersionID"){
+    doFirst {
+        String constants = file('src/main/deploy/version.dat').text //maintain path to constants file
+        int loc = constants.indexOf("VERSION_ID") //variable to find
+        if(loc < 0){
+            throw new GradleException('VERSION_ID not found in constants file! \nverify its presence and re-build')
+        }
+        //printf("VERSION_ID found at location: %d \n", loc) //debug
+        int i = loc + 10
+        char curr = 0
+        while(curr != '=' && i < loc + 40){ //locate the equals sign after VersionID. The less than is a safety check 
+            curr = constants.charAt(i)
+            i++
+        }
+        if(i >= loc + 39){
+            throw new GradleException('Could not find = within 30 characters after Version_ID')
+        }
+        int equalspos = i
+        //printf("found equal sign at: %d\n", i)
+        while(curr != ';' && i < loc + 60){ //locate the semicolon. The less than is a safety check 
+            curr = constants.charAt(i)
+            i++
+        }
+        if(i >= loc + 59){
+            throw new GradleException('Could not find line ; within 50 characters after Version_ID')
+        }
+        int versionID = constants.substring(equalspos, i - 1) as Integer //get version value from the constants file
+        //printf("Old version ID: %d\n", versionID)
+        versionID += 1 //increment version id by some value
+        printf("new version ID: %d\n", versionID)
+        String newConstants = constants.substring(0,equalspos) + versionID + ";" + constants.substring(i) //create new text for constants class with updated version string
+        file('src/main/deploy/version.dat').text = newConstants // update constants class
+    }
+}
+compileJava.dependsOn DoVersionID

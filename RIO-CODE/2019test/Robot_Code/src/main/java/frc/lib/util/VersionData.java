@@ -31,7 +31,7 @@ public class VersionData {
             int i = 0;
             int equalsInd = 0;
             for(String line: lines){
-                if(line.indexOf(key) > 0){
+                if(line.indexOf(key) > -1){
                     i = line.indexOf(key) + key.length();
                     while(line.charAt(i) != '='){
                         i++;
@@ -43,7 +43,7 @@ public class VersionData {
                     return line.substring(equalsInd, i);
                 }
             }
-            DriverStation.reportWarning("Failed to discover " + key + "in Version.dat", false);
+            DriverStation.reportWarning("Failed to discover " + key + " in Version.dat", false);
             return "";
         } catch (Exception e) {
             DriverStation.reportError("Failed to read version.dat in deploy directory!", e.getStackTrace());

@@ -28,15 +28,28 @@ public class Constants{
 
     //Robot Parameters
     public static final double LOOPER_DT = 0.010;
-    public static final String ROBOT_NAME = "durrr";
+    public static final String ROBOT_NAME = "durr";
     public static final boolean IS_COMP_BOT = true;
-    public static final double TRACK_WIDTH_INCHES = 23.5; //TODO validate
-    public static final double TRACK_SCRUB_FACTOR = 0.5; //TODO validate
-    public static final double WHEEL_DIAMETER = 6.0; //TODO validate. should be around 7.5
+
+    // Wheels
+    public static final double DRIVE_WHEEL_TRACK_WIDTH_INCHES = 23.5; //TODO validate
+    public static final double DRIVE_WHEEL_DIAMETER_INCHES = 7.5;//TODO validate. should be around 7.5
+    public static final double DRIVE_WHEEL_RADIUS_INCHES = DRIVE_WHEEL_DIAMETER_INCHES / 2.0;
+    public static final double TRACK_SCRUB_FACTOR = 1.0;  //TODO tune
     public static final double DRIVE_ENCODER_PPR = 4096; //encoder counts per revolution
-    public static final double PATH_FOLLOWING_LOOKAHEAD = 24.0; //lookahead in inches
-    public static final double PATH_FOLLOWING_MAX_VELOCITY = 200.0; //overall max velocity - includes turns - in inches/sec
-    public static final double PATH_FOLLOWING_MAX_ACCELERATION = 42.0; //overall max acceleration - includes turns - in inches/sec^2
+
+    // Tuned dynamics
+    public static final double ROBOT_LINEAR_INERTIA = 12.7;  // kg
+    public static final double ROBOT_ANGULAR_INERTIA = 10.0;  // kg m^2 TODO tune
+    public static final double ROBOT_ANGULAR_DRAG = 12.0;  // N*m / (rad/sec) TODO tune
+    public static final double DRIVE_V_INTERCEPT = 1.055;  // V
+    public static final double DRIVE_KV = 0.135;  // V per rad/s
+    public static final double DRIVE_KA = 0.012;  // V per rad/s^2
+
+    //
+    public static final double PATH_KX = 4.0;  // units/s per unit of error
+    public static final double PATH_LOOKAHEAD_TIME = 0.4;  // seconds to look ahead along the path for steering
+    public static final double PATH_MIN_LOOKAHEAD_DISTANCE = 24.0;  // inches
 
     //Right drive PID parameters
     public static final int DRIVE_RIGHT_PID_IDX = 0; //pick one and stick to it
@@ -51,6 +64,7 @@ public class Constants{
     public static final double DRIVE_LEFT_KP = 0.0; //TODO tune Me!
     public static final double DRIVE_LEFT_KI = 0.0; //can be scary. generally unneeded
     public static final double DRIVE_LEFT_KD = 0.0; //TODO tune Me!
+
 
     /*
      * ------------------------

@@ -175,8 +175,6 @@ public class Drive extends Subsystem {
 
             mDriveControlState = DriveControlState.PATH_FOLLOWING;
         }
-        periodicIO.left_demand = signal.getLeft();
-        periodicIO.right_demand = signal.getRight();
         periodicIO.left_demand = -signal.getLeft();
         periodicIO.right_demand = -signal.getRight();
     }

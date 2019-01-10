@@ -1,17 +1,14 @@
-package frc.lib.AutoTrajectory;
+package frc.lib.math;
 
 import java.util.Map;
 import java.util.TreeMap;
 
 /**
- * Interpolating Tree Maps are used to get values at points that are not defined
- * by making a guess from points that are defined. This uses linear
- * interpolation.
- * 
- * @param <K>
- *            The type of the key (must implement InverseInterpolable)
- * @param <V>
- *            The type of the value (must implement Interpolable)
+ * Interpolating Tree Maps are used to get values at points that are not defined by making a guess from points that are
+ * defined. This uses linear interpolation.
+ *
+ * @param <K> The type of the key (must implement InverseInterpolable)
+ * @param <V> The type of the value (must implement Interpolable)
  */
 public class InterpolatingTreeMap<K extends InverseInterpolable<K> & Comparable<K>, V extends Interpolable<V>>
         extends TreeMap<K, V> {
@@ -29,11 +26,9 @@ public class InterpolatingTreeMap<K extends InverseInterpolable<K> & Comparable<
 
     /**
      * Inserts a key value pair, and trims the tree if a max size is specified
-     * 
-     * @param key
-     *            Key for inserted data
-     * @param value
-     *            Value for inserted data
+     *
+     * @param key   Key for inserted data
+     * @param value Value for inserted data
      * @return the value
      */
     @Override
@@ -55,11 +50,8 @@ public class InterpolatingTreeMap<K extends InverseInterpolable<K> & Comparable<
     }
 
     /**
-     *
-     * @param key
-     *            Lookup for a value (does not have to exist)
-     * @return V or null; V if it is Interpolable or exists, null if it is at a
-     *         bound and cannot average
+     * @param key Lookup for a value (does not have to exist)
+     * @return V or null; V if it is Interpolable or exists, null if it is at a bound and cannot average
      */
     public V getInterpolated(K key) {
         V gotval = get(key);
@@ -69,8 +61,7 @@ public class InterpolatingTreeMap<K extends InverseInterpolable<K> & Comparable<
             K bottomBound = floorKey(key);
 
             /**
-             * If attempting interpolation at ends of tree, return the nearest
-             * data point
+             * If attempting interpolation at ends of tree, return the nearest data point
              */
             if (topBound == null && bottomBound == null) {
                 return null;

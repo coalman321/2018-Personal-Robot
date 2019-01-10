@@ -1,8 +1,8 @@
-package frc.lib.AutoTrajectory;
+package frc.lib.math;
 
 /**
  * A Long that can be interpolated using the InterpolatingTreeMap.
- * 
+ *
  * @see InterpolatingTreeMap
  */
 public class InterpolatingLong implements Interpolable<InterpolatingLong>, InverseInterpolable<InterpolatingLong>,

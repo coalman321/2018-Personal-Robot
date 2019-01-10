@@ -1,8 +1,8 @@
-package frc.lib.AutoTrajectory;
+package frc.lib.math;
 
 /**
  * A Double that can be interpolated using the InterpolatingTreeMap.
- * 
+ *
  * @see InterpolatingTreeMap
  */
 public class InterpolatingDouble implements Interpolable<InterpolatingDouble>, InverseInterpolable<InterpolatingDouble>,

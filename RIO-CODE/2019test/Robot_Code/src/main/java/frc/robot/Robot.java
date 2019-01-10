@@ -16,7 +16,7 @@ import frc.lib.statemachine.StateMachine;
 import frc.lib.util.VersionData;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Logger;
-
+import frc.robot.subsystems.PoseEstimator;
 import frc.robot.statemachines.*;
 
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -36,6 +36,7 @@ public class Robot extends TimedRobot {
 
     public SubsystemManager manager = new SubsystemManager(Arrays.asList(
         Drive.getInstance(),
+        PoseEstimator.getInstance(),
         Logger.getInstance()
         ));
     public Looper enabled = new Looper();
@@ -53,15 +54,14 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotPeriodic() {
-        SmartDashboard.putBoolean("stick", Constants.MASTER.getRawButton(1));
         manager.outputTelemetry();
     }
 
     @Override
     public void disabledInit() {
         StateMachine.assertStop();
-        //enabled.stop();
-        //disabled.start();
+        enabled.stop();
+        disabled.start();
     }
 
     @Override
@@ -70,9 +70,9 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        //disabled.stop();
-        //enabled.start();
-        StateMachine.runMachine(new TestMach());
+        disabled.stop();
+        enabled.start();
+        //StateMachine.runMachine(new TestMach());
     }
 
     @Override
@@ -82,8 +82,8 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
-        //disabled.stop();
-        //enabled.start();
+        disabled.stop();
+        enabled.start();
     }
 
     @Override
@@ -93,8 +93,8 @@ public class Robot extends TimedRobot {
 
     @Override
     public void testInit() {
-        //disabled.stop();
-        //enabled.start();
+        disabled.stop();
+        enabled.start();
     }
 
     @Override

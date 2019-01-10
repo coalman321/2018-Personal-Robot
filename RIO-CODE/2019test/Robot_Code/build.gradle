@@ -70,7 +70,7 @@ tasks.register("DoVersionID"){
         
         int[] versionIDLoc = findPos("VERSION_ID", versionFile)
         int versionID = 1 + (versionFile.substring(versionIDLoc[0], versionIDLoc[1] - 1) as Integer) //get version value from the versionFile file
-
+        printf("New Version ID: %d", versionID)
 
         int[] authorLoc = findPos("BUILD_AUTHOR", versionFile)
         String newAuthor = System.getProperty('user.name')

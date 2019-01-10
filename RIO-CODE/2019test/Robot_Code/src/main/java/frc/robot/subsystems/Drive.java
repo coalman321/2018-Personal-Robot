@@ -162,8 +162,8 @@ public class Drive extends Subsystem {
 
             mDriveControlState = DriveControlState.OPEN_LOOP;
         }
-        periodicIO.left_demand = signal.getLeft();
-        periodicIO.right_demand = signal.getRight();
+        periodicIO.left_demand = -signal.getLeft();
+        periodicIO.right_demand = -signal.getRight();
     }
 
     /**
@@ -177,6 +177,8 @@ public class Drive extends Subsystem {
         }
         periodicIO.left_demand = signal.getLeft();
         periodicIO.right_demand = signal.getRight();
+        periodicIO.left_demand = -signal.getLeft();
+        periodicIO.right_demand = -signal.getRight();
     }
 
     public boolean isDoneWithTrajectory() {

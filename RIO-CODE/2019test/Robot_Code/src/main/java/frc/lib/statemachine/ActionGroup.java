@@ -23,24 +23,44 @@ public class ActionGroup {
         group.add(action);
     }
 
+    /**
+     * records start time of state then executes all actions onStart
+     */
     public void onStart() {
         t_Start = Timer.getFPGATimestamp();
         group.forEach(Action::onStart);
     }
 
+    /**
+     * runs the onloop code of all actions in the group
+     * <p>executes in order added to group
+     */
     public void onLoop() {
         group.forEach(Action::onLoop);
     }
 
+    /**
+     * determines when to begin state advancement
+     * <p>handles self terminated actions automatically
+     * @return true when all actions are finished
+     */
     public boolean isFinished() {
         if (t_Start + t_Timeout <= Timer.getFPGATimestamp()) return true;
         boolean temp = true;
         for (Action action : group) {
-            temp &= action.isFinished();
+            if(action.isFinished()){
+                action.doStop();
+            }
+            else{
+                temp = false;
+            }
         }
         return temp;
     }
 
+    /**
+     * forceful exit for all actions in the group
+     */
     public void onStop() {
         group.forEach(Action::doStop);
     }

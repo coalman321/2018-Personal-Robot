@@ -4,11 +4,13 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class StateMachine {
 
-    private volatile static AtomicInteger state = new AtomicInteger(-1);
+    private static AtomicInteger state = new AtomicInteger(-1);
+    private static AtomicBoolean wantStop = new AtomicBoolean(true);
     private volatile static ConcurrentLinkedQueue<ActionGroup> queuedStates;
     private volatile static ActionGroup currentState;
     private volatile static double t_start;
@@ -20,11 +22,11 @@ public class StateMachine {
                 state.set(-2);
                 SmartDashboard.putNumber("StateMachine/ state", state.get());
             } else {
-                while (!queuedStates.isEmpty()) {
+                while (!queuedStates.isEmpty() && !wantStop.get()) {
                     SmartDashboard.putNumber("StateMachine/ state", state.get());
                     currentState = queuedStates.poll();
                     currentState.onStart();
-                    while (!currentState.isFinished()) {
+                    while (!currentState.isFinished() && !wantStop.get()) {
                         t_start = Timer.getFPGATimestamp();
                         currentState.onLoop();
                         Timer.delay(0.02 - (Timer.getFPGATimestamp() - t_start));
@@ -41,10 +43,15 @@ public class StateMachine {
     };
 
     public static void runMachine(StateMachineDescriptor descriptor) {
+        wantStop.set(false);
         queuedStates = descriptor.getStates();
         Thread thread = new Thread(Man);
         thread.start();
 
+    }
+
+    public static void assertStop(){
+        wantStop.set(true);
     }
 
 

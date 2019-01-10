@@ -10,18 +10,31 @@ import java.util.List;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 
 public class VersionData {
 
+    /**
+     * reads build data from file and writes to driverstation plus dashboard
+     */
     public static void WriteBuildInfoToDashboard() {
         DriverStation.reportWarning("== Robot Name == " + Constants.ROBOT_NAME + "        |Version ID: " + getInfo("VERSION_ID") + "|", false);
         final String COMP_MSG = "WARNING THIS IS THE COMPETITION SOFTWARE CONFIG";
         final String PRAC_MSG = "WARNING THIS IS THE PRACTICE SOFTWARE CONFIG";
         DriverStation.reportWarning((Constants.IS_COMP_BOT ? COMP_MSG : PRAC_MSG) + 
         (Constants.ENABLE_MP_TEST_MODE ? "! MP TEST MODE IS ENABLED!" : "!"), false);
+        SmartDashboard.putString("Build_Info/ID", getInfo("VERSION_ID"));
+        SmartDashboard.putString("Build_Info/Author", getInfo("BUILD_AUTHOR"));
+        SmartDashboard.putString("Build_Info/DATE", getInfo("BUILD_DATE"));
     }
 
+
+    /**
+     * gets build info from version.dat file
+     * @param key data entry to parse for
+     * @return data contained by key or empty string if not found
+     */
     public static String getInfo(String key){
         try {
             File version;
@@ -40,7 +53,7 @@ public class VersionData {
                     while(line.charAt(i) != ';'){
                         i++;
                     }
-                    return line.substring(equalsInd, i);
+                    return line.substring(equalsInd + 1, i);
                 }
             }
             DriverStation.reportWarning("Failed to discover " + key + " in Version.dat", false);

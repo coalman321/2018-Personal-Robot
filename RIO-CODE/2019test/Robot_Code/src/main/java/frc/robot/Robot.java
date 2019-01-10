@@ -10,10 +10,20 @@ package frc.robot;
 import java.util.Arrays;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.command.Scheduler;
 import frc.lib.loops.Looper;
+import frc.lib.statemachine.StateMachine;
 import frc.lib.util.VersionData;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Logger;
+
+import frc.robot.statemachines.*;
+
+import edu.wpi.first.wpilibj.buttons.Button;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.Joystick;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -30,23 +40,28 @@ public class Robot extends TimedRobot {
         ));
     public Looper enabled = new Looper();
     public Looper disabled = new Looper();
+    public OI oi;
 
     @Override
     public void robotInit() {
         manager.registerEnabledLoops(enabled);
         manager.registerDisabledLoops(disabled);
         VersionData.WriteBuildInfoToDashboard();
+        oi = new OI();
+
     }
 
     @Override
     public void robotPeriodic() {
+        SmartDashboard.putBoolean("stick", Constants.MASTER.getRawButton(1));
         manager.outputTelemetry();
     }
 
     @Override
     public void disabledInit() {
-        enabled.stop();
-        disabled.start();
+        StateMachine.assertStop();
+        //enabled.stop();
+        //disabled.start();
     }
 
     @Override
@@ -55,28 +70,31 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        disabled.stop();
-        enabled.start();
+        //disabled.stop();
+        //enabled.start();
+        StateMachine.runMachine(new TestMach());
     }
 
     @Override
     public void autonomousPeriodic() {
+        Scheduler.getInstance().run();
     }
 
     @Override
     public void teleopInit() {
-        disabled.stop();
-        enabled.start();
+        //disabled.stop();
+        //enabled.start();
     }
 
     @Override
     public void teleopPeriodic() {
+        Scheduler.getInstance().run();
     }
 
     @Override
     public void testInit() {
-        disabled.stop();
-        enabled.start();
+        //disabled.stop();
+        //enabled.start();
     }
 
     @Override

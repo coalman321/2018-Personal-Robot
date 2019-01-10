@@ -20,12 +20,17 @@ public class DelayAction extends Action{
     }
 
     public boolean isFinished(){
-        return Timer.getFPGATimestamp() > t_start + duration;
+        if(Timer.getFPGATimestamp() > t_start + duration){
+            System.out.println("Action self halting");
+            return true;
+        }
+        return false;
     }
 
     public void onStop(){
+        double t_stop = Timer.getFPGATimestamp();
         System.out.println("Action was called to start at t = " + t_start);
-        System.out.println("Action called to end at t = " + Timer.getFPGATimestamp());
+        System.out.println("Action called to end at t = " + t_stop);
     }
 
 }

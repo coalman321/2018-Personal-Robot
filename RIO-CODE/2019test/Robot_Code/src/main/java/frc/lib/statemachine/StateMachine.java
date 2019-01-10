@@ -9,12 +9,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class StateMachine {
 
-    private static AtomicInteger state = new AtomicInteger(-1);
-    private static AtomicBoolean wantStop = new AtomicBoolean(true);
+    private static final AtomicInteger state = new AtomicInteger(-1);
+    private static final AtomicBoolean wantStop = new AtomicBoolean(true);
     private volatile static ConcurrentLinkedQueue<ActionGroup> queuedStates;
     private volatile static ActionGroup currentState;
     private volatile static double t_start;
-    private static Runnable Man = () -> {
+    private static final double delay = 0.020;
+    private static final Runnable Man = () -> {
         try {
             state.set(0);
             SmartDashboard.putNumber("StateMachine/ state", state.get());
@@ -28,8 +29,9 @@ public class StateMachine {
                     currentState.onStart();
                     while (!currentState.isFinished() && !wantStop.get()) {
                         t_start = Timer.getFPGATimestamp();
+                        System.out.println(t_start);
                         currentState.onLoop();
-                        Timer.delay(0.02 - (Timer.getFPGATimestamp() - t_start));
+                        Timer.delay(delay - (Timer.getFPGATimestamp() - t_start));
                     }
                     currentState.onStop();
                     state.getAndAdd(1);
@@ -51,7 +53,11 @@ public class StateMachine {
     }
 
     public static void assertStop(){
-        wantStop.set(true);
+        if(!wantStop.get()){
+            wantStop.set(true);
+            System.out.println("State Machine Halting");
+        }
+        
     }
 
 

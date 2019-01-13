@@ -1,0 +1,7 @@
+sceneSetups:
+- path: Assets/custom/userinterface.unity
+  isLoaded: 1
+  isActive: 1
+- path: Assets/custom/field.unity
+  isLoaded: 0
+  isActive: 0

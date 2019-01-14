@@ -55,7 +55,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\custom\scripts\CloseOnClick.cs" />
+    <Compile Include="Assets\custom\scripts\CSVHandler.cs" />
     <Compile Include="Assets\custom\scripts\LoadSceneOnClick.cs" />
+    <Compile Include="Assets\custom\scripts\MaskImagePercent.cs" />
+    <Compile Include="Assets\custom\scripts\NetworkHelper.cs" />
     <Compile Include="Assets\custom\scripts\robotdrive.cs" />
     <Compile Include="Assets\UISample\Scripts\ActiveStateToggler.cs" />
     <Compile Include="Assets\UISample\Scripts\ApplicationManager.cs" />
@@ -71,21 +74,6 @@
     <None Include="Assets\UISample\Fonts\Jupiter\LICENSE.txt" />
     <None Include="Assets\UISample\Textures and Sprites\SF UI\Background\LICENSE.txt" />
     <None Include="Assets\UISample\Materials\UI-Default-No-Alpha.shader" />
-    <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>C:/Users/Cole Tucker/Documents/Github/2018-Personal-Robot/SIM-CODE/robosim/New Unity Project/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.PackageManagerUI.Editor">
-      <HintPath>C:/Users/Cole Tucker/Documents/Github/2018-Personal-Robot/SIM-CODE/robosim/New Unity Project/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.CollabProxy.Editor">
-      <HintPath>C:/Users/Cole Tucker/Documents/Github/2018-Personal-Robot/SIM-CODE/robosim/New Unity Project/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.TextMeshPro">
-      <HintPath>C:/Users/Cole Tucker/Documents/Github/2018-Personal-Robot/SIM-CODE/robosim/New Unity Project/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Analytics.DataPrivacy">
-      <HintPath>C:/Users/Cole Tucker/Documents/Github/2018-Personal-Robot/SIM-CODE/robosim/New Unity Project/Library/ScriptAssemblies/Unity.Analytics.DataPrivacy.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
     </Reference>

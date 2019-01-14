@@ -8,42 +8,35 @@ using UnityEngine;
 
 public class robotdrive : MonoBehaviour
 {
-    public const int port = 5800;
-
     public float speed;
+
+    public GameObject obj;
+    public bool isNetworked;
     private Rigidbody rb;
-    private UdpClient listener;
-    private IPEndPoint groupEP;
-    private byte[] data = new byte[100];
-    private double pose_x = 0, pose_y = 0, pose_theta = 0;
-    private int arm_prox = 0, arm_dist = 0, arm_wrist = 0;
+
+    private NetworkHelper net;
     
     // Start is called before the first frame update
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
-        listener = new UdpClient(port);
-        groupEP = new IPEndPoint(IPAddress.Any, port);
-        print(BitConverter.GetBytes(100.1098532).Length);
+        
+        if(!isNetworked)rb = GetComponent<Rigidbody>();
+        else net = new NetworkHelper(5800);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            listener.Close();
-            Application.Quit();
+        if (!isNetworked) {
+            float horiz = -Input.GetAxis("Vertical");
+            float vert = Input.GetAxis("Horizontal");
+            Vector3 move = new Vector3(horiz, 0.0f, vert);
+            rb.AddForce(move * speed);
         }
-        if (listener.Available > 0)
-        {
-            data = listener.Receive(ref groupEP);
-            //decode
+        else {
+            obj.transform.position = new Vector3(net.getX(), 430, net.getY());
+            obj.transform.rotation = new Quaternion(0, net.getTheta(), 0, 0);
         }
-        float horiz = -Input.GetAxis("Vertical");
-        float vert = Input.GetAxis("Horizontal");
-        Vector3 move = new Vector3(horiz, 0.0f, vert);
-        rb.AddForce(move * speed);
     }
     
     

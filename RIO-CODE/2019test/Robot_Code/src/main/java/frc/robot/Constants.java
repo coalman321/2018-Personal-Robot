@@ -74,7 +74,7 @@ public class Constants{
     public static final String DATA_SEPERATOR = ","; //logging data file delimiter
     public static final String[] NUMBER_KEYS = {};
     public static final String[] STRING_KEYS = {}; //no string keys currently
-    public static final String[] DS_KEYS = {};
+    public static final String[] DS_KEYS = {"Robot_Pose/X", "Robot_Pose/Y", "Robot_Pose/Theta", "Arm", "Arm", "Arm", "Arm", "Arm" };
 
     /*
      * ------------------------

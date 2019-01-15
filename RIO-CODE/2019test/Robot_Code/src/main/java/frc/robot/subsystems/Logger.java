@@ -24,6 +24,10 @@ public class Logger extends Subsystem {
 
     private static final Logger M_LOGGER = new Logger();
 
+    public static Logger getInstance() {
+        return M_LOGGER;
+    }
+
     private File base;
     private PrintWriter printWriter;
     private DatagramSocket sock;
@@ -63,7 +67,7 @@ public class Logger extends Subsystem {
             if(sock != null && initSuccess){
                 toWrite = "" + Timer.getFPGATimestamp() + Constants.DATA_SEPERATOR;
                 for (String key : dsKeys) {
-                    toWrite += SmartDashboard.getString(key, " ") + Constants.DATA_SEPERATOR;
+                    toWrite += SmartDashboard.getNumber(key, 0.0) + Constants.DATA_SEPERATOR;
                 }
                 toSend.setData(toWrite.getBytes());
                 try {
@@ -85,26 +89,24 @@ public class Logger extends Subsystem {
     private Logger() {
         numberKeys = new ArrayList<>();
         stringKeys = new ArrayList<>();
+        dsKeys = new ArrayList<>();
         try {
-            base = getMount();
-            System.out.println(base.getAbsolutePath());
-            printWriter = new PrintWriter(new BufferedWriter(new FileWriter(base)));
+            //base = getMount();
+            //System.out.println(base.getAbsolutePath());
+            //printWriter = new PrintWriter(new BufferedWriter(new FileWriter(base)));
 
             ConnectionInfo[] remoteTables = NetworkTableInstance.getDefault().getConnections();
             if(remoteTables.length > 0) driverStation = InetAddress.getByName(remoteTables[0].remote_ip);
             else driverStation = InetAddress.getByName("10.41.45.3");
+            SmartDashboard.putString("DS_IP", driverStation.getHostAddress());
             sock = new DatagramSocket(port);
             toSend = new DatagramPacket(new byte[10], 10, driverStation, port);
 
             initSuccess = true;
         } catch (Exception e) {
-            DriverStation.reportError("No valid logging path detected. Logger stopped", false);
+            DriverStation.reportError("Logging system failed! Investigate stacktrace!", e.getStackTrace());
             initSuccess = false;
         }
-    }
-
-    public static Logger getInstance() {
-        return M_LOGGER;
     }
 
     public void addNumberKeys(String[] keys) {

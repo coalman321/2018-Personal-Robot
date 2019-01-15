@@ -364,7 +364,7 @@ MonoBehaviour:
   speed: 50000
   gravity: -10000
   obj: {fileID: 388662031}
-  isNetworked: 0
+  isNetworked: 1
 --- !u!54 &388662033
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1024,7 +1024,7 @@ MeshCollider:
   m_GameObject: {fileID: 1872376173}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Convex: 0
   m_CookingOptions: 14

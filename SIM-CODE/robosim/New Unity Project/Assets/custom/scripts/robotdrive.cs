@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Sockets;
 
 using UnityEngine;
+using Quaternion = System.Numerics.Quaternion;
 
 public class robotdrive : MonoBehaviour
 {
@@ -22,7 +23,7 @@ public class robotdrive : MonoBehaviour
     {
         
         if(!isNetworked)rb = GetComponent<Rigidbody>();
-        else net = new NetworkHelper(5800);
+        net = new NetworkHelper(5800);
     }
 
     // Update is called once per frame
@@ -34,9 +35,12 @@ public class robotdrive : MonoBehaviour
             Vector3 move = new Vector3(horiz, gravity / speed, vert);
             rb.AddForce(move * Time.deltaTime * speed);
         }
-        else {
-            obj.transform.position = new Vector3(net.getX(), 430, net.getY());
-            obj.transform.rotation = new Quaternion(0, net.getTheta(), 0, 0);
+        else
+        {
+            net.update();
+            obj.transform.position = new Vector3(net.getX(), 3000, net.getY()); //430
+            Debug.Log(net.getTheta());
+            obj.transform.rotation = UnityEngine.Quaternion.Euler(0.0f, net.getTheta(), 0.0f);
         }
     }
     

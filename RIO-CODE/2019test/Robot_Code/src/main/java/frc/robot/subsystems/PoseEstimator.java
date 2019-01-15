@@ -99,9 +99,9 @@ public class PoseEstimator extends Subsystem {
     @Override
     public void outputTelemetry() {
         Pose2d odometry = getLatestFieldToVehicle().getValue();
-        SmartDashboard.putNumber("Robot Pose/X", odometry.getTranslation().x());
-        SmartDashboard.putNumber("Robot Pose/Y", odometry.getTranslation().y());
-        SmartDashboard.putNumber("Robot Pose/Theta", odometry.getRotation().getDegrees());
+        SmartDashboard.putNumber("Robot_Pose/X", odometry.getTranslation().x());
+        SmartDashboard.putNumber("Robot_Pose/Y", odometry.getTranslation().y());
+        SmartDashboard.putNumber("Robot_Pose/Theta", odometry.getRotation().getDegrees());
     }
 
     @Override

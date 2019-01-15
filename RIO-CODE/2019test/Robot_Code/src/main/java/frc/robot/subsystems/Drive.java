@@ -133,10 +133,10 @@ public class Drive extends Subsystem {
 
     public synchronized void readPeriodicInputs() {
         periodicIO.gyro_heading = Rotation2d.fromDegrees(imu.getFusedHeading()).rotateBy(gyroOffset);
-        periodicIO.left_position_ticks = frontLeft.getSelectedSensorPosition(0);
-        periodicIO.right_position_ticks = frontRight.getSelectedSensorPosition(0);
-        periodicIO.left_velocity_ticks_per_100ms = frontLeft.getSelectedSensorVelocity(0);
-        periodicIO.right_velocity_ticks_per_100ms = frontRight.getSelectedSensorVelocity(0);
+        //periodicIO.left_position_ticks = frontLeft.getSelectedSensorPosition(0);
+        //periodicIO.right_position_ticks = frontRight.getSelectedSensorPosition(0);
+        //periodicIO.left_velocity_ticks_per_100ms = frontLeft.getSelectedSensorVelocity(0);
+        //periodicIO.right_velocity_ticks_per_100ms = frontRight.getSelectedSensorVelocity(0);
     }
 
     public synchronized void writePeriodicOutputs() {
@@ -146,10 +146,10 @@ public class Drive extends Subsystem {
             frontLeft.set(ControlMode.Velocity, periodicIO.left_demand);
             rearLeft.set(ControlMode.Follower, frontLeft.getDeviceID());
         } else {
-            frontRight.set(ControlMode.PercentOutput, periodicIO.right_demand);
-            rearRight.set(ControlMode.Follower, frontRight.getDeviceID());
-            frontLeft.set(ControlMode.PercentOutput, periodicIO.left_demand);
-            rearLeft.set(ControlMode.Follower, frontLeft.getDeviceID());
+            //frontRight.set(ControlMode.PercentOutput, periodicIO.right_demand);
+            //rearRight.set(ControlMode.Follower, frontRight.getDeviceID());
+            //frontLeft.set(ControlMode.PercentOutput, periodicIO.left_demand);
+            //rearLeft.set(ControlMode.Follower, frontLeft.getDeviceID());
         }
     }
 

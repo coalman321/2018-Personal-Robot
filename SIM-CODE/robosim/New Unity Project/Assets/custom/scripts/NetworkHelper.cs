@@ -17,54 +17,52 @@ public class NetworkHelper {
     public NetworkHelper(int port){
         listener = new UdpClient(port);
         groupEP = new IPEndPoint(IPAddress.Any, port);
+        data = new string[9];
     }
 
-    public float getX() {
-        Update();
+    public float getTimeStamp() {
         return float.Parse(data[0]);
     }
     
-    public float getY() {
-        Update();
+    public float getX() {
         return float.Parse(data[1]);
     }
     
-    public float getTheta() {
-        Update();
+    public float getY() {
         return float.Parse(data[2]);
     }
     
-    public float getProx() {
-        Update();
+    public float getTheta() {
         return float.Parse(data[3]);
     }
     
-    public float getDist() {
-        Update();
+    public float getProx() {
         return float.Parse(data[4]);
     }
     
-    public float getWrist() {
-        Update();
+    public float getDist() {
         return float.Parse(data[5]);
+    }
+    
+    public float getWrist() {
+        return float.Parse(data[6]);
     }
 
     public int getCurrentState() {
-        Update();
-        return int.Parse(data[6]);
-    }
-    
-    public int getTotalStates() {
-        Update();
         return int.Parse(data[7]);
     }
     
-    public void Update(){
+    public int getTotalStates() {
+        return int.Parse(data[8]);
+    }
+    
+    public void update(){
         if (listener.Available > 0){
             //handle update
             raw = listener.Receive(ref groupEP);
             s  = System.Text.Encoding.ASCII.GetString(raw);
             data = CSVReader.readCSVLine(s);
+            //Debug.Log(data[0] + " " + data[1]);
         }
     }
 }

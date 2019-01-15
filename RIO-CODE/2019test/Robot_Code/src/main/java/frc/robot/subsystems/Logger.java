@@ -49,10 +49,10 @@ public class Logger extends Subsystem {
             if (printWriter != null && initSuccess) { //probably redundant
                 toWrite = "" + Timer.getFPGATimestamp() + Constants.DATA_SEPERATOR;
                 for (String key : numberKeys) {
-                    toWrite += "" + SmartDashboard.getNumber(key, 0.0) + Constants.DATA_SEPERATOR;
+                    toWrite += SmartDashboard.getNumber(key, 0.0) + Constants.DATA_SEPERATOR;
                 }
                 for (String key : stringKeys) {
-                    toWrite += "" + SmartDashboard.getString(key, " ") + Constants.DATA_SEPERATOR;
+                    toWrite += SmartDashboard.getString(key, " ") + Constants.DATA_SEPERATOR;
                 }
                 toWrite += "\r\n";
                 //System.out.println(toWrite);
@@ -63,7 +63,7 @@ public class Logger extends Subsystem {
             if(sock != null && initSuccess){
                 toWrite = "" + Timer.getFPGATimestamp() + Constants.DATA_SEPERATOR;
                 for (String key : dsKeys) {
-                    toWrite += "" + SmartDashboard.getString(key, " ") + Constants.DATA_SEPERATOR;
+                    toWrite += SmartDashboard.getString(key, " ") + Constants.DATA_SEPERATOR;
                 }
                 toSend.setData(toWrite.getBytes());
                 try {

@@ -6,9 +6,7 @@ import frc.lib.util.HIDHelper;
 public class Constants{
 
     /*
-     * ----------------------
-     * || Port Assignments ||
-     * ----------------------
+     * ---------------------- || Port Assignments || ----------------------
      */
 
     // Drive CAN ID assignments
@@ -76,6 +74,7 @@ public class Constants{
     public static final String DATA_SEPERATOR = ","; //logging data file delimiter
     public static final String[] NUMBER_KEYS = {};
     public static final String[] STRING_KEYS = {}; //no string keys currently
+    public static final String[] DS_KEYS = {};
 
     /*
      * ------------------------

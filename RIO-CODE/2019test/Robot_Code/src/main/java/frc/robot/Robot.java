@@ -49,7 +49,9 @@ public class Robot extends TimedRobot {
         manager.registerDisabledLoops(disabled);
         VersionData.WriteBuildInfoToDashboard();
         oi = new OI();
-
+        Logger.getInstance().addNumberKeys(Constants.NUMBER_KEYS);
+        Logger.getInstance().addStringKeys(Constants.STRING_KEYS);
+        Logger.getInstance().addDSKeys(Constants.DS_KEYS);
     }
 
     @Override

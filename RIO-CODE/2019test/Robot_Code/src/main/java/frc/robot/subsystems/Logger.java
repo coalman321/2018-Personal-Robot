@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.networktables.ConnectionInfo;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -10,7 +12,11 @@ import frc.robot.Constants;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -20,9 +26,14 @@ public class Logger extends Subsystem {
 
     private File base;
     private PrintWriter printWriter;
-    private List<String> numberKeys, stringKeys;
+    private DatagramSocket sock;
+    private DatagramPacket toSend;
+    private InetAddress driverStation;
+    private List<String> numberKeys, stringKeys, dsKeys;
     private String toWrite;
     private boolean initSuccess;
+
+    private final int port = 5800;
 
     private Loop mLoop = new Loop(){
 
@@ -47,8 +58,19 @@ public class Logger extends Subsystem {
                 //System.out.println(toWrite);
                 printWriter.write(toWrite);
                 printWriter.flush();
-            } else {
 
+            }
+            if(sock != null && initSuccess){
+                toWrite = "" + Timer.getFPGATimestamp() + Constants.DATA_SEPERATOR;
+                for (String key : dsKeys) {
+                    toWrite += "" + SmartDashboard.getString(key, " ") + Constants.DATA_SEPERATOR;
+                }
+                toSend.setData(toWrite.getBytes());
+                try {
+                    sock.send(toSend);
+                } catch (IOException e) {
+                    DriverStation.reportError("Failed to send packet due to exception!", e.getStackTrace());
+                }
             }
         }
 
@@ -67,6 +89,13 @@ public class Logger extends Subsystem {
             base = getMount();
             System.out.println(base.getAbsolutePath());
             printWriter = new PrintWriter(new BufferedWriter(new FileWriter(base)));
+
+            ConnectionInfo[] remoteTables = NetworkTableInstance.getDefault().getConnections();
+            if(remoteTables.length > 0) driverStation = InetAddress.getByName(remoteTables[0].remote_ip);
+            else driverStation = InetAddress.getByName("10.41.45.3");
+            sock = new DatagramSocket(port);
+            toSend = new DatagramPacket(new byte[10], 10, driverStation, port);
+
             initSuccess = true;
         } catch (Exception e) {
             DriverStation.reportError("No valid logging path detected. Logger stopped", false);
@@ -84,6 +113,10 @@ public class Logger extends Subsystem {
 
     public void addStringKeys(String[] keys) {
         Collections.addAll(stringKeys, keys);
+    }
+
+    public void addDSKeys(String[] keys){
+        Collections.addAll(dsKeys, keys);
     }
 
     private File getMount() {

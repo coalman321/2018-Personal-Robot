@@ -9,6 +9,7 @@ using UnityEngine;
 public class robotdrive : MonoBehaviour
 {
     public float speed;
+    public float gravity;
 
     public GameObject obj;
     public bool isNetworked;
@@ -30,8 +31,8 @@ public class robotdrive : MonoBehaviour
         if (!isNetworked) {
             float horiz = -Input.GetAxis("Vertical");
             float vert = Input.GetAxis("Horizontal");
-            Vector3 move = new Vector3(horiz, 0.0f, vert);
-            rb.AddForce(move * speed);
+            Vector3 move = new Vector3(horiz, gravity / speed, vert);
+            rb.AddForce(move * Time.deltaTime * speed);
         }
         else {
             obj.transform.position = new Vector3(net.getX(), 430, net.getY());

@@ -58,7 +58,9 @@ public class NetworkHelper {
     
     public void update(){
         if (listener.Available > 0){
-            //handle update
+            while (listener.Available > 1) {
+                //void unused packets
+            }
             raw = listener.Receive(ref groupEP);
             s  = System.Text.Encoding.ASCII.GetString(raw);
             data = CSVReader.readCSVLine(s);

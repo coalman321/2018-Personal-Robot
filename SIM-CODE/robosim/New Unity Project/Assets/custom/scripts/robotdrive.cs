@@ -11,6 +11,7 @@ public class robotdrive : MonoBehaviour
 {
     public float speed;
     public float gravity;
+    public float conversion;
 
     public GameObject obj;
     public bool isNetworked;
@@ -38,10 +39,18 @@ public class robotdrive : MonoBehaviour
         else
         {
             net.update();
-            obj.transform.position = new Vector3(net.getX(), 3000, net.getY()); //430
+            obj.transform.position = new Vector3(net.getX()/conversion, 3000, net.getY()/conversion); //430
             Debug.Log(net.getTheta());
             obj.transform.rotation = UnityEngine.Quaternion.Euler(0.0f, net.getTheta(), 0.0f);
         }
+    }
+
+    public NetworkHelper getNetworkHelper() {
+        return net;
+    }
+
+    public bool getNetworked() {
+        return isNetworked;
     }
     
     

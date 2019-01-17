@@ -12,4 +12,8 @@ public class CloseOnClick : MonoBehaviour
             Application.Quit();
         #endif
     }
+
+    public void Update() {
+        if(Input.GetKeyDown(KeyCode.Escape)) doClose();
+    }
 }

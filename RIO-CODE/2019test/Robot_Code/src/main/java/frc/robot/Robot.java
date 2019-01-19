@@ -72,6 +72,8 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
+        Drive.getInstance().reset();
+        PoseEstimator.getInstance().reset();
         disabled.stop();
         enabled.start();
         //StateMachine.runMachine(new TestMach());
@@ -84,6 +86,8 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
+        Drive.getInstance().reset();
+        PoseEstimator.getInstance().reset();
         disabled.stop();
         enabled.start();
     }

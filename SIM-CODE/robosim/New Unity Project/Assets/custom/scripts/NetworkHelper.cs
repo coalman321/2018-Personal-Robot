@@ -43,7 +43,7 @@ public class NetworkHelper
         return float.Parse(data[1]);
     }
 
-    public float getY()
+    public float getZ()
     {
         return float.Parse(data[2]);
     }
@@ -92,8 +92,6 @@ public class NetworkHelper
                 refreshFileData(frame);
                 break;
         }
-        
-
     }
 
     private void refreshNetworkData() {
@@ -133,6 +131,7 @@ public class NetworkHelper
     public enum Mode {
         Networked,
         Recording,
-        Playback
+        Playback,
+        Disconnected
     }
 }

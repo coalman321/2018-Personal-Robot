@@ -4,26 +4,21 @@ using UnityEngine;
 public class robotdrive : MonoBehaviour
 {
     public float conversion;
-    public float gravity;
+    public float gravity, speed;
     public bool isNetworked, isRecorded, isPlayback;
     public string saveDir, file;
-    
+
     private NetworkHelper net;
     private Rigidbody rb;
-    public float speed;
     private float xInitialPosition, yInitialPosition, zInitialPosition, yInitialRotation;
     private float x, z, theta;
-    private int frame, frames;
+    public int frame, frames;
 
-    public int Frame {
-        get { return frame; }
-        set { frame = value; }
-    }
     
     // Start is called before the first frame update
     private void Start()
     {
-        net = new NetworkHelper(5800, saveDir, 100, NetworkHelper.Mode.Networked);// start in networked mode and adjust as needed
+        net = new NetworkHelper(5800, saveDir, 100, NetworkHelper.Mode.Disconnected);// start in networked mode and adjust as needed
         xInitialPosition = gameObject.transform.position.x;
         yInitialPosition = gameObject.transform.position.y;
         zInitialPosition = gameObject.transform.position.z;
@@ -45,17 +40,17 @@ public class robotdrive : MonoBehaviour
         if (net.mode == NetworkHelper.Mode.Playback) {
             net.update(frame);
             x = xInitialPosition - net.getX() / conversion;
-            z = zInitialPosition - net.getY() / conversion;
+            z = zInitialPosition - net.getZ() / conversion;
             theta = yInitialRotation - net.getTheta();
             gameObject.transform.position = new Vector3(x, yInitialPosition, z); // y is vertical in unity but not in pose
             gameObject.transform.rotation = Quaternion.Euler(0.0f, theta, 0.0f); //rotation around vertical axis
-            frame ++;
+            //Debug.Log(string.Format("X: {0}, Y: {1}, Theta: {2}", x, y, theta));
+            frame = frame > frames? frame: frame + 1;
         }
-        else if (net.mode == NetworkHelper.Mode.Recording || net.mode == NetworkHelper.Mode.Networked)
-        {
+        else if (net.mode == NetworkHelper.Mode.Recording || net.mode == NetworkHelper.Mode.Networked){
             net.update(0); // frame index is unused therefore zero
             x = xInitialPosition - net.getX() / conversion;
-            z = zInitialPosition - net.getY() / conversion;
+            z = zInitialPosition - net.getZ() / conversion;
             theta = yInitialRotation - net.getTheta();
             gameObject.transform.position = new Vector3(x, yInitialPosition, z); // y is vertical in unity but not in pose
             gameObject.transform.rotation = Quaternion.Euler(0.0f, theta, 0.0f); //rotation around vertical axis
@@ -63,8 +58,11 @@ public class robotdrive : MonoBehaviour
         }
     }
 
-    public NetworkHelper getNetworkHelper()
-    {
-        return net;
+    public float autoPercent() {
+        return (float)net.getCurrentState() / net.getTotalStates();
+    }
+
+    public NetworkHelper.Mode getNetworkMode() {
+        return net.mode;
     }
 }

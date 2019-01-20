@@ -199,6 +199,11 @@ PrefabInstance:
       propertyPath: drive
       value: 
       objectReference: {fileID: 671223009}
+    - target: {fileID: 2226888410639245558, guid: 0c88ebc68b57345409eea325b7a1c07c,
+        type: 3}
+      propertyPath: percent
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0c88ebc68b57345409eea325b7a1c07c, type: 3}
 --- !u!4 &165881546 stripped
@@ -492,12 +497,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   conversion: 39.3701
   gravity: 0
+  speed: 2
   isNetworked: 0
   isRecorded: 0
   isPlayback: 0
-  saveDir: 
+  saveDir: C:\\Users\\Cole Tucker\\Desktop\\test
   file: 
-  speed: 2
+  frame: 0
+  frames: 0
 --- !u!54 &671223011
 Rigidbody:
   m_ObjectHideFlags: 0

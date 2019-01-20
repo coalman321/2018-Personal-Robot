@@ -10,7 +10,7 @@ public class NetworkHelper
     private string[] data;
     private IPEndPoint groupEP;
     private byte[] raw;
-    private string s;
+    private string s, saveDir;
     
     private readonly DataRecorder recorder;
     
@@ -22,14 +22,21 @@ public class NetworkHelper
     // Start is called before the first frame update
     public NetworkHelper(int port, string saveDir, int timeout, Mode initial)
     {
-        listener = new UdpClient(port);
-        groupEP = new IPEndPoint(IPAddress.Any, port);
-        data = new[] {"0", "0", "0", "0", "0", "0", "0", "0", "0"};
-        
-        recorder = new DataRecorder(saveDir, ".sav", timeout);
         mode = initial;
-
-        
+        switch (mode)
+        {
+            case Mode.Recording:
+                recorder = new DataRecorder(saveDir, ".sav", timeout);
+                goto case Mode.Networked;
+            case Mode.Networked:
+               listener = new UdpClient(port);
+               groupEP = new IPEndPoint(IPAddress.Any, port);
+               break;
+            case Mode.Playback:
+                this.saveDir = saveDir;
+                break; 
+        }
+        data = new[] {"0", "0", "0", "0", "0", "0", "0", "0", "0"};
     }
     
 
@@ -86,7 +93,6 @@ public class NetworkHelper
                 break;
             case Mode.Recording:
                 refreshNetworkData();
-                recorder.update(s);
                 break;
             case Mode.Playback:
                 refreshFileData(frame);
@@ -107,7 +113,7 @@ public class NetworkHelper
             raw = listener.Receive(ref groupEP);
             s = Encoding.ASCII.GetString(raw);
             data = CSVReader.readCSVLine(s);
-            //Debug.Log(data[0] + " " + data[1]);
+            recorder.update(s);
         }
     }
 
@@ -118,9 +124,13 @@ public class NetworkHelper
     }
 
     public int loadSave(string file) {
-        player = new DataPlayer(file);
-        loadedFile = player.readIntoMem();
+        loadedFile = DataPlayer.readIntoMem(file);
         return loadedFile.Length - 1;
+    }
+
+    public string[] getSaves()
+    {
+        return DataPlayer.getFilesInDir(saveDir);
     }
     
     public static int Clamp( int value, int min, int max )

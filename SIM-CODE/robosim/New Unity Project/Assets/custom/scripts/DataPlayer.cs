@@ -8,19 +8,13 @@ public class DataPlayer
         return Directory.GetFiles(dir, "*.sav");
     }
 
-    private StreamReader reader;
-    private int fileLen;
-
-    public DataPlayer(string filepath) {
-        fileLen = File.ReadLines(filepath).Count();
-        reader = new StreamReader(filepath);    
-    }
-
     /**
      * this may be a bad idea
      * it will allow for scrolling playback though
      */
-    public string[] readIntoMem() {
+    public static string[] readIntoMem(string filepath) {
+        int fileLen = File.ReadLines(filepath).Count();
+        StreamReader reader = new StreamReader(filepath); 
         string[] store = new string[fileLen];
         int index = 0;
         while (!reader.EndOfStream) {

@@ -5,6 +5,3 @@ sceneSetups:
 - path: Assets/custom/field.unity
   isLoaded: 0
   isActive: 0
-- path: Assets/custom/playbackfield.unity
-  isLoaded: 0
-  isActive: 0

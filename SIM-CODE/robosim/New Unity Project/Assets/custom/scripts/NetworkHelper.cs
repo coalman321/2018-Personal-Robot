@@ -10,7 +10,7 @@ public class NetworkHelper
     private string[] data;
     private IPEndPoint groupEP;
     private byte[] raw;
-    private string s, saveDir;
+    private string s;
     
     private readonly DataRecorder recorder;
     
@@ -20,20 +20,19 @@ public class NetworkHelper
     public Mode mode { get; set; }
 
     // Start is called before the first frame update
-    public NetworkHelper(int port, string saveDir, int timeout, Mode initial)
-    {
+    public NetworkHelper(int port, int timeout, Mode initial) {
         mode = initial;
         switch (mode)
         {
             case Mode.Recording:
-                recorder = new DataRecorder(saveDir, ".sav", timeout);
+                recorder = new DataRecorder(GameController.getInstance().SaveLocation, ".sav", timeout);
                 goto case Mode.Networked;
             case Mode.Networked:
                listener = new UdpClient(port);
                groupEP = new IPEndPoint(IPAddress.Any, port);
                break;
             case Mode.Playback:
-                this.saveDir = saveDir;
+                loadSave(GameController.getInstance().loadedFile);
                 break; 
         }
         data = new[] {"0", "0", "0", "0", "0", "0", "0", "0", "0"};
@@ -124,13 +123,13 @@ public class NetworkHelper
     }
 
     public int loadSave(string file) {
-        loadedFile = DataPlayer.readIntoMem(file);
+        loadedFile = DataPlayer.readIntoMem(GameController.getInstance().SaveLocation + "\\" + file);
         return loadedFile.Length - 1;
     }
 
-    public string[] getSaves()
+    public static string[] getSaves()
     {
-        return DataPlayer.getFilesInDir(saveDir);
+        return DataPlayer.getFilesInDir(GameController.getInstance().SaveLocation);
     }
     
     public static int Clamp( int value, int min, int max )

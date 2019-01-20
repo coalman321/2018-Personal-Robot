@@ -97,7 +97,7 @@ public class Logger extends Subsystem {
 
             ConnectionInfo[] remoteTables = NetworkTableInstance.getDefault().getConnections();
             if(remoteTables.length > 0) driverStation = InetAddress.getByName(remoteTables[0].remote_ip);
-            else driverStation = InetAddress.getByName("10.41.45.3");
+            else driverStation = InetAddress.getByName("10.41.45.10");
             SmartDashboard.putString("DS_IP", driverStation.getHostAddress());
             sock = new DatagramSocket(port);
             toSend = new DatagramPacket(new byte[10], 10, driverStation, port);

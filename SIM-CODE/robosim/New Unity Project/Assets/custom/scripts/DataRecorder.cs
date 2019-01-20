@@ -33,6 +33,6 @@ public class DataRecorder {
 
     public void reset() {
         writer?.Close();
-        writer = new StreamWriter(recordingDir + "\\" + DateTime.Now.ToString("MMMdddyyyyHHmmss") + fileEx);
+        writer = new StreamWriter(recordingDir + "/" + DateTime.Now.ToString("ddd,ddMMMyyyyHHmmss") + fileEx);
     }
 }

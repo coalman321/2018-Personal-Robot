@@ -11,7 +11,8 @@ public class SaveLoaderController : MonoBehaviour {
         foreach (string save in saves) {
             GameObject newLoadableSave = Instantiate(loadButonPrefab);
             SaveButtonController controller = newLoadableSave.GetComponent<SaveButtonController>();
-            controller.fileName.text = save;
+            controller.file = save;
+            controller.fileName.text = save.Substring(save.LastIndexOf("\\") + 1);
             newLoadableSave.transform.parent = contentPanel.transform;
             newLoadableSave.transform.localScale = Vector3.one;
         }

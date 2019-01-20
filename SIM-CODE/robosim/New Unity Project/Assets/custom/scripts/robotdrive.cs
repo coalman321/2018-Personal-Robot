@@ -4,9 +4,7 @@ using UnityEngine;
 public class robotdrive : MonoBehaviour
 {
     public float conversion;
-    public float gravity, speed;
-    public bool isNetworked, isRecorded, isPlayback;
-    public string saveDir, file;
+    public float gravity;
     public int timeToNewFile = 100;
 
     private NetworkHelper net;
@@ -24,12 +22,14 @@ public class robotdrive : MonoBehaviour
         zInitialPosition = gameObject.transform.position.z;
         yInitialRotation = gameObject.transform.eulerAngles.y;
         //Debug.Log(string.Format("X: {0}, Y: {1}, Theta: {2}", xInitialPosition, zInitialPosition, yInitialRotation));
+        Debug.Log(string.Format("Game Controller Mode : {0} current File: {1}" , GameController.getInstance().mode, GameController.getInstance().loadedFile));
         
         net = new NetworkHelper(5800, timeToNewFile, GameController.getInstance().mode);// start in networked mode and adjust as needed
         if (net.mode == NetworkHelper.Mode.Playback) {
-            frames = net.loadSave(saveDir + "\\" + file);
+            frames = net.loadSave(GameController.getInstance().loadedFile);
             frame = 0;
         }
+        
     }
 
     // Update is called once per frame
@@ -57,7 +57,7 @@ public class robotdrive : MonoBehaviour
     }
 
     public float autoPercent() {
-        return (float)net.getCurrentState() / net.getTotalStates();
+        return net.getCurrentState() / net.getTotalStates();
     }
 
     public int getFrames() {

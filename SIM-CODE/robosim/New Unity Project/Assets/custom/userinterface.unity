@@ -929,7 +929,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1501604793
 RectTransform:
   m_ObjectHideFlags: 0
@@ -999,7 +999,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b183153b6fbc68144af16dedec67b184, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loadButonPrefab: {fileID: 0}
+  loadButonPrefab: {fileID: 8755200585897530594, guid: c648c14e19715034b8f53f4677e9e093,
+    type: 3}
   contentPanel: {fileID: 1485579669}
 --- !u!1 &1559768051
 GameObject:

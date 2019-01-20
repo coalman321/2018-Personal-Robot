@@ -3,6 +3,7 @@ using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using UnityEngine;
 
 public class NetworkHelper
 {
@@ -26,11 +27,13 @@ public class NetworkHelper
         {
             case Mode.Recording:
                 recorder = new DataRecorder(GameController.getInstance().SaveLocation, ".sav", timeout);
-                goto case Mode.Networked;
+                listener = new UdpClient(port);
+                groupEP = new IPEndPoint(IPAddress.Any, port);
+                break;
             case Mode.Networked:
-               listener = new UdpClient(port);
-               groupEP = new IPEndPoint(IPAddress.Any, port);
-               break;
+                listener = new UdpClient(port);
+                groupEP = new IPEndPoint(IPAddress.Any, port);
+                break;
             case Mode.Playback:
                 loadSave(GameController.getInstance().loadedFile);
                 break; 
@@ -74,14 +77,14 @@ public class NetworkHelper
         return float.Parse(data[6]);
     }
 
-    public int getCurrentState()
+    public float getCurrentState()
     {
-        return int.Parse(data[7]);
+        return float.Parse(data[7]);
     }
 
-    public int getTotalStates()
+    public float getTotalStates()
     {
-        return int.Parse(data[8]);
+        return float.Parse(data[8]);
     }
 
     public void update(int frame)
@@ -112,6 +115,7 @@ public class NetworkHelper
             raw = listener.Receive(ref groupEP);
             s = Encoding.ASCII.GetString(raw);
             data = CSVReader.readCSVLine(s);
+            //Debug.Log(string.Format("0: {0} 1: {1} 2: {2} 3: {3} 4: {4} 5: {5} 6: {6} 7: {7} 8: {8}", data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8]));
             recorder.update(s);
         }
     }
@@ -123,7 +127,7 @@ public class NetworkHelper
     }
 
     public int loadSave(string file) {
-        loadedFile = DataPlayer.readIntoMem(GameController.getInstance().SaveLocation + "\\" + file);
+        loadedFile = DataPlayer.readIntoMem(file);
         return loadedFile.Length - 1;
     }
 

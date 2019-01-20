@@ -4,11 +4,13 @@ using UnityEngine.UI;
 
 public class SaveButtonController : MonoBehaviour {
     
-       public Text fileName;
+    public Text fileName;
+    public string file;
 
-       public void loadSave(int sceneIndex) {
-           GameController.getInstance().loadedFile = fileName.text;
-           SceneManager.LoadScene(sceneIndex); 
-       }
+    public void loadSave(int sceneIndex) {
+       GameController.getInstance().loadedFile = file;
+       GameController.getInstance().mode = NetworkHelper.Mode.Playback;
+       SceneManager.LoadScene(sceneIndex); 
+    }
        
 }

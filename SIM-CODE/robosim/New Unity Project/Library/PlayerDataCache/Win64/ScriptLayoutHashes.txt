@@ -1,6 +1,6 @@
 Win64
 PlayerPath?
-C:/Users/Cole Tucker/Documents/Github/2018-Personal-Robot/SIM-CODE/robosim/New Unity Project/build/New Unity Project.exe
+D:/Github Repos/2018-Personal-Robot/SIM-CODE/robosim/New Unity Project/build/New Unity Project.exe
 SceneListBegin?
 Assets/custom/userinterface.unity
 Assets/custom/field.unity

@@ -8,6 +8,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.RobotBase;
+import frc.lib.util.VersionData;
 
 /**
  * Do NOT add any static variables to this class, or any initialization at all.
@@ -23,7 +24,7 @@ public final class Main {
    *
    * <p>If you change your main robot class, change the parameter type.
    */
-  public static void main(String... args) {
-    RobotBase.startRobot(Robot::new);
-  }
+    public static void main(String... args) {
+        RobotBase.startRobot(Robot::new);
+    }
 }

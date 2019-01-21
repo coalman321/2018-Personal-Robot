@@ -24,8 +24,8 @@ public class RobotDrive : MonoBehaviour
         yInitialRotation = gameObject.transform.eulerAngles.y;
         //Debug.Log(string.Format("X: {0}, Y: {1}, Theta: {2}", xInitialPosition, zInitialPosition, yInitialRotation));
         Debug.Log(string.Format("Game Controller Mode : {0} \t current File: {1}" , GameController.getInstance().mode, GameController.getInstance().loadedFile));
-        
-        net = new NetworkHelper(5800, timeToNewFile, GameController.getInstance().mode, robotIP);// start in networked mode and adjust as needed
+
+        net = new NetworkHelper(5800, timeToNewFile, GameController.getInstance().mode, robotIP);
         if (net.mode == NetworkHelper.Mode.Playback) {
             frames = net.loadSave(GameController.getInstance().loadedFile);
             frame = 0;

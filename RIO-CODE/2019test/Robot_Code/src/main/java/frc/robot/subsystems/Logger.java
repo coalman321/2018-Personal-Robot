@@ -1,14 +1,14 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.networktables.ConnectionInfo;
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.lib.loops.ILooper;
 import frc.lib.loops.Loop;
+import frc.lib.util.VersionData;
 import frc.robot.Constants;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -17,6 +17,7 @@ import java.io.PrintWriter;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.ServerSocket;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -30,12 +31,16 @@ public class Logger extends Subsystem {
 
     private File base;
     private PrintWriter printWriter;
-    private DatagramSocket sock;
-    private DatagramPacket toSend;
-    private InetAddress driverStation;
     private List<String> numberKeys, stringKeys, dsKeys;
     private String toWrite;
     private boolean initSuccess;
+
+    private DatagramSocket sock;
+    private DatagramPacket toSend;
+    private InetAddress driverStation;
+
+    private ServerSocket initFromDS;
+    private BufferedReader fromDS;
 
     private final int port = 5800;
 
@@ -91,14 +96,11 @@ public class Logger extends Subsystem {
         stringKeys = new ArrayList<>();
         dsKeys = new ArrayList<>();
         try {
-            //base = getMount();
+            base = getMount();
             //System.out.println(base.getAbsolutePath());
-            //printWriter = new PrintWriter(new BufferedWriter(new FileWriter(base)));
+            printWriter = new PrintWriter(new BufferedWriter(new FileWriter(base)));
 
-            ConnectionInfo[] remoteTables = NetworkTableInstance.getDefault().getConnections();
-            if(remoteTables.length > 0) driverStation = InetAddress.getByName(remoteTables[0].remote_ip);
-            else driverStation = InetAddress.getByName("10.41.45.3");
-            SmartDashboard.putString("DS_IP", driverStation.getHostAddress());
+            driverStation = VersionData.driverStationAddress;
             sock = new DatagramSocket(port);
             toSend = new DatagramPacket(new byte[10], 10, driverStation, port);
 

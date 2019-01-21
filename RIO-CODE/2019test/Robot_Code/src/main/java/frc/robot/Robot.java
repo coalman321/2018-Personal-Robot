@@ -45,6 +45,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotInit() {
+        VersionData.getDriverStationIP();
         manager.registerEnabledLoops(enabled);
         manager.registerDisabledLoops(disabled);
         VersionData.WriteBuildInfoToDashboard();

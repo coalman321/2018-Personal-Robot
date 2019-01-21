@@ -1,19 +1,25 @@
 package frc.lib.util;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.net.InetSocketAddress;
 import java.nio.file.Files;
 import java.util.List;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 
 public class VersionData {
+
+    public static InetAddress driverStationAddress;
 
     /**
      * reads build data from file and writes to driverstation plus dashboard
@@ -62,6 +68,29 @@ public class VersionData {
             DriverStation.reportError("Failed to read version.dat in deploy directory!", e.getStackTrace());
             return "";
         }
+    }
+
+    public static void getDriverStationIP(){
+        try {
+            ServerSocket sock = new ServerSocket(5801);
+            Notifier noti = new Notifier(() -> {
+                try {
+                    sock.close();
+                } catch (IOException e) {
+                }
+            });
+            noti.startSingle(30.00);
+            Socket connection = sock.accept();
+            driverStationAddress = ((InetSocketAddress)connection.getRemoteSocketAddress()).getAddress();
+        } catch (Exception e) {
+            e.printStackTrace();
+            try {
+                driverStationAddress = InetAddress.getByName("10.41.45.3");
+            } catch (UnknownHostException e1) {
+                // how on earth
+			}            
+        }
+        SmartDashboard.putString("DS_IP", driverStationAddress.getHostAddress());
     }
 
 }

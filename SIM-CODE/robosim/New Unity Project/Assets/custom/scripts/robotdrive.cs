@@ -4,7 +4,7 @@ public class RobotDrive : MonoBehaviour
 {
     public float conversion;
     public float gravity;
-    public int timeToNewFile = 100;
+    public int timeToNewFile = 100, port = 5800;
     public string robotIP = "10.41.45.2";
     
 
@@ -25,7 +25,7 @@ public class RobotDrive : MonoBehaviour
         //Debug.Log(string.Format("X: {0}, Y: {1}, Theta: {2}", xInitialPosition, zInitialPosition, yInitialRotation));
         Debug.Log(string.Format("Game Controller Mode : {0} \t current File: {1}" , GameController.getInstance().mode, GameController.getInstance().loadedFile));
 
-        net = new NetworkHelper(5800, timeToNewFile, GameController.getInstance().mode, robotIP);
+        net = new NetworkHelper(port, timeToNewFile, GameController.getInstance().mode, robotIP);
         if (net.mode == NetworkHelper.Mode.Playback) {
             frames = net.loadSave(GameController.getInstance().loadedFile);
             frame = 0;

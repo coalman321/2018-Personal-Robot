@@ -18,6 +18,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.ServerSocket;
+import java.net.SocketException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -33,7 +34,7 @@ public class Logger extends Subsystem {
     private PrintWriter printWriter;
     private List<String> numberKeys, stringKeys, dsKeys;
     private String toWrite;
-    private boolean initSuccess;
+    private boolean loggerSuccess = false, unitySuccess = false;
 
     private DatagramSocket sock;
     private DatagramPacket toSend;
@@ -48,14 +49,14 @@ public class Logger extends Subsystem {
 
         @Override
         public void onStart(double timestamp) {
-            if(printWriter == null || !initSuccess){
+            if(printWriter == null || !loggerSuccess){
                 DriverStation.reportWarning("logger called to init on Null file stream", false);
             }
         }
 
         @Override
         public void onLoop(double timestamp) {
-            if (printWriter != null && initSuccess) { //probably redundant
+            if (printWriter != null && loggerSuccess) { //probably redundant
                 toWrite = "" + Timer.getFPGATimestamp() + Constants.DATA_SEPERATOR;
                 for (String key : numberKeys) {
                     toWrite += SmartDashboard.getNumber(key, 0.0) + Constants.DATA_SEPERATOR;
@@ -69,7 +70,7 @@ public class Logger extends Subsystem {
                 printWriter.flush();
 
             }
-            if(sock != null && initSuccess){
+            if(sock != null && unitySuccess){
                 toWrite = "" + Timer.getFPGATimestamp() + Constants.DATA_SEPERATOR;
                 for (String key : dsKeys) {
                     toWrite += SmartDashboard.getNumber(key, 0.0) + Constants.DATA_SEPERATOR;
@@ -85,7 +86,7 @@ public class Logger extends Subsystem {
 
         @Override
         public void onStop(double timestamp) {
-            if(printWriter == null || !initSuccess){
+            if(printWriter == null || !loggerSuccess){
                 DriverStation.reportWarning("Results from the last run were not logged due to an initialization error", false);
             }
         }
@@ -99,15 +100,21 @@ public class Logger extends Subsystem {
             base = getMount();
             //System.out.println(base.getAbsolutePath());
             printWriter = new PrintWriter(new BufferedWriter(new FileWriter(base)));
-
-            driverStation = VersionData.driverStationAddress;
-            sock = new DatagramSocket(port);
-            toSend = new DatagramPacket(new byte[10], 10, driverStation, port);
-
-            initSuccess = true;
+            loggerSuccess = true;
         } catch (Exception e) {
-            DriverStation.reportError("Logging system failed! Investigate stacktrace!", e.getStackTrace());
-            initSuccess = false;
+            DriverStation.reportError("Logging system failed to find valid mount!", e.getStackTrace());
+            loggerSuccess = false;
+        }
+
+        try{
+            driverStation = VersionData.getDriverStationIP();;
+            sock = new DatagramSocket(port);
+            toSend = new DatagramPacket(new byte[64], 64, driverStation, port);
+            unitySuccess = true;
+        }
+        catch(SocketException exception){
+            DriverStation.reportError("Failed to initialize Unity connection", false);
+            unitySuccess = false;
         }
     }
 

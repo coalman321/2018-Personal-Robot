@@ -64,7 +64,7 @@
     <Compile Include="Assets\custom\scripts\MaskImagePercent.cs" />
     <Compile Include="Assets\custom\scripts\NetworkHelper.cs" />
     <Compile Include="Assets\custom\scripts\PlaybackController.cs" />
-    <Compile Include="Assets\custom\scripts\robotdrive.cs" />
+    <Compile Include="Assets\custom\scripts\RobotDrive.cs" />
     <Compile Include="Assets\custom\scripts\SaveButtonController.cs" />
     <Compile Include="Assets\custom\scripts\SaveLoaderController.cs" />
     <Compile Include="Assets\custom\scripts\SetPlaybackController.cs" />

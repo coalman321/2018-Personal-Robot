@@ -19,7 +19,7 @@ import frc.robot.Constants;
 
 public class VersionData {
 
-    public static InetAddress driverStationAddress;
+    private static InetAddress driverStationAddress;
 
     /**
      * reads build data from file and writes to driverstation plus dashboard
@@ -70,7 +70,7 @@ public class VersionData {
         }
     }
 
-    public static void getDriverStationIP(){
+    public static InetAddress getDriverStationIP(){
         try {
             ServerSocket sock = new ServerSocket(5801);
             Notifier noti = new Notifier(() -> {
@@ -82,15 +82,18 @@ public class VersionData {
             noti.startSingle(30.00);
             Socket connection = sock.accept();
             driverStationAddress = ((InetSocketAddress)connection.getRemoteSocketAddress()).getAddress();
+            sock.close();
         } catch (Exception e) {
             e.printStackTrace();
             try {
-                driverStationAddress = InetAddress.getByName("10.41.45.3");
+                driverStationAddress = InetAddress.getByName("10.41.45.10"); //fallback ip
+                DriverStation.reportWarning("Falling back to default IP", false);
             } catch (UnknownHostException e1) {
                 // how on earth
 			}            
         }
         SmartDashboard.putString("DS_IP", driverStationAddress.getHostAddress());
+        return driverStationAddress;
     }
 
 }

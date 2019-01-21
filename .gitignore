@@ -1,3 +1,9 @@
 *.lck
 *.xml
 *.iml
+*Library/
+*Temp/
+*.csproj
+*.pidb
+*.sln
+*.userprefs

@@ -16,15 +16,15 @@ public class PlaybackController : MonoBehaviour {
     
     // Update is called once per frame
     void Update() {
-        if (AllowPlayback && frame < drive.frames) {
+        if (AllowPlayback && frame < drive.getFrames()) {
             AllowEvent = false;
-            drive.frame = frame++;
-            slider.value = (float)frame / drive.frames;
+            drive.setFrame(frame++);
+            slider.value = (float)frame / drive.getFrames();
         }
         else {
-            frame = (int)(slider.value * drive.frames);
+            frame = (int)(slider.value * drive.getFrames());
             Debug.Log("sweeping timeline to: " + frame);
-            drive.frame = frame;
+            drive.setFrame(frame);
         }
 
         AllowEvent = true;

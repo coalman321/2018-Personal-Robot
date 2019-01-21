@@ -5,12 +5,14 @@ public class RobotDrive : MonoBehaviour
     public float conversion;
     public float gravity;
     public int timeToNewFile = 100;
+    public string robotIP = "10.41.45.2";
+    
 
     private NetworkHelper net;
     private Rigidbody rb;
     private float xInitialPosition, yInitialPosition, zInitialPosition, yInitialRotation;
     private float x, z, theta;
-    public int frame, frames;
+    private int frame, frames;
     
     // Start is called before the first frame update
     private void Start()
@@ -23,7 +25,7 @@ public class RobotDrive : MonoBehaviour
         //Debug.Log(string.Format("X: {0}, Y: {1}, Theta: {2}", xInitialPosition, zInitialPosition, yInitialRotation));
         Debug.Log(string.Format("Game Controller Mode : {0} \t current File: {1}" , GameController.getInstance().mode, GameController.getInstance().loadedFile));
         
-        net = new NetworkHelper(5800, timeToNewFile, GameController.getInstance().mode);// start in networked mode and adjust as needed
+        net = new NetworkHelper(5800, timeToNewFile, GameController.getInstance().mode, robotIP);// start in networked mode and adjust as needed
         if (net.mode == NetworkHelper.Mode.Playback) {
             frames = net.loadSave(GameController.getInstance().loadedFile);
             frame = 0;

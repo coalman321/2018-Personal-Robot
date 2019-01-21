@@ -5,8 +5,13 @@ using System.Net.Sockets;
 using System.Text;
 using UnityEngine;
 
-public class NetworkHelper
-{
+public class NetworkHelper {
+    
+    private readonly TcpClient robotPing;
+    private readonly NetworkStream pingStream;
+    private static readonly byte[] ping = {0x0A};
+    private int counter = 0;
+
     private readonly UdpClient listener;
     private string[] data;
     private IPEndPoint groupEP;
@@ -21,18 +26,18 @@ public class NetworkHelper
     public Mode mode { get; set; }
 
     // Start is called before the first frame update
-    public NetworkHelper(int port, int timeout, Mode initial) {
+    public NetworkHelper(int port, int timeout, Mode initial, string pingIP) {
         mode = initial;
         switch (mode)
         {
             case Mode.Recording:
                 recorder = new DataRecorder(GameController.getInstance().SaveLocation, ".sav", timeout);
-                listener = new UdpClient(port);
-                groupEP = new IPEndPoint(IPAddress.Any, port);
-                break;
+                goto case Mode.Networked;
             case Mode.Networked:
                 listener = new UdpClient(port);
                 groupEP = new IPEndPoint(IPAddress.Any, port);
+                robotPing = new TcpClient(pingIP, port + 1);
+                pingStream = robotPing.GetStream();
                 break;
             case Mode.Playback:
                 loadSave(GameController.getInstance().loadedFile);
@@ -118,6 +123,15 @@ public class NetworkHelper
             //Debug.Log(string.Format("0: {0} 1: {1} 2: {2} 3: {3} 4: {4} 5: {5} 6: {6} 7: {7} 8: {8}", data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8]));
             recorder.update(s);
         }
+        else if( counter > 5){
+            pingStream.Write(ping, 0, ping.Length);
+            pingStream.Flush();
+            counter = 0;
+        }
+        else {
+            counter++;
+        }
+        
     }
 
     private void refreshFileData(int frame) {

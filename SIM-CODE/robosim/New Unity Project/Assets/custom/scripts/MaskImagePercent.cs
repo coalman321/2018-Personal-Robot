@@ -2,7 +2,7 @@
 
 public class MaskImagePercent : MonoBehaviour
 {
-    public robotdrive drive;
+    public RobotDrive drive;
 
     private bool isNetworked;
     public int max;

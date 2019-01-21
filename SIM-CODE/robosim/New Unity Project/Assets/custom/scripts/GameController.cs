@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using UnityEngine;
 
 public class GameController
@@ -17,9 +18,9 @@ public class GameController
     public NetworkHelper.Mode mode { get; set; }
 
     private GameController() {
-        SaveLocation = Application.dataPath + "/saves";
+        SaveLocation = Application.dataPath.Replace("/", "\\") + "\\saves";
         Debug.Log("Save Location set to : " + SaveLocation);
-        FileInfo file = new FileInfo(SaveLocation + "/test.sav");
+        FileInfo file = new FileInfo(SaveLocation + "\\test.sav");
         file.Directory.Create();
         Debug.Log("Directory Established");
     }

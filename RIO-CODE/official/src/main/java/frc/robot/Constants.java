@@ -11,32 +11,9 @@ public class Constants {
 
     //Talon IDs
     public static final int DRIVE_FRONT_LEFT_ID = 4;
-    public static final int DRIVE_MIDDLE_LEFT_ID = 5;
     public static final int DRIVE_BACK_LEFT_ID = 6;
     public static final int DRIVE_FRONT_RIGHT_ID = 1;
-    public static final int DRIVE_MIDDLE_RIGHT_ID = 2;
     public static final int DRIVE_BACK_RIGHT_ID = 3;
-    public static final int ARM_PRONOMINAL = 7;
-    public static final int ARM_DISTAL = 8;
-
-    //Spark Ports
-    public static final int BOTTOM_CARGOMANIP_ID = 1;
-    public static final int TOP_CARGOMANIP_ID = 2;
-    public static final int LEFT_CLIMB_ID = 3;
-
-    //Solenoid Ports
-    public static final int TRANS_LOW_ID = 0;
-    public static final int TRANS_HIGH_ID = 1;
-    public static final int CLIMB_FRONT_LOW_ID = 2;
-    public static final int CLIMB_FRONT_HIGH_ID = 3;
-    public static final int CLIMB_BACK_LOW_ID = 4;
-    public static final int CLIMB_BACK_HIGH_ID = 5;
-
-    //Sensor Ports
-    public static final int ULTRASONIC_IN_1 = 0;
-    public static final int ULTRASONIC_OUT_1 = 1;
-    //public static final int ULTRASONIC_IN_2 = 2;
-    //public static final int ULTRASONIC_OUT_2 = 3;
 
     /**
      * Drivetrain tuned values --------------------------------
@@ -123,18 +100,6 @@ public class Constants {
      * General Configuration --------------------------------------
      */
 
-    //UltraSonic constants
-    //public static final double US_UPDATE_RATE = 1.2;
-    //public static final double US_SENSOR_OFFSET = 10;
-
-    //Shot powers
-    public static final double SHOOT_POWER = 1;
-    public static final double SLOW_SHOOT_POWER = .5;
-    public static final double PICKUP_POWER = -.55;
-    public static final double SLOWUP_POWER = -.35;
-    public static final double STOP_POWER = 0;
-    public static final double CLIMB_POWER = .25;
-
     //MP Test mode values
     public static final boolean ENABLE_MP_TEST_MODE = true; //enables motion profiling test across all modes
     public static final double MP_TEST_SPEED = 72; //in /s
@@ -142,13 +107,10 @@ public class Constants {
 
     //Stick Constants
     public static final Joystick MASTER = new Joystick(0);
-    public static final Joystick LAUNCH_PAD = new Joystick(1);
     public static final HIDHelper.HIDConstants MASTER_STICK = new HIDHelper.HIDConstants(MASTER, 0.2, 0.99, 0.99, 0.5, 2);
-    public static final HIDHelper.HIDConstants LAUNCHPAD_STICK = new HIDHelper.HIDConstants(LAUNCH_PAD, 0.05, 0.99, 0.99, 0.8, 2);
 
     //Startup Constants
     public static final double LOOPER_DT = 0.01; //dt in seconds
-    public static final boolean IS_COMP_BOT = true;
     public static final String DATA_SEPARATOR = ",";
     public static final String[] NUMBER_KEYS = {
             "Drive/Pose/Theta",
@@ -169,9 +131,7 @@ public class Constants {
             "Drive/Misc/Left FeedForward",
             "Drive/Misc/Right FeedForward",
             "Drive/Left Talon Voltage Out",
-            "Drive/Right Talon Voltage Out",
-            "Arm/Prox Amps",
-            "Arm/Dist Amps"
+            "Drive/Right Talon Voltage Out"
     };
 }
 

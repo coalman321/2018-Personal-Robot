@@ -2,7 +2,7 @@
 
 public class RobotDrive : MonoBehaviour
 {
-    public float conversion, gravity, shoulder, elbow, wrist;
+    public float conversion, shoulder, elbow, wrist;
     public int timeToNewFile = 100, port = 5800;
     public string robotIP = "10.41.45.2";
     public GameObject robot, lowerArm, middleArm, upperArm;

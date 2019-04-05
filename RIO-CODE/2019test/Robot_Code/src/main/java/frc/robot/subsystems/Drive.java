@@ -104,7 +104,6 @@ public class Drive extends Subsystem {
 
     public synchronized void setHeading(Rotation2d heading) {
         System.out.println("SET HEADING: " + heading.getDegrees());
-
         gyroOffset = heading.rotateBy(Rotation2d.fromDegrees(imu.getFusedHeading()).inverse());
         System.out.println("Gyro offset: " + gyroOffset.getDegrees());
         periodicIO.gyro_heading = heading;

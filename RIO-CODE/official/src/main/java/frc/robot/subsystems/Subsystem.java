@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import frc.lib.loops.ILooper;
+import frc.lib.util.ReflectingLogger;
 
 public abstract class Subsystem {
 
@@ -35,6 +36,14 @@ public abstract class Subsystem {
      * @param enabledLooper the subsystem's Looper
      */
     public void registerEnabledLoops(ILooper enabledLooper) {
+
+    }
+
+    public void registerLoggingIO(ReflectingLogger logger){
+
+    }
+
+    public interface PeriodicIO{
 
     }
 

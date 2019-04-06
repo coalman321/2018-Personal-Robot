@@ -1,42 +1,30 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.Timer;
-import frc.lib.util.SocketTables;
+import frc.lib.geometry.Pose2d;
+import frc.lib.geometry.Rotation2d;
+import frc.lib.geometry.Translation2d;
+import frc.lib.util.ReflectingLogger;
 
 public class Robot extends TimedRobot {
 
-    int i = 0;
+    PeriodicIO periodicIO = new PeriodicIO();
+    ReflectingLogger<PeriodicIO> logger;
 
     @Override
     public void robotInit() {
-        double start = Timer.getFPGATimestamp();
-        SocketTables.getInstance().putData("test1", "8");
-        System.out.println(Timer.getFPGATimestamp() - start);
+        logger = new ReflectingLogger<>("", PeriodicIO.class);
 
-        start = Timer.getFPGATimestamp();
-        System.out.println("Q2:" + SocketTables.getInstance().getData("test1"));
-        System.out.println(Timer.getFPGATimestamp() - start);
-
-        start = Timer.getFPGATimestamp();
-        System.out.println("Q3:" + SocketTables.getInstance().getData("test2"));
-        System.out.println(Timer.getFPGATimestamp() - start);
-
-        start = Timer.getFPGATimestamp();
-        System.out.println("Q4:" + SocketTables.getInstance().getData("test3"));
-        System.out.println(Timer.getFPGATimestamp() - start);
     }
 
-    @Override
+   @Override
     public void robotPeriodic() {
-        i++;
-        double start = Timer.getFPGATimestamp();
-        SocketTables.getInstance().putData("test1", "" + i);
-        System.out.println("Write: " + (Timer.getFPGATimestamp() - start));
-        start = Timer.getFPGATimestamp();
-        System.out.println("Q4:" + SocketTables.getInstance().getData("test1"));
-        System.out.println("Read: " + (Timer.getFPGATimestamp() - start));
+        periodicIO.b += 1;
+        periodicIO.a -= 1;
+        periodicIO.pose = periodicIO.pose.transformBy(new Pose2d(new Translation2d(1, -1), Rotation2d.fromDegrees(10)));
+        logger.update(periodicIO);
+        logger.write();
+
     }
 
     @Override
@@ -77,6 +65,12 @@ public class Robot extends TimedRobot {
     @Override
     public void testPeriodic() {
 
+    }
+
+    public class PeriodicIO{
+        public int a = 0;
+        public double b = 10.1;
+        public Pose2d pose =  new Pose2d(10, 10, Rotation2d.fromDegrees(10));
     }
 
 }

@@ -8,6 +8,8 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
 
+import edu.wpi.first.wpilibj.Timer;
+
 public class SocketTables {
 
     private static final SocketTables m_Instance = new SocketTables();
@@ -45,23 +47,36 @@ public class SocketTables {
     private String queryValue(String request) {
         try {
             //setup connection
+            double start = Timer.getFPGATimestamp();
             client = new Socket();
             client.setSoTimeout(TIMEOUT);
             client.connect(serverAddress);
             outToServer = new DataOutputStream(client.getOutputStream());
             inFromServer = new BufferedReader(new InputStreamReader(client.getInputStream()));
 
+            System.out.println("Create: " + (Timer.getFPGATimestamp() - start));
+            start = Timer.getFPGATimestamp();
+
             //write query
             outToServer.write(request.getBytes());
             outToServer.flush();
 
+            System.out.println("Write: " + (Timer.getFPGATimestamp() - start));
+            start = Timer.getFPGATimestamp();
+
             //read response
             final String query = inFromServer.readLine();
+
+            System.out.println("Read: " + (Timer.getFPGATimestamp() - start));
+            start = Timer.getFPGATimestamp();
 
             //close IO
             client.close();
             outToServer.close();
             inFromServer.close();
+
+            System.out.println("Close: " + (Timer.getFPGATimestamp() - start));
+            start = Timer.getFPGATimestamp();
 
             return query;
         } catch (IOException e) {

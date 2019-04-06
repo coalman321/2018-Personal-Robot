@@ -59,6 +59,7 @@ public class Constants {
     public static final double DRIVE_LEFT_KF = 0.53;
 
 
+
     /**
      * Arm tuned values -----------------------------------------
      */
@@ -99,6 +100,8 @@ public class Constants {
     /**
      * General Configuration --------------------------------------
      */
+
+    public static final String ROBOT_NAME = "Bah";
 
     //MP Test mode values
     public static final boolean ENABLE_MP_TEST_MODE = true; //enables motion profiling test across all modes

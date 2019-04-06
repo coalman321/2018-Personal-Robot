@@ -1,4 +1,4 @@
-package frc.lib.util;
+package frc.lib.math;
 
 import java.util.Map;
 import java.util.TreeMap;

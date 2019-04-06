@@ -1,4 +1,4 @@
-package frc.lib.util;
+package frc.lib.math;
 
 /**
  * A Double that can be interpolated using the InterpolatingTreeMap.

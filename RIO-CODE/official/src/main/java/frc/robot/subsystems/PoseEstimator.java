@@ -7,8 +7,8 @@ import frc.lib.geometry.Rotation2d;
 import frc.lib.geometry.Twist2d;
 import frc.lib.loops.ILooper;
 import frc.lib.loops.Loop;
-import frc.lib.util.InterpolatingDouble;
-import frc.lib.util.InterpolatingTreeMap;
+import frc.lib.math.InterpolatingDouble;
+import frc.lib.math.InterpolatingTreeMap;
 import frc.robot.Kinematics;
 
 import java.util.Map;

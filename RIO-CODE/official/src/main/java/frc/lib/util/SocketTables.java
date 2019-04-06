@@ -12,6 +12,7 @@ public class SocketTables {
 
     private static final SocketTables m_Instance = new SocketTables();
     private static final String SOCKET_TABLES_IP = "127.0.0.1";
+    private static final int TIMEOUT = 50;
 
     private Socket client;
     private SocketAddress serverAddress;
@@ -45,6 +46,7 @@ public class SocketTables {
         try {
             //setup connection
             client = new Socket();
+            client.setSoTimeout(TIMEOUT);
             client.connect(serverAddress);
             outToServer = new DataOutputStream(client.getOutputStream());
             inFromServer = new BufferedReader(new InputStreamReader(client.getInputStream()));

@@ -7,6 +7,8 @@ import frc.lib.util.SocketTables;
 
 public class Robot extends TimedRobot {
 
+    int i = 0;
+
     @Override
     public void robotInit() {
         double start = Timer.getFPGATimestamp();
@@ -28,7 +30,13 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotPeriodic() {
-
+        i++;
+        double start = Timer.getFPGATimestamp();
+        SocketTables.getInstance().putData("test1", "" + i);
+        System.out.println(Timer.getFPGATimestamp() - start);
+        start = Timer.getFPGATimestamp();
+        System.out.println("Q4:" + SocketTables.getInstance().getData("test1"));
+        System.out.println(Timer.getFPGATimestamp() - start);
     }
 
     @Override

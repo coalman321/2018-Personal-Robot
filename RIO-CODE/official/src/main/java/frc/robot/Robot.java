@@ -1,23 +1,29 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import frc.lib.util.SocketTables;
 
 public class Robot extends TimedRobot {
 
     @Override
     public void robotInit() {
-        System.out.println("Q1:" + SocketTables.getInstance().queryValue("{\"request\": \"UPDATE\", \"key\": \"test1\", \"value\": 4}"));
-        System.out.println("Q2:" + SocketTables.getInstance().queryValue("{\"request\": \"GET\", \"key\": \"test1\"}"));
-        System.out.println("Q3:" + SocketTables.getInstance().queryValue("{\"request\": \"GET\", \"key\": \"test1\"}"));
-        System.out.println("Q4:" + SocketTables.getInstance().queryValue("{\"request\": \"GET\", \"key\": \"test1\"}"));
-        System.out.println("Q5:" + SocketTables.getInstance().queryValue("{\"request\": \"GET\", \"key\": \"test1\"}"));
-        System.out.println("Q6:" + SocketTables.getInstance().queryValue("{\"request\": \"GET\", \"key\": \"test1\"}"));
-        System.out.println("Q7:" + SocketTables.getInstance().queryValue("{\"request\": \"GET\", \"key\": \"test1\"}"));
-        System.out.println("Q8:" + SocketTables.getInstance().queryValue("{\"request\": \"GET\", \"key\": \"test1\"}"));
-        System.out.println("Q9:" + SocketTables.getInstance().queryValue("{\"request\": \"GET\", \"key\": \"test1\"}"));
-        System.out.println("Q10:" + SocketTables.getInstance().queryValue("{\"request\": \"GET\", \"key\": \"test1\"}"));
-        System.out.println("Q11:" + SocketTables.getInstance().queryValue("{\"request\": \"GET\", \"key\": \"test1\"}"));
+        double start = Timer.getFPGATimestamp();
+        SocketTables.getInstance().putData("test1", "8");
+        System.out.println(Timer.getFPGATimestamp() - start);
+
+        start = Timer.getFPGATimestamp();
+        System.out.println("Q2:" + SocketTables.getInstance().getData("test1"));
+        System.out.println(Timer.getFPGATimestamp() - start);
+
+        start = Timer.getFPGATimestamp();
+        System.out.println("Q3:" + SocketTables.getInstance().getData("test2"));
+        System.out.println(Timer.getFPGATimestamp() - start);
+
+        start = Timer.getFPGATimestamp();
+        System.out.println("Q4:" + SocketTables.getInstance().getData("test3"));
+        System.out.println(Timer.getFPGATimestamp() - start);
     }
 
     @Override

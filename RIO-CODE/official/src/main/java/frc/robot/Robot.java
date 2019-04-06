@@ -33,10 +33,10 @@ public class Robot extends TimedRobot {
         i++;
         double start = Timer.getFPGATimestamp();
         SocketTables.getInstance().putData("test1", "" + i);
-        System.out.println(Timer.getFPGATimestamp() - start);
+        System.out.println("Write: " + (Timer.getFPGATimestamp() - start));
         start = Timer.getFPGATimestamp();
         System.out.println("Q4:" + SocketTables.getInstance().getData("test1"));
-        System.out.println(Timer.getFPGATimestamp() - start);
+        System.out.println("Read: " + (Timer.getFPGATimestamp() - start));
     }
 
     @Override

@@ -33,7 +33,7 @@ public class Drive extends Subsystem {
     private DriveControlState mDriveControlState = DriveControlState.OPEN_LOOP;
     private DriveMotionPlanner mMotionPlanner;
     private boolean mOverrideTrajectory = false;
-    private driveIO periodicIO;
+    private DriveIO periodicIO;
     private double[] operatorInput = {0, 0, 0}; //last input set from joystick update
     private PigeonIMU pigeonIMU;
     private TalonSRX driveFrontLeft, driveRearLeft, driveFrontRight, driveRearRight;
@@ -194,7 +194,7 @@ public class Drive extends Subsystem {
         mOverrideTrajectory = false;
         mMotionPlanner.reset();
         mMotionPlanner.setFollowerType(DriveMotionPlanner.FollowerType.NONLINEAR_FEEDBACK);
-        periodicIO = new driveIO();
+        periodicIO = new DriveIO();
         setHeading(Rotation2d.fromDegrees(0));
         resetEncoders();
 
@@ -394,7 +394,7 @@ public class Drive extends Subsystem {
         }
     }
 
-    public class driveIO extends PeriodicIO {
+    public class DriveIO extends PeriodicIO {
         // INPUTS
         public int left_pos_ticks;
         public int right_pos_ticks;

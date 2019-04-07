@@ -1,22 +1,21 @@
 package frc.robot.subsystems;
 
 import frc.lib.loops.ILooper;
-import frc.lib.util.ReflectingLogger;
+
+import java.util.List;
 
 public abstract class Subsystem {
 
     /**
      * Updates all periodic variables and sensors
      */
-    public void readPeriodicInputs() {
-    }
+    public abstract void readPeriodicInputs();
 
     /**
      * Writes the periodic outputs to actuators (motors and ect...)
      */
     // Optional design pattern for caching periodic writes to avoid hammering the HAL/CAN.
-    public void writePeriodicOutputs() {
-    }
+    public abstract void writePeriodicOutputs();
 
     /**
      * Outputs all logging information to the SmartDashboard
@@ -39,12 +38,12 @@ public abstract class Subsystem {
 
     }
 
-    public void registerLoggingIO(ReflectingLogger logger){
-
+    public PeriodicIO getLogger(){
+        return new PeriodicIO();
     }
 
-    public interface PeriodicIO{
-
+    public class PeriodicIO{
     }
+
 
 }

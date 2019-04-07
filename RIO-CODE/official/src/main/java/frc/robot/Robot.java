@@ -1,30 +1,39 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import frc.lib.geometry.Pose2d;
-import frc.lib.geometry.Rotation2d;
-import frc.lib.geometry.Translation2d;
-import frc.lib.util.ReflectingLogger;
+import edu.wpi.first.wpilibj.Timer;
+import frc.lib.util.Util;
+import frc.robot.subsystems.Subsystem;
+import frc.robot.subsystems.TestSystem1;
+import frc.robot.subsystems.TestSystem2;
+
+import java.util.Arrays;
 
 public class Robot extends TimedRobot {
 
-    PeriodicIO periodicIO = new PeriodicIO();
-    ReflectingLogger<PeriodicIO> logger;
+    SubsystemManager manager = new SubsystemManager(Arrays.asList(
+            TestSystem1.getInstance(),
+            TestSystem2.getInstance()
+    ));
 
     @Override
     public void robotInit() {
-        logger = new ReflectingLogger<>("", PeriodicIO.class);
 
     }
 
-   @Override
+    @Override
     public void robotPeriodic() {
-        periodicIO.b += 1;
-        periodicIO.a -= 1;
-        periodicIO.pose = periodicIO.pose.transformBy(new Pose2d(new Translation2d(1, -1), Rotation2d.fromDegrees(10)));
-        logger.update(periodicIO);
-        logger.write();
-
+        
+        TestSystem1.getInstance().incrementVar1();
+        TestSystem2.getInstance().toggleVar2();
+        double start = Timer.getFPGATimestamp();
+        manager.logTelemetry();
+        System.out.println("Operation Time: " + (Timer.getFPGATimestamp() - start));
+        if(Util.epsilonEquals( Timer.getFPGATimestamp() % 10, 0, 0.1)){
+             TestSystem1.getInstance().reset();
+             System.out.println("Reset Occurred");
+        }
+        
     }
 
     @Override
@@ -65,12 +74,6 @@ public class Robot extends TimedRobot {
     @Override
     public void testPeriodic() {
 
-    }
-
-    public class PeriodicIO{
-        public int a = 0;
-        public double b = 10.1;
-        public Pose2d pose =  new Pose2d(10, 10, Rotation2d.fromDegrees(10));
     }
 
 }

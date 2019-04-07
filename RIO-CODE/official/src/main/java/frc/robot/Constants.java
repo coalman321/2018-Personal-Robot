@@ -10,10 +10,13 @@ public class Constants {
      */
 
     //Talon IDs
-    public static final int DRIVE_FRONT_LEFT_ID = 4;
-    public static final int DRIVE_BACK_LEFT_ID = 6;
-    public static final int DRIVE_FRONT_RIGHT_ID = 1;
-    public static final int DRIVE_BACK_RIGHT_ID = 3;
+    public static final int DRIVE_FRONT_LEFT_ID = 1;
+    public static final int DRIVE_BACK_LEFT_ID = 2;
+    public static final int DRIVE_FRONT_RIGHT_ID = 3;
+    public static final int DRIVE_BACK_RIGHT_ID = 4;
+
+    //Pigeon ID
+    public static final int PIGEON_IMU_ID = 6;
 
     /**
      * Drivetrain tuned values --------------------------------

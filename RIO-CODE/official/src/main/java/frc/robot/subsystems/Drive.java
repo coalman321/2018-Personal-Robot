@@ -58,6 +58,7 @@ public class Drive extends Subsystem {
                     case PATH_FOLLOWING:
                         updatePathFollower();
                         break;
+
                     case PROFILING_TEST:
                         if (Constants.RAMPUP) {
                             periodic.left_demand = -(periodic.ramp_Up_Counter * .0025 + .01);
@@ -69,24 +70,27 @@ public class Drive extends Subsystem {
                         }
 
                         break;
-//TODO Change z input to PID
+
+                    //TODO Change z input to PID
                     case GYRO_LOCK:
-                        operatorInput = HIDHelper.getAdjStick(Constants.MASTER_STICK);
+                        /*operatorInput = HIDHelper.getAdjStick(Constants.MASTER_STICK);
                         SmartDashboard.putNumberArray("stick", operatorInput);
                         operatorInput[2] = (periodic.gyro_heading.getDegrees() - periodic.gyro_pid_angle) / 720;
                         setOpenLoop(arcadeDrive(operatorInput[1], operatorInput[2]));
-                        break;
+                        break;*/
 
                     case OPEN_LOOP:
                         operatorInput = HIDHelper.getAdjStick(Constants.MASTER_STICK);
                         SmartDashboard.putNumberArray("stick", operatorInput);
                         setOpenLoop(arcadeDrive(operatorInput[1], operatorInput[2]));
                         break;
+
                     case ANGLE_PID:
                         // Let the AnglePIDOutput set the values
                         break;
+
                     default:
-                        System.out.println("You fool, unexpected control state");
+                        System.out.println("Unexpected control state");
                 }
 
 
@@ -103,15 +107,14 @@ public class Drive extends Subsystem {
     public synchronized void readPeriodicInputs() {
         double prevLeftTicks = periodic.left_pos_ticks;
         double prevRightTicks = periodic.right_pos_ticks;
-        periodic.left_error = driveFrontLeft.getClosedLoopError();
-        periodic.right_error = driveFrontRight.getClosedLoopError();
 
-        periodic.B2 = Constants.MASTER.getRawButton(2);
         periodic.left_pos_ticks = -driveFrontLeft.getSelectedSensorPosition(0);
         periodic.right_pos_ticks = -driveFrontRight.getSelectedSensorPosition(0);
         periodic.left_velocity_ticks_per_100ms = -driveFrontLeft.getSelectedSensorVelocity(0);
         periodic.right_velocity_ticks_per_100ms = -driveFrontRight.getSelectedSensorVelocity(0);
         periodic.gyro_heading = Rotation2d.fromDegrees(pigeonIMU.getFusedHeading()).rotateBy(periodic.gyro_offset);
+        periodic.left_error = driveFrontLeft.getClosedLoopError();
+        periodic.right_error = driveFrontRight.getClosedLoopError();
 
         double deltaLeftTicks = ((periodic.left_pos_ticks - prevLeftTicks) / 4096.0) * Math.PI;
         periodic.left_distance += deltaLeftTicks * Constants.DRIVE_WHEEL_DIAMETER_INCHES;
@@ -122,11 +125,6 @@ public class Drive extends Subsystem {
 
     @Override
     public synchronized void writePeriodicOutputs() {
-        if (periodic.B2) {
-            periodic.left_demand = -periodic.left_demand;
-            periodic.right_demand = -periodic.right_demand;
-        } else {
-        }
         if (mDriveControlState == DriveControlState.OPEN_LOOP || mDriveControlState == DriveControlState.ANGLE_PID || (mDriveControlState == DriveControlState.PROFILING_TEST && Constants.RAMPUP)) {
             driveFrontLeft.set(ControlMode.PercentOutput, periodic.left_demand);
             driveFrontRight.set(ControlMode.PercentOutput, periodic.right_demand);
@@ -143,7 +141,7 @@ public class Drive extends Subsystem {
         driveRearLeft = new TalonSRX(Constants.DRIVE_BACK_LEFT_ID);
         driveFrontRight = new TalonSRX(Constants.DRIVE_FRONT_RIGHT_ID);
         driveRearRight = new TalonSRX(Constants.DRIVE_BACK_RIGHT_ID);
-        pigeonIMU = new PigeonIMU(driveRearLeft);
+        pigeonIMU = new PigeonIMU(Constants.PIGEON_IMU_ID);
         configTalons();
         reset();
 
@@ -338,12 +336,6 @@ public class Drive extends Subsystem {
 
     }
 
-
-
-    public void setMotorPower(double MP) {
-        periodic.climber_power = MP;
-    }
-
     public synchronized void setTrajectory(TrajectoryIterator<TimedState<Pose2dWithCurvature>> trajectory) {
         if (mMotionPlanner != null) {
             mOverrideTrajectory = false;
@@ -366,27 +358,19 @@ public class Drive extends Subsystem {
 
         SmartDashboard.putNumber("Drive/Error/X", periodic.error.getTranslation().x());
         SmartDashboard.putNumber("Drive/Error/Y", periodic.error.getTranslation().y());
-        SmartDashboard.putNumber("Drive/Error/Theta", periodic.error.getRotation().getDegrees());
-        //SmartDashboard.putNumber("Drive/Setpoint/X", periodic.path_setpoint.state().getTranslation().x());
-        //SmartDashboard.putNumber("Drive/Setpoint/Y", periodic.path_setpoint.state().getTranslation().y());
-        //SmartDashboard.putNumber("Drive/Setpoint/Theta", periodic.path_setpoint.state().getRotation().getDegrees());
 
         SmartDashboard.putNumber("Drive/Left/Demand", periodic.left_demand);
         SmartDashboard.putNumber("Drive/Left/Talon Velocity", periodic.left_velocity_ticks_per_100ms);
         SmartDashboard.putNumber("Drive/Left/Talon Error", periodic.left_error);
         SmartDashboard.putNumber("Drive/Left/Talon Voltage Out", driveFrontLeft.getMotorOutputVoltage());
         SmartDashboard.putNumber("Drive/Left/Encoder Counts", periodic.left_pos_ticks);
-        //SmartDashboard.putNumber("Drive/Misc/Left FeedForward", periodic.left_feedforward);
-        //SmartDashboard.putNumber("Drive/Misc/Left Acceleration", periodic.left_accl);
-
 
         SmartDashboard.putNumber("Drive/Right/Demand", periodic.right_demand);
         SmartDashboard.putNumber("Drive/Right/Talon Velocity", periodic.right_velocity_ticks_per_100ms);
         SmartDashboard.putNumber("Drive/Right/Talon Error", periodic.right_error);
         SmartDashboard.putNumber("Drive/Right/Talon Voltage Out", driveFrontRight.getMotorOutputVoltage());
         SmartDashboard.putNumber("Drive/Right/Encoder Counts", periodic.right_pos_ticks);
-        //SmartDashboard.putNumber("Drive/Misc/Right FeedForward", periodic.right_feedforward);
-        //SmartDashboard.putNumber("Drive/Misc/Right Acceleration", periodic.right_accl);
+
     }
 
     public void registerEnabledLoops(ILooper enabledLooper) {
@@ -407,38 +391,30 @@ public class Drive extends Subsystem {
 
     public static class PeriodicIO {
         // INPUTS
-        int left_pos_ticks;
-        int right_pos_ticks;
-        int left_velocity_ticks_per_100ms;
-        int right_velocity_ticks_per_100ms;
-        Rotation2d gyro_heading = Rotation2d.identity();
-        Rotation2d gyro_offset = Rotation2d.identity();
-        Pose2d error = Pose2d.identity();
-        boolean flaggyflag = false;
-        boolean B1 = false;
-        boolean B2 = false;
-        boolean B3 = false;
-        boolean B5 = false;
-        double right_error = 0;
-        double left_error = 0;
-        double gyro_pid_angle = 0;
-        boolean climbLimit = false;
+        public int left_pos_ticks;
+        public int right_pos_ticks;
+        public int left_velocity_ticks_per_100ms;
+        public int right_velocity_ticks_per_100ms;
+        public Rotation2d gyro_heading = Rotation2d.identity();
+        public Rotation2d gyro_offset = Rotation2d.identity();
+        public Pose2d error = Pose2d.identity();
+        public TimedState<Pose2dWithCurvature> path_setpoint = new TimedState<>(Pose2dWithCurvature.identity());
+        public double right_error = 0;
+        public double left_error = 0;
+        public double gyro_pid_angle = 0;
+
 
         // OUTPUTS
-        double ramp_Up_Counter = 0;
-        double left_accl = 0.0;
-        double left_demand = 0.0;
-        double left_distance = 0.0;
-        double left_feedforward = 0.0;
+        public double ramp_Up_Counter = 0;
+        public double left_accl = 0.0;
+        public double left_demand = 0.0;
+        public double left_distance = 0.0;
+        public double left_feedforward = 0.0;
 
-        double right_accl = 0.0;
-        double right_demand = 0.0;
-        double right_distance = 0.0;
-        double right_feedforward = 0.0;
-
-        double climber_power = 0;
-
-        TimedState<Pose2dWithCurvature> path_setpoint = new TimedState<>(Pose2dWithCurvature.identity());
+        public double right_accl = 0.0;
+        public double right_demand = 0.0;
+        public double right_distance = 0.0;
+        public double right_feedforward = 0.0;
 
     }
 

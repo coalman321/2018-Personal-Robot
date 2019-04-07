@@ -99,6 +99,16 @@ public class PoseEstimator extends Subsystem {
     }
 
     @Override
+    public void readPeriodicInputs() {
+
+    }
+
+    @Override
+    public void writePeriodicOutputs() {
+
+    }
+
+    @Override
     public void outputTelemetry() {
         SmartDashboard.putNumber("Drive/Pose/X", getLatestFieldToVehicle().getValue().getTranslation().x());
         SmartDashboard.putNumber("Drive/Pose/Y", getLatestFieldToVehicle().getValue().getTranslation().y());

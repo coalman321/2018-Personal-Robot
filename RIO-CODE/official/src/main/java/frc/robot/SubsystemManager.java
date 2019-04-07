@@ -3,6 +3,7 @@ package frc.robot;
 import frc.lib.loops.ILooper;
 import frc.lib.loops.Loop;
 import frc.lib.loops.Looper;
+import frc.lib.util.ReflectingLogger2;
 import frc.robot.subsystems.Subsystem;
 
 import java.util.ArrayList;
@@ -11,10 +12,22 @@ import java.util.List;
 public class SubsystemManager implements ILooper {
 
     private final List<Subsystem> mAllSubsystems;
+    private final List<Subsystem.PeriodicIO> allToLog = new ArrayList<>();
     private List<Loop> mLoops = new ArrayList<>();
+    private ReflectingLogger2<Subsystem.PeriodicIO> logger;
 
     public SubsystemManager(List<Subsystem> allSubsystems){
         mAllSubsystems = allSubsystems;
+        mAllSubsystems.forEach((s) -> allToLog.add(s.getLogger()));
+        logger = new ReflectingLogger2<>(allToLog);
+    }
+
+    public void logTelemetry(){
+        allToLog.clear();
+        mAllSubsystems.forEach((s) -> allToLog.add(s.getLogger()));
+        logger.update(allToLog);
+        logger.write();
+
     }
 
     public void outputTelemetry(){
@@ -87,4 +100,5 @@ public class SubsystemManager implements ILooper {
     public void register(Loop loop) {
         mLoops.add(loop);
     }
+
 }

@@ -14,6 +14,7 @@ import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+@Deprecated
 public class Logger extends Subsystem {
 
     private static final Logger M_LOGGER = new Logger();
@@ -109,6 +110,16 @@ public class Logger extends Subsystem {
     @Override
     public void registerEnabledLoops(ILooper enabledLooper) {
         enabledLooper.register(mLoop);
+    }
+
+    @Override
+    public void readPeriodicInputs() {
+
+    }
+
+    @Override
+    public void writePeriodicOutputs() {
+
     }
 
     public void outputTelemetry() {

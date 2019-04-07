@@ -32,12 +32,12 @@ public class SubsystemManager implements ILooper {
 
     public void logTelemetry(){
         // create current list of subsystem IO
+        //something to do with regenerating this list and map is leaking about .1mb/s
         final List<Subsystem.PeriodicIO> allToLog = new ArrayList<>();
         mAllSubsystems.forEach((s) -> allToLog.add(s.getLogger()));
 
         //update the logger from the current form of the list
         logger.update(allToLog);
-        logger.write();
     }
 
     public void outputTelemetry(){

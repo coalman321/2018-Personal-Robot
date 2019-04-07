@@ -24,7 +24,7 @@ public class PoseEstimator extends Subsystem {
     private double left_encoder_prev_distance_ = 0.0;
     private double right_encoder_prev_distance_ = 0.0;
     private double distance_driven_= 0.0;
-    //private PeriodicIO periodic;
+    //private driveIO periodic;
 
     private Loop mLoop = new Loop(){
 
@@ -63,7 +63,7 @@ public class PoseEstimator extends Subsystem {
 
     private PoseEstimator(){
         reset(0, Pose2d.identity());
-        //periodic = new PeriodicIO();
+        //periodic = new driveIO();
     }
 
     public void reset(double start_time, Pose2d initial_field_to_vehicle){
@@ -137,7 +137,7 @@ public class PoseEstimator extends Subsystem {
         looper.register(mLoop);
     }
   /*
-    public static class PeriodicIO
+    public static class driveIO
     {
         Pose2d odometry;
     }*/

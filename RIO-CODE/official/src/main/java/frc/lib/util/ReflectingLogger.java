@@ -17,7 +17,6 @@ public class ReflectingLogger<T> {
     //it might be a slow leak and the best GC is turning the power off as they say
 
     private PrintWriter output = null;
-    private ConcurrentLinkedDeque<String> linesToWrite = new ConcurrentLinkedDeque<>();
     private Map<Field, T> classFieldMap = new LinkedHashMap<>();
 
     public ReflectingLogger(List<T> subsystemIOs) {
@@ -48,13 +47,14 @@ public class ReflectingLogger<T> {
     }
 
     public void update(List<T> subsystemIOs) {
-        StringBuffer line = new StringBuffer();
+        final StringBuffer line = new StringBuffer();
         //generate map of subsystem IO's and fields
-        for(T subsystemIO : subsystemIOs){
+        //TODO figure out why this code causes a memory leak
+        /*for(T subsystemIO : subsystemIOs){
             for(Field field : subsystemIO.getClass().getFields()) {
                 classFieldMap.put(field, subsystemIO);
             }
-        }
+        }*/
 
         //Append starting time
         line.append(" " + Timer.getFPGATimestamp());
@@ -78,24 +78,13 @@ public class ReflectingLogger<T> {
                 e.printStackTrace();
             }
         }
-        linesToWrite.add(line.toString());
+        writeLine(line.toString());
     }
 
     protected synchronized void writeLine(String line) {
         System.out.println(line);
         if (output != null) {
             output.println(line);
-        }
-    }
-
-    // Call this periodically from any thread to write to disk.
-    public void write() {
-        while (true) {
-            String val = linesToWrite.pollFirst();
-            if (val == null) {
-                break;
-            }
-            writeLine(val);
         }
     }
 

@@ -3,7 +3,7 @@ package frc.robot;
 import frc.lib.loops.ILooper;
 import frc.lib.loops.Loop;
 import frc.lib.loops.Looper;
-import frc.lib.util.ReflectingLogger2;
+import frc.lib.util.ReflectingLogger;
 import frc.robot.subsystems.Subsystem;
 
 import java.util.ArrayList;
@@ -11,27 +11,37 @@ import java.util.List;
 
 public class SubsystemManager implements ILooper {
 
+    //TODO test for memory leaks???
+    //cant tell if its actually leaking
+    //it might be a slow leak and the best GC is turning the power off as they say
+
     private final List<Subsystem> mAllSubsystems;
-    private final List<Subsystem.PeriodicIO> allToLog = new ArrayList<>();
     private List<Loop> mLoops = new ArrayList<>();
-    private ReflectingLogger2<Subsystem.PeriodicIO> logger;
+    private ReflectingLogger<Subsystem.PeriodicIO> logger;
 
     public SubsystemManager(List<Subsystem> allSubsystems){
         mAllSubsystems = allSubsystems;
+
+        //get all subsystems to log from
+        final List<Subsystem.PeriodicIO> allToLog = new ArrayList<>();
         mAllSubsystems.forEach((s) -> allToLog.add(s.getLogger()));
-        logger = new ReflectingLogger2<>(allToLog);
+
+        //create reflecting logger
+        logger = new ReflectingLogger<>(allToLog);
     }
 
     public void logTelemetry(){
-        allToLog.clear();
+        // create current list of subsystem IO
+        final List<Subsystem.PeriodicIO> allToLog = new ArrayList<>();
         mAllSubsystems.forEach((s) -> allToLog.add(s.getLogger()));
+
+        //update the logger from the current form of the list
         logger.update(allToLog);
         logger.write();
-
     }
 
     public void outputTelemetry(){
-        mAllSubsystems.forEach((s) -> s.outputTelemetry());
+        mAllSubsystems.forEach(Subsystem::outputTelemetry);
     }
 
     private class EnabledLoop implements Loop {
@@ -54,6 +64,10 @@ public class SubsystemManager implements ILooper {
             for (Subsystem s : mAllSubsystems) {
                 s.writePeriodicOutputs();
             }
+
+            //run logging pass
+            logTelemetry();
+
         }
 
         @Override
@@ -62,6 +76,9 @@ public class SubsystemManager implements ILooper {
                 l.onStop(timestamp);
             }
         }
+
+
+
     }
 
     private class DisabledLoop implements Loop {

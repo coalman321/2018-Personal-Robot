@@ -1,50 +1,76 @@
 package frc.lib.util;
 
+import edu.wpi.first.wpilibj.Timer;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.TimeZone;
+import java.util.*;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
-@Deprecated
 public class ReflectingLogger<T> {
 
-    private Field[] fields;
-    private PrintWriter output = null;
-    ConcurrentLinkedDeque<String> linesToWrite = new ConcurrentLinkedDeque<>();
+    //TODO test for memory leaks???
+    //cant tell if its actually leaking
+    //it might be a slow leak and the best GC is turning the power off as they say
 
-    public ReflectingLogger(String fileName, Class<T> typeClass) {
-        fields = typeClass.getFields();
+    private PrintWriter output = null;
+    private ConcurrentLinkedDeque<String> linesToWrite = new ConcurrentLinkedDeque<>();
+    private Map<Field, T> classFieldMap = new LinkedHashMap<>();
+
+    public ReflectingLogger(List<T> subsystemIOs) {
+        //generate map of subsystem IO's and fields
+        for(T subsystemIO : subsystemIOs){
+            for(Field field : subsystemIO.getClass().getFields()) {
+                classFieldMap.put(field, subsystemIO);
+            }
+        }
+
+        //create file reference
         try {
-            output = new PrintWriter(fileName);
+            File logfile = getMount("");
+            if (logfile != null) output = new PrintWriter(logfile.getAbsolutePath());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+
         // Write field names.
         StringBuffer line = new StringBuffer();
-        for (Field field : fields) {
+        for (Map.Entry<Field, T> entry : classFieldMap.entrySet()) {
             if (line.length() != 0) {
                 line.append(", ");
             }
-            line.append(field.getName());
+            line.append(entry.getKey().getName());
         }
         writeLine(line.toString());
     }
 
-    public void update(T value) {
+    public void update(List<T> subsystemIOs) {
         StringBuffer line = new StringBuffer();
-        for (Field field : fields) {
-            if (line.length() != 0) {
-                line.append(", ");
+        //generate map of subsystem IO's and fields
+        for(T subsystemIO : subsystemIOs){
+            for(Field field : subsystemIO.getClass().getFields()) {
+                classFieldMap.put(field, subsystemIO);
             }
+        }
+
+        //Append starting time
+        line.append(" " + Timer.getFPGATimestamp());
+
+        //for all fields in map generate
+        for (Map.Entry<Field, T> entry : classFieldMap.entrySet()) {
+
+            //append separator
+            line.append(", ");
+
+            //Attempt to append subsystem IO value
             try {
-                if (CSVWritable.class.isAssignableFrom(field.getType())) {
-                    line.append(((CSVWritable) field.get(value)).toCSV());
+                if (CSVWritable.class.isAssignableFrom(entry.getKey().getType())) {
+                    line.append(((CSVWritable) entry.getKey().get(entry.getValue())).toCSV());
                 } else {
-                    line.append(field.get(value).toString());
+                    line.append(entry.getKey().get(entry.getValue()).toString());
                 }
             } catch (IllegalArgumentException e) {
                 e.printStackTrace();
@@ -73,27 +99,36 @@ public class ReflectingLogger<T> {
         }
     }
 
-    public static File getMount() {
+    public static File getMount(String subsystemName) {
+        //create base file reference looking for the media directory
         File media = new File("/media");
+        if (!media.exists()) return null;
+
+        //Locate the currently active media drive by finding a nested logging directory
         File logging_path = null;
         for (File mount : media.listFiles()) {
             logging_path = new File(mount.getAbsolutePath() + "/logging");
             if (logging_path.isDirectory()) {
                 System.out.println(logging_path.getAbsolutePath());
-                break;
+                return logging_path;
             }
             logging_path = null;
         }
-        if (!logging_path.equals(null)) {
-            SimpleDateFormat outputFormatter = new SimpleDateFormat("yyyyMMdd_HHmmss_SSS");
-            outputFormatter.setTimeZone(TimeZone.getTimeZone("US/Eastern"));
-            String newDateString = outputFormatter.format(new Date());
-            // build the new filename
-            String fileName = newDateString + "_LOG.tsv";
+
+        //if a valid logging directory is found return a non-null file refrence
+        if (logging_path != null) {
             // build the full file path name
-            return new File(logging_path.getAbsolutePath() + File.separator + fileName);
+            return new File(logging_path.getAbsolutePath() + File.separator + getTimeStampedFileName(subsystemName));
         }
+
         return null;
+    }
+
+    private static String getTimeStampedFileName(String subsystemName){
+        SimpleDateFormat outputFormatter = new SimpleDateFormat("yyyyMMdd_HHmmss_SSS");
+        outputFormatter.setTimeZone(TimeZone.getTimeZone("US/Eastern"));
+        String newDateString = outputFormatter.format(new Date());
+        return subsystemName + "_" + newDateString + "_LOG.csv";
     }
 
 }

@@ -29,7 +29,7 @@ public class ReflectingLogger<T> {
 
         //create file reference
         try {
-            File logfile = getMount("");
+            File logfile = getMount("robotdata");
             if (logfile != null) output = new PrintWriter(logfile.getAbsolutePath());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -37,10 +37,9 @@ public class ReflectingLogger<T> {
 
         // Write field names.
         StringBuffer line = new StringBuffer();
+        line.append("time");
         for (Map.Entry<Field, T> entry : classFieldMap.entrySet()) {
-            if (line.length() != 0) {
-                line.append(", ");
-            }
+            line.append(", ");
             line.append(entry.getKey().getName());
         }
         writeLine(line.toString());
@@ -82,7 +81,7 @@ public class ReflectingLogger<T> {
     }
 
     protected synchronized void writeLine(String line) {
-        System.out.println(line);
+        //System.out.println(line);
         if (output != null) {
             output.println(line);
         }
@@ -99,7 +98,7 @@ public class ReflectingLogger<T> {
             logging_path = new File(mount.getAbsolutePath() + "/logging");
             if (logging_path.isDirectory()) {
                 System.out.println(logging_path.getAbsolutePath());
-                return logging_path;
+                break;
             }
             logging_path = null;
         }

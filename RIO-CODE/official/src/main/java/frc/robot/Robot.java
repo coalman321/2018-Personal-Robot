@@ -26,7 +26,11 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotPeriodic() {
-            
+        TestSystem1.getInstance().incrementVar1();
+        TestSystem2.getInstance().toggleVar2();
+        start = Timer.getFPGATimestamp();
+        manager.logTelemetry();
+        System.out.println("Operation Time: " + (Timer.getFPGATimestamp() - start));
     }
 
     @Override
@@ -46,11 +50,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousPeriodic() {
-        TestSystem1.getInstance().incrementVar1();
-        TestSystem2.getInstance().toggleVar2();
-        start = Timer.getFPGATimestamp();
-        manager.logTelemetry();
-        System.out.println("Operation Time: " + (Timer.getFPGATimestamp() - start));
+
     }
 
     @Override

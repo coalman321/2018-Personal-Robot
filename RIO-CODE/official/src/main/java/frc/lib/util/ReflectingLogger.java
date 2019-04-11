@@ -49,11 +49,11 @@ public class ReflectingLogger<T> {
         final StringBuffer line = new StringBuffer();
         //generate map of subsystem IO's and fields
         //TODO figure out why this code causes a memory leak
-        /*for(T subsystemIO : subsystemIOs){
+        for(T subsystemIO : subsystemIOs){
             for(Field field : subsystemIO.getClass().getFields()) {
                 classFieldMap.put(field, subsystemIO);
             }
-        }*/
+        }
 
         //Append starting time
         line.append(" " + Timer.getFPGATimestamp());

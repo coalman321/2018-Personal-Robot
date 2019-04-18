@@ -8,7 +8,6 @@ import java.io.PrintWriter;
 import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.concurrent.ConcurrentLinkedDeque;
 
 public class ReflectingLogger<T> {
 
@@ -84,6 +83,7 @@ public class ReflectingLogger<T> {
         //System.out.println(line);
         if (output != null) {
             output.println(line);
+            output.flush();
         }
     }
 

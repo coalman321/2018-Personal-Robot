@@ -3,7 +3,6 @@ using System.Net;
 using System.Net.Sockets;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
-using System.Text;
 using UnityEngine;
 
 public class SocketTables {
@@ -21,7 +20,8 @@ public class SocketTables {
         this.enableDebug = enableDebug;
     }
 
-    public void update(string key, string value) {
+    //base method for updating a server value
+    private void update(string key, string value) {
         //form request
         Request rq = new Request();
         rq.request = RequestType.UPDATE.ToString();
@@ -31,13 +31,49 @@ public class SocketTables {
         processMessage(rq);
     }
 
-    public string query(string key) {
+    public void putNumber(string key, double value) {
+        update(key, value.ToString());
+    }
+
+    public void putBoolean(string key, bool value) {
+        update(key, value.ToString());
+    }
+
+    public void putString(string key, string value) {
+        update(key, value);
+    }
+
+    //base method for retrieving a server value
+    private string query(string key, string defaultValue) {
         Request rq = new Request();
         rq.request = RequestType.GET.ToString();
         rq.key = key;
         rq.value = "";
         Response resp = processMessage(rq);
+        if (resp.value.Equals("")) return defaultValue;
         return resp.value;
+    }
+
+    public double getNumber(string key, double defaultValue) {
+        try {
+            return int.Parse(query(key, defaultValue.ToString()));
+        }
+        catch (FormatException e) {
+            return defaultValue;
+        }
+    }
+
+    public bool getBoolean(string key, bool defaultValue) {
+        try {
+            return bool.Parse(query(key, defaultValue.ToString()));
+        }
+        catch (FormatException e) {
+            return defaultValue;
+        }
+    }
+
+    public string getString(string key, string defaultValue) {
+        return query(key, defaultValue);
     }
 
     public void delete(string key) {
@@ -68,6 +104,8 @@ public class SocketTables {
                 stream.Flush();
                 resp = (Response)decoder.ReadObject(stream);
             }
+            
+            if(enableDebug) Debug.Log($"response: {resp.key} : {resp.value}");
             
             client.Close();
             return resp;

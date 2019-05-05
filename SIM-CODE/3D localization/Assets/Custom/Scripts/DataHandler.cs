@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class DataHandler {
 
     private DataRecorder recorder;
     private int recorderTimeout;
     private string[] loadedFile;
+    private string loadedFileName;
     private SocketTables robotTables;
     private string socketTablesAddr;
 
@@ -22,6 +20,10 @@ public class DataHandler {
         datamode = Mode.Disconnected;
         this.socketTablesAddr = socketTablesAddr;
         this.recorderTimeout = recorderTimeout;
+    }
+
+    public void reset() {
+        datamode = Mode.Disconnected;
     }
 
     public void refreshData(int frame) {
@@ -42,7 +44,7 @@ public class DataHandler {
                 
                 break;
             case Mode.PlaybackUninit:
-                
+                loadedFile = DataPlayer.readIntoMem(loadedFileName);
                 datamode = Mode.Playback;
                 goto case Mode.Playback;
             case Mode.Playback:
@@ -55,11 +57,10 @@ public class DataHandler {
     }
 
     public void loadSavedFile(string file) {
-        loadedFile = DataPlayer.readIntoMem(file);
+        loadedFileName = file;
         datamode = Mode.PlaybackUninit;
     }
 
-    
     public enum Mode {
         Networked,
         NetworkedUninit,

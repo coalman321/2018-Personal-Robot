@@ -2,6 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
+import frc.lib.util.SocketTables;
 import frc.lib.util.Util;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Subsystem;
@@ -31,6 +32,8 @@ public class Robot extends TimedRobot {
         start = Timer.getFPGATimestamp();
         manager.logTelemetry();
         System.out.println("Operation Time: " + (Timer.getFPGATimestamp() - start));
+        SocketTables.getInstance().putData("hi", "hello");
+        System.out.println(SocketTables.getInstance().getData("hi"));
     }
 
     @Override

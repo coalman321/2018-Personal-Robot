@@ -115,7 +115,12 @@ public class SocketTables {
         return new Response();
     }
 
-
+    enum RequestType {
+        GET,
+        GETALL,
+        UPDATE,
+        DELETE
+    }
 
     [DataContract]
     internal class Request {
@@ -127,18 +132,22 @@ public class SocketTables {
             return $"{request} : {key} : {value}";
         }
     }
-
-    enum RequestType {
-        GET,
-        GETALL,
-        UPDATE,
-        DELETE
-    }
     
     [DataContract]
     internal class Response {
         [DataMember] internal string key = "";
         [DataMember] internal string value = "";
+
+        public override string ToString()
+        {
+            return $"{key} : {value}";
+        }
+    }
+
+    [DataContract]
+    internal class GetAllResponse
+    {
+        
     }
 
 }

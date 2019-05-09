@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
@@ -7,39 +8,33 @@ using System.Threading;
 public class ReadOptimizedSocketTables
 {
 
-    private Thread synchronizer;
-    private Dictionary<string, DataStore> socketTable;
+    private readonly Thread synchronizer;
     private volatile bool shouldStop;
-    private Stopwatch bootTimer;
+    private ConcurrentDictionary<string, DataStore> socketTable;
+    private readonly SocketTables communication;
     
-    public ReadOptimizedSocketTables()
-    {
+    public ReadOptimizedSocketTables(string serverIP){
         synchronizer = new Thread(updateThread);
-        bootTimer = new Stopwatch();
-        bootTimer.Start();
+        communication = new SocketTables(serverIP);
     }
 
-    public void stopUpdates()
-    {
+    public void stopUpdates(){
         shouldStop = true;
         if(synchronizer.IsAlive) synchronizer.Join(); 
         shouldStop = false;
     }
 
-    public void startUpdates()
-    {
-        socketTable = new Dictionary<string, DataStore>();
+    public void startUpdates(){
+        socketTable = new ConcurrentDictionary<string, DataStore>();
         synchronizer.Start();
     }
 
-    public string getString(string key, string defaultValue = default(string))
-    {
-        DataStore value;
-        return socketTable.TryGetValue(key, out value) ? value. : defaultValue;
+    public string getString(string key, string defaultValue = default(string)){
+        DataStore data;
+        return socketTable.TryGetValue(key, out data) ? data.value : defaultValue;
     }
 
-    public double getNumber(string key, double defaultValue)
-    {
+    public double getNumber(string key, double defaultValue){
         try
         {
             return double.Parse(getString(key, ""));
@@ -50,8 +45,7 @@ public class ReadOptimizedSocketTables
         }
     }
 
-    public bool getBoolean(string key, bool defaultValue)
-    {
+    public bool getBoolean(string key, bool defaultValue){
         try
         {
             return bool.Parse(getString(key, ""));
@@ -62,39 +56,46 @@ public class ReadOptimizedSocketTables
         }
     }
 
-    public void putString(string key, string value)
-    {
-        socketTable.Add(key, new DataStore(Stopwatch.GetTimestamp(), value));
+    public void putString(string key, string value) {
+        DataStore data = new DataStore(Stopwatch.GetTimestamp(), value);
+        //TODO complete
+        //socketTable.AddOrUpdate();
     }
 
-    public void putNumber(string key, double value)
-    {
+    public void putNumber(string key, double value){
         putString(key, value.ToString());
     }
 
-    public void putBoolean(string key, bool value)
-    {
+    public void putBoolean(string key, bool value){
         putString(key, value.ToString());
     }
 
-    private void updateThread()
-    {
-        while (!shouldStop)
-        {
-            //synchroize all keys inside the dictionary
+    private void updateThread() {
+        Int64 lastTime = Stopwatch.GetTimestamp();
+        while (!shouldStop) {
+            
+            
             //write outbound
+            foreach(KeyValuePair<string, DataStore> entry in socketTable){
+                if (entry.Value.lastUpdate > lastTime) {
+                     communication.putString(entry.Key, entry.Value.value);
+                }
+            }
+            
+            
             //read inbound
+            
+            //Cleanup for next iteration
+            lastTime = Stopwatch.GetTimestamp();
         }
         
     }
     
-    protected class DataStore
-    {
-        private Int64 lastUpdate { get; }
-        private string value { get; }
+    protected class DataStore{
+        public Int64 lastUpdate { get; }
+        public string value { get; }
 
-        public DataStore(Int64 lastUpdate, string value)
-        {
+        public DataStore(Int64 lastUpdate, string value){
             this.lastUpdate = lastUpdate;
             this.value = value;
         }

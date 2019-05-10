@@ -57,9 +57,17 @@ public class ReadOptimizedSocketTables
     }
 
     public void putString(string key, string value) {
-        DataStore data = new DataStore(Stopwatch.GetTimestamp(), value);
-        //TODO complete
-        //socketTable.AddOrUpdate();
+        socketTable.AddOrUpdate(key,
+            delegate{
+                //Add case
+                return new DataStore(Stopwatch.GetTimestamp(), value);
+            },
+            delegate(string s, DataStore store){
+                //update case
+                store.value = value;
+                store.lastUpdate = Stopwatch.GetTimestamp();
+                return store;
+            });
     }
 
     public void putNumber(string key, double value){
@@ -82,7 +90,6 @@ public class ReadOptimizedSocketTables
                 }
             }
             
-            
             //read inbound
             
             //Cleanup for next iteration
@@ -92,8 +99,8 @@ public class ReadOptimizedSocketTables
     }
     
     protected class DataStore{
-        public Int64 lastUpdate { get; }
-        public string value { get; }
+        public Int64 lastUpdate { set; get; }
+        public string value { set; get; }
 
         public DataStore(Int64 lastUpdate, string value){
             this.lastUpdate = lastUpdate;

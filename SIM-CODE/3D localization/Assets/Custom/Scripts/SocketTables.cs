@@ -1,19 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
-using UnityEngine;
+using System.Text;
+using System.Text.RegularExpressions;
+using NUnit.Framework.Interfaces;
+using Debug = UnityEngine.Debug;
 
 public class SocketTables {
 
     private static readonly int timeout = 50;
     private static readonly int port = 7777;
+    private static readonly string KEY_VALUE_FORMAT = "\"?([A-Za-z\\d_\\-\\.\\s]+)\"?";
     
     private Socket client;
     private IPAddress serverAddr;
     private bool enableDebug;
+    private readonly Regex KEY_PATTERN = new Regex("\"key\":\\s*" + KEY_VALUE_FORMAT);
+    private readonly Regex VALUE_PATTERN = new Regex("\"value\":\\s*" + KEY_VALUE_FORMAT);
     
 
     public SocketTables(string serverAddress, bool enableDebug = false) {
@@ -110,16 +117,13 @@ public class SocketTables {
             using (NetworkStream stream = new NetworkStream(client)) {
                 new DataContractJsonSerializer(typeof(Request)).WriteObject(stream, message);
                 stream.Flush();
-                if (message.request.Equals(RequestType.GETALL.ToString()))
-                {
-                    resp = (List<Response>) new DataContractJsonSerializer(typeof(List<GetAllResponse>)).ReadObject(stream);
-                }
-                else
-                {
-                    resp = new List<Response>(new [] {(Response) new DataContractJsonSerializer(typeof(Response)).ReadObject(stream)});
-                }
-                
             }
+
+            byte[] recieved = new byte[1024]; 
+            int bytesrcv = client.Receive(recieved);
+            string responseMessage = Encoding.ASCII.GetString(recieved,0,bytesrcv); 
+            resp = processGetAll(responseMessage);
+
             
             if(enableDebug)
                 foreach (Response response in resp){
@@ -134,6 +138,27 @@ public class SocketTables {
 
         Debug.Log("Socket tables connection timed out");
         return new List<Response>();
+    }
+
+    private List<Response> processGetAll(string data){
+        List<Response> responses = new List<Response>();
+        MatchCollection keys = KEY_PATTERN.Matches(data);
+        MatchCollection values = VALUE_PATTERN.Matches(data);
+        
+        for (int i = 0; i < keys.Count; i++)
+        {
+            Match key = keys[i];
+            Match value = values[i];
+            
+            GetAllResponse resp = new GetAllResponse();
+            resp.key = key.ToString();
+            resp.value = value.ToString();
+            resp.timestamp = Stopwatch.GetTimestamp();
+            
+            responses.Add(resp);
+        }
+
+        return responses;
     }
 
     enum RequestType {
@@ -155,11 +180,10 @@ public class SocketTables {
         }
     }
     
-    [DataContract]
     internal class Response
     {
-        [DataMember] internal string key { get; set; } = "";
-        [DataMember] internal string value { get; set; } = "";
+        public string key { get; set; } = "";
+        public string value { get; set; } = "";
 
         public override string ToString()
         {
@@ -167,18 +191,14 @@ public class SocketTables {
         }
     }
 
-    [DataContract]
     internal class GetAllResponse : Response
     {
-        [DataMember] internal string key { get; set; }
-        [DataMember] internal string timestamp { get; set; } = "";
+        public Int64 timestamp { get; set; }
 
         public override string ToString()
         {
             return $"{key} : {value} modified {timestamp}";
         }
-
-        //{"test2": {"value": 53, "timestamp": "2019-05-09 16:13:18"}, "test1": {"value": 3, "timestamp": "2019-05-09 16:13:18"}}
 
     }
 

@@ -7,7 +7,6 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Text.RegularExpressions;
-using NUnit.Framework.Interfaces;
 using Debug = UnityEngine.Debug;
 
 public class SocketTables {
@@ -21,6 +20,7 @@ public class SocketTables {
     private bool enableDebug;
     private readonly Regex KEY_PATTERN = new Regex("\"key\":\\s*" + KEY_VALUE_FORMAT);
     private readonly Regex VALUE_PATTERN = new Regex("\"value\":\\s*" + KEY_VALUE_FORMAT);
+    private readonly Regex KEY_VALUE_PATTERN = new Regex(KEY_VALUE_FORMAT);
     
 
     public SocketTables(string serverAddress, bool enableDebug = false) {
@@ -57,7 +57,7 @@ public class SocketTables {
         rq.request = RequestType.GET.ToString();
         rq.key = key;
         rq.value = "";
-        Response resp = processMessage(rq)[0];
+        Response resp = processMessage(rq)?[0];
         if (resp.value.Equals("")) return defaultValue;
         return resp.value;
     }
@@ -84,13 +84,13 @@ public class SocketTables {
         return query(key, defaultValue);
     }
 
-    public void getAll()
+    public List<Response> getAll()
     {
         Request rq = new Request();
         rq.request = RequestType.GETALL.ToString();
         rq.key = "";
         rq.value = "";
-        Debug.Log(processMessage(rq).Count);
+        return processMessage(rq);
     }
 
     public void delete(string key) {
@@ -122,16 +122,11 @@ public class SocketTables {
             byte[] recieved = new byte[1024]; 
             int bytesrcv = client.Receive(recieved);
             string responseMessage = Encoding.ASCII.GetString(recieved,0,bytesrcv); 
+            
+            if(enableDebug) Debug.Log(responseMessage);
+            
             resp = processGetAll(responseMessage);
 
-            
-            if(enableDebug)
-                foreach (Response response in resp){
-                    Debug.Log($"response: {response.key} : {response.value}");
-                }
-
-            
-            
             client.Close();
             return resp;
         }
@@ -147,13 +142,20 @@ public class SocketTables {
         
         for (int i = 0; i < keys.Count; i++)
         {
+            //uhhhh wat?
             Match key = keys[i];
             Match value = values[i];
             
             GetAllResponse resp = new GetAllResponse();
             resp.key = key.ToString();
+            resp.key = resp.key.Substring(resp.key.IndexOf(": \"") + 3).Trim('\"');
             resp.value = value.ToString();
+            resp.value = resp.value.Substring(resp.value.IndexOf(": \"") + 3).Trim('\"');
             resp.timestamp = Stopwatch.GetTimestamp();
+            
+            if (enableDebug) {
+                Debug.Log($"Response Key : \"{resp.key}\" Value : \"{resp.value}\"");
+            }
             
             responses.Add(resp);
         }
@@ -180,7 +182,7 @@ public class SocketTables {
         }
     }
     
-    internal class Response
+    public class Response
     {
         public string key { get; set; } = "";
         public string value { get; set; } = "";
@@ -191,7 +193,7 @@ public class SocketTables {
         }
     }
 
-    internal class GetAllResponse : Response
+    public class GetAllResponse : Response
     {
         public Int64 timestamp { get; set; }
 

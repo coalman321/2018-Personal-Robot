@@ -4,6 +4,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
+using Debug = UnityEngine.Debug;
 
 public class ReadOptimizedSocketTables
 {
@@ -12,10 +13,12 @@ public class ReadOptimizedSocketTables
     private volatile bool shouldStop;
     private ConcurrentDictionary<string, DataStore> socketTable;
     private readonly SocketTables communication;
+    private bool enableDebug;
     
-    public ReadOptimizedSocketTables(string serverIP){
+    public ReadOptimizedSocketTables(string serverIP, bool enableDebug = false){
         synchronizer = new Thread(updateThread);
-        communication = new SocketTables(serverIP);
+        communication = new SocketTables(serverIP, enableDebug);
+        this.enableDebug = enableDebug;
     }
 
     public void stopUpdates(){
@@ -82,16 +85,35 @@ public class ReadOptimizedSocketTables
         Int64 lastTime = Stopwatch.GetTimestamp();
         while (!shouldStop) {
             
+            if(Stopwatch.GetTimestamp() - lastTime > 20) continue;
+
+            if (enableDebug) {
+                Debug.Log("updating socket tables data");
+            }
             
             //write outbound
             foreach(KeyValuePair<string, DataStore> entry in socketTable){
+                if(enableDebug) Debug.Log($"updating {entry.Key} : {entry.Value.value} last updated {entry.Value.lastUpdate} & last iteration {lastTime}");
                 if (entry.Value.lastUpdate > lastTime) {
-                     communication.putString(entry.Key, entry.Value.value);
+                    communication.putString(entry.Key, entry.Value.value);
                 }
             }
             
             //read inbound
-            
+            foreach (SocketTables.Response response in communication.getAll()) {
+                socketTable.AddOrUpdate(response.key,
+                    delegate{
+                        //Add case
+                        return new DataStore(Stopwatch.GetTimestamp(), response.value);
+                    },
+                    delegate(string s, DataStore store){
+                        //update case
+                        store.value = response.value;
+                        store.lastUpdate = Stopwatch.GetTimestamp();
+                        return store;
+                    });
+            }
+
             //Cleanup for next iteration
             lastTime = Stopwatch.GetTimestamp();
         }

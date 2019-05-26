@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Diagnostics;
 using System.Threading;
 using Debug = UnityEngine.Debug;
@@ -14,11 +15,13 @@ public class ReadOptimizedSocketTables
     private ConcurrentDictionary<string, DataStore> socketTable;
     private readonly SocketTables communication;
     private bool enableDebug;
+    private int updateRate;
     
-    public ReadOptimizedSocketTables(string serverIP, bool enableDebug = false){
+    public ReadOptimizedSocketTables(string serverIP, bool enableDebug = false, int updateRateMs = 100){
         synchronizer = new Thread(updateThread);
         communication = new SocketTables(serverIP, enableDebug);
         this.enableDebug = enableDebug;
+        updateRate = updateRateMs;
     }
 
     public void stopUpdates(){
@@ -59,13 +62,10 @@ public class ReadOptimizedSocketTables
         }
     }
 
-    public void putString(string key, string value) {
-        socketTable.AddOrUpdate(key,
-            delegate{
-                //Add case
-                return new DataStore(Stopwatch.GetTimestamp(), value);
-            },
-            delegate(string s, DataStore store){
+    public void putString(string extKey, string value) {
+        socketTable.AddOrUpdate(extKey,
+            new DataStore(Stopwatch.GetTimestamp(), value),
+            (key, store) => {                         
                 //update case
                 store.value = value;
                 store.lastUpdate = Stopwatch.GetTimestamp();
@@ -81,41 +81,46 @@ public class ReadOptimizedSocketTables
         putString(key, value.ToString());
     }
 
-    private void updateThread() {
-        Int64 lastTime = Stopwatch.GetTimestamp();
+    private void updateThread()
+    {
+        Int64 lastTime = 0;
+        Int64 time = Stopwatch.GetTimestamp();
         while (!shouldStop) {
-            
-            if(Stopwatch.GetTimestamp() - lastTime > 20) continue;
 
-            if (enableDebug) {
-                Debug.Log("updating socket tables data");
-            }
-            
+            time = Stopwatch.GetTimestamp();
+                   
             //write outbound
             foreach(KeyValuePair<string, DataStore> entry in socketTable){
-                if(enableDebug) Debug.Log($"updating {entry.Key} : {entry.Value.value} last updated {entry.Value.lastUpdate} & last iteration {lastTime}");
+                if(enableDebug) Debug.Log($"[SocketTables] Updating {entry.Key} : {entry.Value.value} needs update: " +
+                                          $" {entry.Value.lastUpdate > lastTime}");
                 if (entry.Value.lastUpdate > lastTime) {
+                    if(enableDebug) Debug.Log($"[SocketTables] Writing update for {entry.Key} : {entry.Value}");
                     communication.putString(entry.Key, entry.Value.value);
                 }
             }
             
             //read inbound
-            foreach (SocketTables.Response response in communication.getAll()) {
+            foreach (SocketTables.Response response in communication.getAll())
+            {
                 socketTable.AddOrUpdate(response.key,
-                    delegate{
-                        //Add case
-                        return new DataStore(Stopwatch.GetTimestamp(), response.value);
-                    },
-                    delegate(string s, DataStore store){
+                    new DataStore(Stopwatch.GetTimestamp(), response.value),
+                    (key, store) => {                         
                         //update case
                         store.value = response.value;
-                        store.lastUpdate = Stopwatch.GetTimestamp();
+                        store.lastUpdate = time;
                         return store;
                     });
             }
+    
+            if (enableDebug) Debug.Log($"[SocketTables][Time] Update operations took {(Stopwatch.GetTimestamp() - time) / 10000} ms");
 
+            Thread.Sleep(updateRate - (int)((Stopwatch.GetTimestamp() - time) / 10000));
+            
+            if (enableDebug) Debug.Log($"[SocketTables][Time] Overall loop time took  {(Stopwatch.GetTimestamp() - time) / 10000} ms");
+
+            lastTime = time;
             //Cleanup for next iteration
-            lastTime = Stopwatch.GetTimestamp();
+
         }
         
     }

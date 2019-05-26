@@ -7,10 +7,11 @@ public class PlayerController : MonoBehaviour
 {
     
     public float speed;
+    public bool enableDebug;
 
     private Rigidbody rb;
     
-    private ReadOptimizedSocketTables tables = new ReadOptimizedSocketTables("127.0.0.1", true);
+    private ReadOptimizedSocketTables tables;
     private Stopwatch watch = new Stopwatch();
     private string hi = "";
     private double ten = 0;
@@ -18,10 +19,9 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        tables = new ReadOptimizedSocketTables("127.0.0.1", enableDebug);
         rb = GetComponent<Rigidbody>();
         tables.startUpdates();
-        tables.putString("hi", "hewow");
-        tables.putNumber("ten", 10);
         tables.putNumber("vert", 0);
         tables.putNumber("horiz", 0);
     }
@@ -32,24 +32,16 @@ public class PlayerController : MonoBehaviour
         float moveHorizontal = Input.GetAxis ("Horizontal");
         float moveVertical = Input.GetAxis ("Vertical");
         
+        //Debug.Log("updating vert & horiz");
         tables.putNumber("vert", moveVertical);
         tables.putNumber("horiz", moveHorizontal);
+        //Debug.Log("updates complete");
 
         Vector3 movement = new Vector3 (moveHorizontal, 0.0f, moveVertical);
 
         rb.AddForce (movement * speed);
 
-
-
-        watch.Reset();
-        watch.Start();
-        
-        hi = tables.getString("hi", "");
-        ten = tables.getNumber("ten", 0);
-        
-        watch.Stop();
-        
-        Debug.Log($" hi : {hi}    ten : {ten}    @ { (double)watch.ElapsedTicks / (double)Stopwatch.Frequency}");
+        //Debug.Log($" hi : {hi}    ten : {ten}    @ { (double)watch.ElapsedTicks / (double)Stopwatch.Frequency}");
     }
 
     void OnApplicationQuit() {

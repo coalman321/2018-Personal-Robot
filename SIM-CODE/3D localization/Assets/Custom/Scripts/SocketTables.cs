@@ -108,8 +108,8 @@ public class SocketTables {
         client = new Socket(serverAddr.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
         if (client.ConnectAsync(serverAddr, port).Wait(1000)) {
             if (enableDebug) {
-                Debug.Log($"Socket connected to {client.RemoteEndPoint}");
-                Debug.Log($"Sending message {message}");
+                Debug.Log($"[SocketTables] Socket connected to {client.RemoteEndPoint}");
+                Debug.Log($"[SocketTables] Sending message {message}");
             }
 
             List<Response> resp;
@@ -131,7 +131,7 @@ public class SocketTables {
             return resp;
         }
 
-        Debug.Log("Socket tables connection timed out");
+        Debug.Log("[SocketTables] Socket tables connection timed out");
         return new List<Response>();
     }
 
@@ -154,7 +154,7 @@ public class SocketTables {
             resp.timestamp = Stopwatch.GetTimestamp();
             
             if (enableDebug) {
-                Debug.Log($"Response Key : \"{resp.key}\" Value : \"{resp.value}\"");
+                Debug.Log($"[SocketTables] Response Key : \"{resp.key}\" Value : \"{resp.value}\"");
             }
             
             responses.Add(resp);

@@ -108,8 +108,8 @@ public class SocketTables {
         client = new Socket(serverAddr.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
         if (client.ConnectAsync(serverAddr, port).Wait(1000)) {
             if (enableDebug) {
-                Debug.Log($"[SocketTables] Socket connected to {client.RemoteEndPoint}");
-                Debug.Log($"[SocketTables] Sending message {message}");
+                Debug.Log($"[SocketTables][Core] Socket connected to {client.RemoteEndPoint}");
+                Debug.Log($"[SocketTables][Core] Sending message {message}");
             }
 
             List<Response> resp;
@@ -122,16 +122,13 @@ public class SocketTables {
             byte[] recieved = new byte[1024]; 
             int bytesrcv = client.Receive(recieved);
             string responseMessage = Encoding.ASCII.GetString(recieved,0,bytesrcv); 
-            
-            if(enableDebug) Debug.Log(responseMessage);
-            
             resp = processGetAll(responseMessage);
 
             client.Close();
             return resp;
         }
 
-        Debug.Log("[SocketTables] Socket tables connection timed out");
+        Debug.Log("[SocketTables][Core] Socket tables connection timed out");
         return new List<Response>();
     }
 
@@ -154,7 +151,7 @@ public class SocketTables {
             resp.timestamp = Stopwatch.GetTimestamp();
             
             if (enableDebug) {
-                Debug.Log($"[SocketTables] Response Key : \"{resp.key}\" Value : \"{resp.value}\"");
+                Debug.Log($"[SocketTables][Core] Response Key : \"{resp.key}\" Value : \"{resp.value}\"");
             }
             
             responses.Add(resp);

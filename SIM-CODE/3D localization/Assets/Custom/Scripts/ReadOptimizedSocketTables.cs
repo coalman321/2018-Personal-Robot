@@ -91,10 +91,10 @@ public class ReadOptimizedSocketTables
                    
             //write outbound
             foreach(KeyValuePair<string, DataStore> entry in socketTable){
-                if(enableDebug) Debug.Log($"[SocketTables] Updating {entry.Key} : {entry.Value.value} needs update: " +
+                if(enableDebug) Debug.Log($"[SocketTables][Update] Updating {entry.Key} : {entry.Value.value} needs update: " +
                                           $" {entry.Value.lastUpdate > lastTime}");
                 if (entry.Value.lastUpdate > lastTime) {
-                    if(enableDebug) Debug.Log($"[SocketTables] Writing update for {entry.Key} : {entry.Value}");
+                    if(enableDebug) Debug.Log($"[SocketTables][Update] Writing update for {entry.Key} : {entry.Value.value}");
                     communication.putString(entry.Key, entry.Value.value);
                 }
             }
@@ -112,7 +112,8 @@ public class ReadOptimizedSocketTables
                     });
             }
     
-            if (enableDebug) Debug.Log($"[SocketTables][Time] Update operations took {(Stopwatch.GetTimestamp() - time) / 10000} ms");
+            if (enableDebug) Debug.Log($"[SocketTables][Time] Update operations took {(Stopwatch.GetTimestamp() - time) / 10000} ms" +
+                                       $"    Sleeping for {updateRate - (int)((Stopwatch.GetTimestamp() - time) / 10000)} ms");
 
             Thread.Sleep(updateRate - (int)((Stopwatch.GetTimestamp() - time) / 10000));
             

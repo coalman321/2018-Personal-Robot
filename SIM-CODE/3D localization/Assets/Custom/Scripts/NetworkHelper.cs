@@ -7,17 +7,6 @@ using UnityEngine;
 
 public class NetworkHelper {
     
-    private readonly TcpClient robotPing;
-    private readonly NetworkStream pingStream;
-    private static readonly byte[] ping = {0x0A};
-    private int counter = 0;
-    private bool established = false;
-
-    private readonly UdpClient listener;
-    private string[] data;
-    private IPEndPoint groupEP;
-    private byte[] raw;
-    private string s;
     private DateTime lastSuccess;
     
     private readonly DataRecorder recorder;
@@ -28,7 +17,7 @@ public class NetworkHelper {
     public Mode mode { get; set; }
 
     // Start is called before the first frame update
-    public NetworkHelper(int port, int timeout, Mode initial, string pingIP) {
+    public NetworkHelper(int port, string pingIP, int timeout, Mode initial) {
         mode = initial;
         switch (mode)
         {
@@ -36,63 +25,58 @@ public class NetworkHelper {
                 recorder = new DataRecorder(GameController.getInstance().SaveLocation, ".sav", timeout);
                 goto case Mode.Networked;
             case Mode.Networked:
-                listener = new UdpClient(port);
-                groupEP = new IPEndPoint(IPAddress.Any, port);
-                robotPing = new TcpClient(pingIP, port + 1);
-                pingStream = robotPing.GetStream();
-                lastSuccess = DateTime.Now.Subtract(new TimeSpan(1,0,0));
+                
                 break;
             case Mode.Playback:
                 loadSave(GameController.getInstance().loadedFile);
                 break; 
         }
-        data = new[] {"0", "0", "0", "0", "0", "0", "0", "0", "0"};
     }
     
 
     public float getTimeStamp()
     {
-        return float.Parse(data[0]);
+        return 0;
     }
 
     public float getX()
     {
-        return float.Parse(data[1]);
+        return 0;
     }
 
     public float getZ()
     {
-        return float.Parse(data[2]);
+        return 0;
     }
 
     public float getTheta()
     {
-        return float.Parse(data[3]);
+        return 0;      
     }
 
     public float getProx()
     {
-        return float.Parse(data[4]);
+        return 0;      
     }
 
     public float getDist()
     {
-        return float.Parse(data[5]);
+        return 0;      
     }
 
     public float getWrist()
     {
-        return float.Parse(data[6]);
+        return 0;       
     }
 
     public float getCurrentState()
     {
-        return float.Parse(data[7]);
+        return 0; 
     }
 
     public float getTotalStates()
     {
-        return float.Parse(data[8]);
+        return 0;
     }
 
     public void update(int frame)
@@ -111,35 +95,6 @@ public class NetworkHelper {
     }
 
     private void refreshNetworkData() {
-        if (listener.Available > 0)
-        {
-            // seems to be blocking on accident when robot stops sending data mid run.
-            while (listener.Available > 1)
-            {
-                //void unused packets
-                listener.Receive(ref groupEP);
-            }
-
-            raw = listener.Receive(ref groupEP);
-            s = Encoding.ASCII.GetString(raw);
-            data = CSVReader.readCSVLine(s);
-            //Debug.Log(string.Format("0: {0} 1: {1} 2: {2} 3: {3} 4: {4} 5: {5} 6: {6} 7: {7} 8: {8}", data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8]));
-            recorder.update(s);
-            lastSuccess = DateTime.Now;
-        }
-        else if(!established || lastSuccess.AddSeconds(30) < DateTime.Now)
-        {
-            if (robotPing.Connected) established = true;
-            if( counter > 5){
-                pingStream.Write(ping, 0, ping.Length);
-                pingStream.Flush();
-                counter = 0;
-            }
-            else {
-                counter++;
-            }
-        }
-
         
     }
 

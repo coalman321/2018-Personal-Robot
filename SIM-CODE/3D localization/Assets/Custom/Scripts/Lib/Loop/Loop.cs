@@ -1,13 +1,14 @@
 using System;
 
 namespace Custom.Scripts.Lib.Loop{
-    public abstract class Loop{
+    public interface Loop
+    {
 
-        public void onStart(){}
-        
-        public void onLoop(Int64 time){}
-        
-        public void onStop(){}
+        void onStart();
+
+        void onLoop(Int64 time);
+
+        void onStop();
 
     }
 }

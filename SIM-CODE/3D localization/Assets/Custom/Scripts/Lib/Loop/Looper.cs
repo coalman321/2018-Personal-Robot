@@ -19,6 +19,13 @@ namespace Custom.Scripts.Lib.Loop
             this.period = (int) (period * 1000);
             thread = new Thread(updateThread);
         }
+        
+        public Looper(int period, bool enableDebug = false)
+        {
+            this.enableDebug = enableDebug;
+            this.period = period;
+            thread = new Thread(updateThread);
+        }
 
         public void register(Loop loop)
         {
@@ -41,7 +48,6 @@ namespace Custom.Scripts.Lib.Loop
         {
             foreach (Loop loop in loops){loop.onStart();}
             
-            Int64 lastTime = 0;
             Int64 time = Stopwatch.GetTimestamp();
             while (running)
             {
@@ -49,15 +55,12 @@ namespace Custom.Scripts.Lib.Loop
 
                 foreach (Loop loop in loops){loop.onLoop(time);}
 
-                if (enableDebug) Debug.Log($"[Looper] Update operations took {(Stopwatch.GetTimestamp() - time) / 10000} ms" +
+                if (enableDebug) Debug.Log($"[Looper] Loop operations took {(Stopwatch.GetTimestamp() - time) / 10000} ms" +
                         $"    Sleeping for {period - (int) ((Stopwatch.GetTimestamp() - time) / 10000)} ms");
                 
                 Thread.Sleep(period - (int) ((Stopwatch.GetTimestamp() - time) / 10000));
                 
                 if (enableDebug)Debug.Log($"[Looper] Overall loop time took  {(Stopwatch.GetTimestamp() - time) / 10000} ms");
-
-                lastTime = time;
-                //Cleanup for next iteration
             }
             
             foreach (Loop loop in loops){loop.onStop();}

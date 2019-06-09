@@ -5,34 +5,33 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Diagnostics;
 using System.Threading;
+using Custom.Scripts.Lib.Loop;
+using UnityEngine;
 using Debug = UnityEngine.Debug;
 
-public class ReadOptimizedSocketTables
+public class ReadOptimizedSocketTables : Loop
 {
 
-    private readonly Thread synchronizer;
     private volatile bool shouldStop;
     private ConcurrentDictionary<string, DataStore> socketTable;
     private readonly SocketTables communication;
     private bool enableDebug;
-    private int updateRate;
+    private Looper loopSystem;
+    private Int64 lastTime;
     
     public ReadOptimizedSocketTables(string serverIP, bool enableDebug = false, int updateRateMs = 100){
-        synchronizer = new Thread(updateThread);
         communication = new SocketTables(serverIP, enableDebug);
+        loopSystem = new Looper(updateRateMs, enableDebug);
+        loopSystem.register(this);
         this.enableDebug = enableDebug;
-        updateRate = updateRateMs;
     }
 
     public void stopUpdates(){
-        shouldStop = true;
-        if(synchronizer.IsAlive) synchronizer.Join(); 
-        shouldStop = false;
+        loopSystem.stop();
     }
 
     public void startUpdates(){
-        socketTable = new ConcurrentDictionary<string, DataStore>();
-        synchronizer.Start();
+        loopSystem.start();
     }
 
     public string getString(string key, string defaultValue = default(string)){
@@ -81,51 +80,45 @@ public class ReadOptimizedSocketTables
         putString(key, value.ToString());
     }
 
-    private void updateThread()
-    {
-        Int64 lastTime = 0;
-        Int64 time = Stopwatch.GetTimestamp();
-        while (!shouldStop) {
-
-            time = Stopwatch.GetTimestamp();
-                   
-            //write outbound
-            foreach(KeyValuePair<string, DataStore> entry in socketTable){
-                if(enableDebug) Debug.Log($"[SocketTables][Update] Updating {entry.Key} : {entry.Value.value} needs update: " +
-                                          $" {entry.Value.lastUpdate > lastTime}");
-                if (entry.Value.lastUpdate > lastTime) {
-                    if(enableDebug) Debug.Log($"[SocketTables][Update] Writing update for {entry.Key} : {entry.Value.value}");
-                    communication.putString(entry.Key, entry.Value.value);
-                }
-            }
-            
-            //read inbound
-            foreach (SocketTables.Response response in communication.getAll())
-            {
-                socketTable.AddOrUpdate(response.key,
-                    new DataStore(Stopwatch.GetTimestamp(), response.value),
-                    (key, store) => {                         
-                        //update case
-                        store.value = response.value;
-                        store.lastUpdate = time;
-                        return store;
-                    });
-            }
+    //handler methods for looper subsystem here
+    public void onStart(){
+        lastTime = 0;
+    } 
     
-            if (enableDebug) Debug.Log($"[SocketTables][Time] Update operations took {(Stopwatch.GetTimestamp() - time) / 10000} ms" +
-                                       $"    Sleeping for {updateRate - (int)((Stopwatch.GetTimestamp() - time) / 10000)} ms");
-
-            Thread.Sleep(updateRate - (int)((Stopwatch.GetTimestamp() - time) / 10000));
-            
-            if (enableDebug) Debug.Log($"[SocketTables][Time] Overall loop time took  {(Stopwatch.GetTimestamp() - time) / 10000} ms");
-
-            lastTime = time;
-            //Cleanup for next iteration
-
+    public void onLoop(Int64 time){    
+        //write outbound
+        foreach(KeyValuePair<string, DataStore> entry in this.socketTable){
+            if(enableDebug) Debug.Log($"[SocketTables][Update] Updating {entry.Key} : {entry.Value.value} needs update: " +
+                                      $" {entry.Value.lastUpdate > lastTime}");
+            if (entry.Value.lastUpdate > lastTime) {
+                if(enableDebug) Debug.Log($"[SocketTables][Update] Writing update for {entry.Key} : {entry.Value.value}");
+                communication.putString(entry.Key, entry.Value.value);
+            }
         }
+        
+        //read inbound
+        foreach (SocketTables.Response response in communication.getAll())
+        {
+            socketTable.AddOrUpdate(response.key,
+                new DataStore(Stopwatch.GetTimestamp(), response.value),
+                (key, store) => {                         
+                    //update case
+                    store.value = response.value;
+                    store.lastUpdate = time;
+                    return store;
+                });
+        }
+            
+        lastTime = time;
         
     }
     
+    public void onStop()
+    {
+            
+    }
+    
+    //data class for map
     protected class DataStore{
         public Int64 lastUpdate { set; get; }
         public string value { set; get; }
